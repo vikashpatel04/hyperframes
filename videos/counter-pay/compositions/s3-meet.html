@@ -1,0 +1,456 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #0c110f;
+      font-family: "Inter", sans-serif;
+      color: #e8eeea;
+    }
+    .s3-abs {
+      position: absolute;
+    }
+
+    /* the turn */
+    #s3-chip {
+      left: 1340px;
+      top: 520px;
+      width: 360px;
+      height: 230px;
+      border-radius: 34px;
+      border: 8px solid #1fc48c;
+      color: #1fc48c;
+      font-size: 130px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 214px;
+      text-align: center;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    #s3-q {
+      left: 110px;
+      top: 230px;
+      width: 1150px;
+      font-size: 112px;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.04;
+    }
+    #s3-q span {
+      display: inline-block;
+      opacity: 0;
+    }
+
+    /* the lockup */
+    #s3-lock {
+      left: 300px;
+      top: 360px;
+      display: flex;
+      align-items: center;
+      gap: 56px;
+    }
+    #s3-mark {
+      width: 300px;
+      height: 300px;
+      opacity: 0;
+    }
+    #s3-word {
+      font-size: 170px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+    }
+    #s3-word span {
+      display: inline-block;
+      opacity: 0;
+    }
+
+    /* the cashier's PC */
+    #s3-focus-line {
+      left: 110px;
+      top: 48px;
+      font-size: 92px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+    #s3-focus-line span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s3-stage {
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 960px 848px;
+    }
+    #s3-win {
+      left: 110px;
+      top: 200px;
+      width: 1700px;
+      height: 830px;
+      border-radius: 18px;
+      background: #f5f6f4;
+      color: #101513;
+      box-shadow: 0 30px 80px rgb(0 0 0 / 45%);
+      overflow: hidden;
+      opacity: 0;
+    }
+    .s3-bar {
+      height: 64px;
+      background: #eceeea;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 12px;
+      font-size: 26px;
+      font-weight: 700;
+      color: #5f6b65;
+    }
+    .s3-bar i {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #c9cfcb;
+    }
+    .s3-bar b {
+      margin-left: 18px;
+      font-weight: 700;
+    }
+    .s3-body {
+      display: flex;
+      gap: 40px;
+      padding: 40px 48px;
+    }
+    .s3-table {
+      flex: 1;
+      font-size: 34px;
+    }
+    .s3-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 18px 8px;
+      border-bottom: 2px solid rgb(16 21 19 / 8%);
+    }
+    .s3-row.head {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #8c9690;
+    }
+    .s3-side {
+      width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+    .s3-field {
+      height: 92px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 3px solid rgb(16 21 19 / 18%);
+      font-size: 32px;
+      line-height: 86px;
+      padding: 0 24px;
+      color: #8c9690;
+      position: relative;
+    }
+    #s3-ring {
+      position: absolute;
+      inset: -10px;
+      border-radius: 20px;
+      border: 6px solid #14b37d;
+      opacity: 0;
+    }
+    #s3-caret {
+      position: absolute;
+      left: 24px;
+      top: 22px;
+      width: 4px;
+      height: 48px;
+      background: #101513;
+      opacity: 0;
+    }
+    .s3-totalbox {
+      border-radius: 14px;
+      background: #101513;
+      color: #f5f6f4;
+      padding: 26px 30px;
+    }
+    .s3-totalbox small {
+      display: block;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #9aa6a0;
+    }
+    .s3-totalbox strong {
+      display: block;
+      font-size: 96px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    /* keycaps */
+    .s3-key {
+      left: 1530px;
+      top: 700px;
+      width: 260px;
+      height: 230px;
+      border-radius: 34px;
+      background: #ffffff;
+      color: #101513;
+      box-shadow:
+        0 14px 0 #c9cfcb,
+        0 30px 50px rgb(0 0 0 / 40%);
+      font-size: 96px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 230px;
+      opacity: 0;
+    }
+    #s3-enter {
+      font-size: 64px;
+    }
+
+    /* the real popup pill, at 2x */
+    #s3-pill {
+      left: 600px;
+      top: 760px;
+      width: 720px;
+      height: 176px;
+      border-radius: 40px;
+      background: rgb(12 15 14 / 92%);
+      border: 2px solid rgb(255 255 255 / 8%);
+      box-shadow:
+        0 8px 24px rgb(0 0 0 / 28%),
+        0 2px 6px rgb(0 0 0 / 22%);
+      color: #f2f5f3;
+      overflow: hidden;
+      opacity: 0;
+    }
+    #s3-flood {
+      position: absolute;
+      left: 32px;
+      top: 52px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #14b37d;
+      transform-origin: 50% 50%;
+      opacity: 0;
+    }
+    .s3-prow {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      height: 100%;
+      padding: 0 36px 0 32px;
+    }
+    #s3-glyph {
+      flex: none;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgb(20 179 125 / 22%);
+      color: #14b37d;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 68px;
+      text-align: center;
+    }
+    .s3-mid {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .s3-amt {
+      font-size: 64px;
+      line-height: 76px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      position: relative;
+      height: 76px;
+    }
+    .s3-amt span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    #s3-ph {
+      color: rgb(242 245 243 / 36%);
+      opacity: 1;
+    }
+    .s3-cap {
+      font-size: 26px;
+      color: rgb(242 245 243 / 78%);
+      position: relative;
+      height: 34px;
+      white-space: nowrap;
+    }
+    .s3-cap span {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    #s3-sent {
+      opacity: 0;
+      color: rgb(255 255 255 / 88%);
+    }
+  </style>
+
+  <div data-hf-id="hf-c0po" id="root" data-composition-id="s3" data-width="1920" data-height="1080" data-duration="10.2">
+    <!-- the turn -->
+    <div data-hf-id="hf-cdm7" id="s3-chip" class="s3-abs">₹40</div>
+    <div data-hf-id="hf-rjpf" id="s3-q" class="s3-abs">
+      <span data-hf-id="hf-vp7f">What</span> <span data-hf-id="hf-cmu2">if</span> <span data-hf-id="hf-3tds">the</span> <span data-hf-id="hf-djil">customer</span>
+      <span data-hf-id="hf-jteq" class="g">couldn't</span> <span data-hf-id="hf-txsw" class="g">change</span> <span data-hf-id="hf-5u2g">the</span>
+      <span data-hf-id="hf-j31y">amount?</span>
+    </div>
+
+    <!-- the lockup -->
+    <div data-hf-id="hf-v15b" id="s3-lock" class="s3-abs">
+      <img data-hf-id="hf-tlj9" id="s3-mark" src="assets/img/counter-pay-mark.svg" alt="Counter Pay" />
+      <div data-hf-id="hf-1hnc" id="s3-word">
+        <span data-hf-id="hf-lzk6">C</span><span data-hf-id="hf-txoq">o</span><span data-hf-id="hf-rjuk">u</span><span data-hf-id="hf-tjdp">n</span><span data-hf-id="hf-r5jj">t</span><span data-hf-id="hf-xwr0">e</span
+        ><span data-hf-id="hf-ry5l">r</span>&nbsp;<span data-hf-id="hf-g0yr">P</span><span data-hf-id="hf-zhz4">a</span><span data-hf-id="hf-pymg">y</span>
+      </div>
+    </div>
+
+    <!-- the cashier's PC -->
+    <div data-hf-id="hf-1ird" id="s3-focus-line" class="s3-abs">
+      <span data-hf-id="hf-0ikg">Billing</span> <span data-hf-id="hf-6bl9">never</span> <span data-hf-id="hf-9zvx">loses</span>
+      <span data-hf-id="hf-d0qr" style="color: #1fc48c">focus.</span>
+    </div>
+    <div data-hf-id="hf-jxyp" id="s3-stage" class="s3-abs" data-layout-allow-overflow>
+    <div data-hf-id="hf-g41o" id="s3-win" class="s3-abs">
+      <div data-hf-id="hf-0wjm" class="s3-bar"><i data-hf-id="hf-wt6k"></i><i data-hf-id="hf-zeb8"></i><i data-hf-id="hf-y7e5"></i><b data-hf-id="hf-ncoa">Your billing software</b></div>
+      <div data-hf-id="hf-barf" class="s3-body">
+        <div data-hf-id="hf-877t" class="s3-table">
+          <div data-hf-id="hf-7jcs" class="s3-row head" data-layout-ignore><span data-hf-id="hf-wq0q">ITEM</span><span data-hf-id="hf-r4lp">AMOUNT</span></div>
+          <div data-hf-id="hf-i6xh" class="s3-row"><span data-hf-id="hf-fr57">Rice 5 kg</span><span data-hf-id="hf-vbnt">420.00</span></div>
+          <div data-hf-id="hf-qxft" class="s3-row"><span data-hf-id="hf-rogg">Toor dal 2 kg</span><span data-hf-id="hf-syys">340.00</span></div>
+          <div data-hf-id="hf-s4cw" class="s3-row"><span data-hf-id="hf-6ant">Sunflower oil 1 L</span><span data-hf-id="hf-epjm">180.00</span></div>
+          <div data-hf-id="hf-rq1v" class="s3-row"><span data-hf-id="hf-6nyt">Biscuits</span><span data-hf-id="hf-u6ay">100.00</span></div>
+        </div>
+        <div data-hf-id="hf-efbq" class="s3-side">
+          <div data-hf-id="hf-pw0q" class="s3-field">
+            Scan item code…
+            <div data-hf-id="hf-gozx" id="s3-caret"></div>
+            <div data-hf-id="hf-g82m" id="s3-ring"></div>
+          </div>
+          <div data-hf-id="hf-3ote" class="s3-totalbox">
+            <small data-hf-id="hf-01tf" data-layout-ignore>BILL TOTAL</small><strong data-hf-id="hf-j2kw">₹1,040</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-1imn" id="s3-pill" class="s3-abs">
+      <div data-hf-id="hf-zvqk" id="s3-flood"></div>
+      <div data-hf-id="hf-sof7" class="s3-prow">
+        <div data-hf-id="hf-7ctl" id="s3-glyph">₹</div>
+        <div data-hf-id="hf-gdgr" class="s3-mid">
+          <div data-hf-id="hf-0qdn" class="s3-amt">
+            <span data-hf-id="hf-1url" id="s3-ph">Amount</span><span data-hf-id="hf-4tcu" id="s3-a1">1</span><span data-hf-id="hf-3k0p" id="s3-a2">10</span
+            ><span data-hf-id="hf-01t0" id="s3-a3">104</span><span data-hf-id="hf-jqlh" id="s3-a4">1,040</span>
+          </div>
+          <div data-hf-id="hf-yrhx" class="s3-cap">
+            <span data-hf-id="hf-g17r" id="s3-hint">Enter to show · Esc to cancel</span><span data-hf-id="hf-ux63" id="s3-sent">Sent · On display</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div data-hf-id="hf-iqc0" id="s3-f9" class="s3-key s3-abs">F9</div>
+    <div data-hf-id="hf-7jc8" id="s3-enter" class="s3-key s3-abs">Enter ⏎</div>
+
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => document.querySelectorAll(s);
+
+      // ---- the 40 rises back, green (0 – 0.7) ----
+      tl.fromTo("#s3-chip", { opacity: 1, y: 380, rotation: -10 }, { opacity: 1, y: 0, rotation: 0, duration: 0.7, ease: "power4.out" }, 0);
+
+      // ---- the question, word by word on the voice ----
+      const qAt = [0.5, 0.74, 0.92, 1.02, 1.46, 1.92, 2.28, 2.42];
+      q("#s3-q span").forEach((el, i) => {
+        const to = el.classList.contains("g") ? "#1fc48c" : "#e8eeea";
+        tl.set(el, { opacity: 1, color: "#2b3530" }, qAt[i]);
+        tl.to(el, { color: to, duration: 0.18, ease: "power2.out" }, qAt[i]);
+      });
+
+      // ---- rack-focus: the question blurs away, the 40 becomes the mark (2.75 – 3.2) ----
+      tl.to("#s3-q", { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, 2.75);
+      tl.to("#s3-chip", { x: 300 - 1340, y: 360 - 520, scaleX: 300 / 360, scaleY: 300 / 230, transformOrigin: "0 0", filter: "blur(10px)", duration: 0.32, ease: "power3.inOut" }, 2.72);
+      tl.set("#s3-chip", { opacity: 0 }, 3.04);
+      tl.fromTo("#s3-mark", { opacity: 1, scale: 1.06, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "power2.out", immediateRender: false }, 3.04);
+      q("#s3-word span").forEach((el, i) => {
+        tl.fromTo(el, { opacity: 0.3, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, ease: "power2.out", immediateRender: false }, 3.35 + i * 0.035);
+      });
+      tl.set("#s3-word span", { opacity: 0 }, 0);
+
+      // ---- the lockup steps back; the cashier's screen rises (4.2 – 4.8) ----
+      tl.to("#s3-lock", { opacity: 0, scale: 0.92, filter: "blur(8px)", duration: 0.2, ease: "power3.in" }, 4.42);
+      tl.set("#s3-win", { opacity: 1, y: 160 }, 4.55);
+      tl.to("#s3-win", { y: 0, duration: 0.5, ease: "expo.out" }, 4.55);
+
+      // ---- F9: the pill rises from the bottom of the screen ----
+      tl.set("#s3-f9", { opacity: 1, y: 40 }, 4.9);
+      tl.to("#s3-f9", { y: 0, duration: 0.2, ease: "power4.out" }, 4.9);
+      tl.to("#s3-f9", { y: 14, boxShadow: "0 0 0 #c9cfcb, 0 14px 30px rgb(0 0 0 / 40%)", duration: 0.06, ease: "power2.in" }, 5.2);
+      tl.to("#s3-f9", { y: 0, boxShadow: "0 14px 0 #c9cfcb, 0 30px 50px rgb(0 0 0 / 40%)", duration: 0.18, ease: "power2.out" }, 5.26);
+      tl.set("#s3-pill", { opacity: 1, y: 220 }, 5.26);
+      tl.to("#s3-pill", { y: 0, duration: 0.42, ease: "expo.out" }, 5.26);
+      tl.to("#s3-f9", { opacity: 0, x: 120, duration: 0.2, ease: "power3.in" }, 5.6);
+
+      // punch in on the pill while the amount is typed, back out as it is sent
+      tl.to("#s3-stage", { scale: 1.32, duration: 0.5, ease: "power2.inOut" }, 5.45);
+      tl.to("#s3-stage", { scale: 1, duration: 0.5, ease: "power2.inOut" }, 7.85);
+
+      // ---- 1-0-4-0 typed on "type the amount" ----
+      const typed = ["#s3-a1", "#s3-a2", "#s3-a3", "#s3-a4"];
+      typed.forEach((id, i) => {
+        const t = 5.66 + i * 0.15;
+        tl.set(i === 0 ? "#s3-ph" : typed[i - 1], { opacity: 0 }, t);
+        tl.set(id, { opacity: 1 }, t);
+      });
+
+      // ---- Enter: the green floods out of the ₹ circle ----
+      tl.set("#s3-enter", { opacity: 1, x: -120 }, 6.55);
+      tl.to("#s3-enter", { x: 0, duration: 0.22, ease: "power4.out" }, 6.55);
+      tl.to("#s3-enter", { y: 14, boxShadow: "0 0 0 #c9cfcb, 0 14px 30px rgb(0 0 0 / 40%)", duration: 0.06, ease: "power2.in" }, 6.92);
+      tl.to("#s3-enter", { y: 0, boxShadow: "0 14px 0 #c9cfcb, 0 30px 50px rgb(0 0 0 / 40%)", duration: 0.18, ease: "power2.out" }, 6.98);
+      tl.set("#s3-flood", { opacity: 1, scale: 1 }, 6.98);
+      tl.to("#s3-flood", { scale: 24, duration: 0.34, ease: "power3.inOut" }, 6.98);
+      tl.to("#s3-glyph", { backgroundColor: "rgba(255,255,255,0.2)", color: "#ffffff", duration: 0.2 }, 7.1);
+      tl.set("#s3-hint", { opacity: 0 }, 7.18);
+      tl.set("#s3-sent", { opacity: 1 }, 7.18);
+      tl.to("#s3-enter", { opacity: 0, x: 120, duration: 0.2, ease: "power3.in" }, 7.3);
+
+      // ---- the pill sinks away; focus is back in billing ----
+      tl.to("#s3-pill", { y: 240, opacity: 0, duration: 0.28, ease: "power3.in" }, 8.3);
+      tl.set(["#s3-ring", "#s3-caret"], { opacity: 1 }, 8.58);
+      [9.08, 9.58].forEach((t, i) => tl.set("#s3-caret", { opacity: i % 2 ? 1 : 0 }, t));
+      const fAt = [7.72, 9.12, 9.5, 9.86];
+      q("#s3-focus-line span").forEach((el, i) => {
+        tl.set(el, { opacity: 1, y: 50 }, fAt[i]);
+        tl.to(el, { y: 0, duration: 0.16, ease: "power4.out" }, fAt[i]);
+      });
+
+      window.__timelines["s3"] = tl;
+    })();
+  </script>
+</template>

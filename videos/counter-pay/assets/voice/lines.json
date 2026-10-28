@@ -1,0 +1,82 @@
+[
+  { "id": 1, "start": 0.4, "end": 2.427, "text": "Rush hour. The queue is out the door." },
+  { "id": 2, "start": 2.727, "end": 5.18, "text": "You say: one thousand and forty rupees." },
+  {
+    "id": 3,
+    "start": 5.43,
+    "end": 9.057,
+    "text": "The customer scans your standee QR, and pays one thousand."
+  },
+  { "id": 4, "start": 9.357, "end": 10.402, "text": "Round off, na?" },
+  {
+    "id": 5,
+    "start": 10.802,
+    "end": 14.301,
+    "text": "With ten people waiting, you can't argue over forty rupees."
+  },
+  {
+    "id": 6,
+    "start": 14.501,
+    "end": 17.466,
+    "text": "So you give a forty-rupee discount you never offered."
+  },
+  { "id": 7, "start": 18.166, "end": 19.318, "text": "Once, it's forty." },
+  {
+    "id": 8,
+    "start": 19.618,
+    "end": 24.311,
+    "text": "But twenty customers a day, rounding off thirty rupees each, is six hundred a day."
+  },
+  { "id": 9, "start": 24.911, "end": 27.194, "text": "Eighteen thousand rupees, every month." },
+  { "id": 10, "start": 27.694, "end": 29.977, "text": "Gone. Not stolen. Just rounded off." },
+  {
+    "id": 11,
+    "start": 30.877,
+    "end": 32.989,
+    "text": "What if the customer couldn't change the amount?"
+  },
+  { "id": 12, "start": 33.589, "end": 34.762, "text": "Meet Counter Pay." },
+  {
+    "id": 13,
+    "start": 35.162,
+    "end": 37.893,
+    "text": "Press F nine. Type the amount. Press Enter."
+  },
+  { "id": 14, "start": 38.193, "end": 40.582, "text": "Your billing software never loses focus." },
+  {
+    "id": 15,
+    "start": 40.932,
+    "end": 44.559,
+    "text": "The customer sees a QR for exactly one thousand and forty."
+  },
+  { "id": 16, "start": 44.759, "end": 45.783, "text": "Amount fixed." },
+  {
+    "id": 17,
+    "start": 46.283,
+    "end": 49.995,
+    "text": "Built from your own standee QR, so the money lands in your account."
+  },
+  { "id": 18, "start": 50.145, "end": 51.105, "text": "Every rupee." },
+  { "id": 19, "start": 51.605, "end": 53.973, "text": "In English, plus ten Indian languages." },
+  { "id": 20, "start": 54.673, "end": 56.209, "text": "And you don't need anything new." },
+  {
+    "id": 21,
+    "start": 56.509,
+    "end": 60.072,
+    "text": "An old phone. An extra monitor. Or a small custom screen."
+  },
+  {
+    "id": 22,
+    "start": 60.372,
+    "end": 63.124,
+    "text": "Whatever's on your counter, Counter Pay works with it."
+  },
+  {
+    "id": 23,
+    "start": 63.524,
+    "end": 66.575,
+    "text": "Want a custom device built for your shop? Get in touch."
+  },
+  { "id": 24, "start": 67.475, "end": 69.31, "text": "Exact amount. Every time." },
+  { "id": 25, "start": 69.81, "end": 72.007, "text": "Counter Pay. Free and open source." }
+]

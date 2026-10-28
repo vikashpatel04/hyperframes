@@ -1,0 +1,448 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #0c110f;
+      font-family: "Inter", sans-serif;
+      color: #e8eeea;
+    }
+    .s5-abs {
+      position: absolute;
+    }
+    .s5-head {
+      left: 110px;
+      top: 70px;
+      font-size: 116px;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      white-space: nowrap;
+    }
+    .s5-head span {
+      display: inline-block;
+    }
+    #s5-h2 span {
+      opacity: 0;
+    }
+    .s5-head .g {
+      color: #1fc48c;
+    }
+
+    #s5-row {
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 960px 300px;
+    }
+    .s5-dev {
+      position: absolute;
+      opacity: 0;
+    }
+    .s5-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 700;
+      color: #8d9993;
+      white-space: nowrap;
+    }
+
+    /* a real Pay screen, shared look */
+    .s5-paper {
+      position: absolute;
+      background: #f3f5f2;
+      color: #0f1513;
+      overflow: hidden;
+    }
+    .s5-paper .qr {
+      background: #fff;
+      border-radius: 12px;
+      padding: 5px;
+      box-shadow: 0 8px 22px rgb(16 20 19 / 9%);
+    }
+    .s5-paper .qr img {
+      display: block;
+    }
+    .s5-paper .amt {
+      display: inline-block;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      position: relative;
+    }
+    .s5-paper .amt span {
+      display: inline-block;
+    }
+    .s5-paper .amt .new {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .s5-paper .hint {
+      font-weight: 700;
+      color: #0f1513;
+    }
+    .s5-paper .bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: 100%;
+      background: #14b37d;
+      transform-origin: 0 50%;
+    }
+
+    /* old phone (portrait Pay) */
+    #s5-phone {
+      left: 210px;
+      top: 300px;
+      width: 330px;
+      height: 620px;
+    }
+    .s5-phone-body {
+      position: absolute;
+      inset: 0 0 80px 0;
+      border-radius: 46px;
+      background: #2a302d;
+      box-shadow: 0 30px 70px rgb(0 0 0 / 50%);
+    }
+    #s5-phone .s5-paper {
+      left: 14px;
+      top: 14px;
+      width: 302px;
+      height: 512px;
+      border-radius: 34px;
+      text-align: center;
+    }
+    #s5-phone .shop {
+      margin-top: 38px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    #s5-phone .qr {
+      width: 200px;
+      margin: 14px auto 0;
+    }
+    #s5-phone .qr img {
+      width: 200px;
+      height: 200px;
+    }
+    #s5-phone .amt {
+      margin-top: 18px;
+      font-size: 56px;
+    }
+    #s5-phone .hint {
+      margin-top: 12px;
+      font-size: 15px;
+    }
+    #s5-phone .s5-label {
+      top: 560px;
+    }
+
+    /* extra monitor (landscape Pay) */
+    #s5-mon {
+      left: 640px;
+      top: 330px;
+      width: 640px;
+      height: 590px;
+    }
+    .s5-mon-bez {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 640px;
+      height: 412px;
+      border-radius: 16px;
+      background: #2a302d;
+      box-shadow: 0 30px 70px rgb(0 0 0 / 50%);
+    }
+    .s5-mon-neck {
+      position: absolute;
+      left: 270px;
+      top: 412px;
+      width: 100px;
+      height: 56px;
+      background: #2a302d;
+    }
+    #s5-mon .s5-paper {
+      left: 16px;
+      top: 16px;
+      width: 608px;
+      height: 380px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      padding: 0 30px;
+      box-sizing: border-box;
+    }
+    #s5-mon .qr img {
+      width: 250px;
+      height: 250px;
+    }
+    #s5-mon .shop {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    #s5-mon .amt {
+      font-size: 62px;
+      margin-top: 4px;
+    }
+    #s5-mon .hint {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    #s5-mon .s5-label {
+      top: 530px;
+    }
+
+    /* custom ESP32 + black/white e-paper */
+    #s5-eink {
+      left: 1390px;
+      top: 360px;
+      width: 380px;
+      height: 560px;
+    }
+    .s5-pcb {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 380px;
+      height: 300px;
+      border-radius: 10px;
+      background: #1d2a44;
+      box-shadow: 0 30px 70px rgb(0 0 0 / 50%);
+    }
+    .s5-ep {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 344px;
+      height: 250px;
+      background: #f2f1ec;
+      color: #000;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 18px;
+      box-sizing: border-box;
+    }
+    .s5-ep img {
+      width: 150px;
+      height: 150px;
+    }
+    .s5-ep .amt {
+      font-size: 46px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      position: relative;
+    }
+    .s5-ep .amt .new {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      background: #f2f1ec;
+    }
+    .s5-ep .t {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .s5-esp {
+      position: absolute;
+      left: 120px;
+      top: 330px;
+      width: 140px;
+      height: 70px;
+      border-radius: 6px;
+      background: #1a1f1c;
+      border: 3px solid #3d4a43;
+    }
+    .s5-esp::after {
+      content: "";
+      position: absolute;
+      left: 30px;
+      top: 14px;
+      width: 60px;
+      height: 36px;
+      border-radius: 3px;
+      background: #8d9993;
+    }
+    .s5-wire {
+      position: absolute;
+      left: 186px;
+      top: 300px;
+      width: 8px;
+      height: 32px;
+      background: #3d4a43;
+    }
+    #s5-eink .s5-label {
+      top: 500px;
+    }
+
+    /* the contact card */
+    #s5-card {
+      left: 210px;
+      top: 700px;
+      width: 1500px;
+      height: 270px;
+      border-radius: 34px;
+      background: #141b18;
+      border: 4px solid #1fc48c;
+      box-sizing: border-box;
+      padding: 44px 60px;
+      opacity: 0;
+    }
+    #s5-card .ask {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    #s5-card .mail {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 64px;
+      font-weight: 700;
+      color: #1fc48c;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    #s5-card .mail svg {
+      flex: none;
+      width: 64px;
+      height: 64px;
+    }
+  </style>
+
+  <div data-hf-id="hf-gqd2" id="root" data-composition-id="s5" data-width="1920" data-height="1080" data-duration="12.8">
+    <div data-hf-id="hf-4004" id="s5-h1" class="s5-head s5-abs">
+      <span data-hf-id="hf-0gra">Nothing</span> <span data-hf-id="hf-oqkt">new</span> <span data-hf-id="hf-1jhc">to</span> <span data-hf-id="hf-z9fm" class="g">buy.</span>
+    </div>
+    <div data-hf-id="hf-cnvz" id="s5-h2" class="s5-head s5-abs">
+      <span data-hf-id="hf-d00t">Works</span> <span data-hf-id="hf-91x1">with</span> <span data-hf-id="hf-43uj">what</span> <span data-hf-id="hf-920g">you</span> <span data-hf-id="hf-bm0w" class="g">have.</span>
+    </div>
+
+    <div data-hf-id="hf-4bcv" id="s5-row" class="s5-abs">
+      <div data-hf-id="hf-g2zr" id="s5-phone" class="s5-dev">
+        <div data-hf-id="hf-cv9c" class="s5-phone-body"></div>
+        <div data-hf-id="hf-duf9" class="s5-paper" data-layout-ignore>
+          <div data-hf-id="hf-ojve" class="shop" data-var-text="shop">Your Shop</div>
+          <div data-hf-id="hf-ctux" class="qr"><img data-hf-id="hf-jaxt" src="assets/img/qr-1040.svg" alt="" /></div>
+          <div data-hf-id="hf-8kom" class="amt"><span data-hf-id="hf-wrg6" class="old">₹1,040</span><span data-hf-id="hf-ftjm" class="new">₹860</span></div>
+          <div data-hf-id="hf-94ev" class="hint">Scan with any UPI app</div>
+          <div data-hf-id="hf-ufsv" class="bar"></div>
+        </div>
+        <div data-hf-id="hf-uyl2" class="s5-label">Old phone</div>
+      </div>
+
+      <div data-hf-id="hf-c74t" id="s5-mon" class="s5-dev">
+        <div data-hf-id="hf-oazf" class="s5-mon-neck"></div>
+        <div data-hf-id="hf-gm5p" class="s5-mon-bez"></div>
+        <div data-hf-id="hf-uys9" class="s5-paper" data-layout-ignore>
+          <div data-hf-id="hf-kcv1" class="qr"><img data-hf-id="hf-c4dx" src="assets/img/qr-1040.svg" alt="" /></div>
+          <div data-hf-id="hf-yeow">
+            <div data-hf-id="hf-3hku" class="shop" data-var-text="shop">Your Shop</div>
+            <div data-hf-id="hf-htei" class="amt"><span data-hf-id="hf-8axm" class="old">₹1,040</span><span data-hf-id="hf-e9au" class="new">₹860</span></div>
+            <div data-hf-id="hf-cep0" class="hint">Scan with any UPI app · Amount is fixed</div>
+          </div>
+          <div data-hf-id="hf-c51b" class="bar"></div>
+        </div>
+        <div data-hf-id="hf-8anb" class="s5-label">Extra monitor</div>
+      </div>
+
+      <div data-hf-id="hf-nn9m" id="s5-eink" class="s5-dev">
+        <div data-hf-id="hf-zxm2" class="s5-wire"></div>
+        <div data-hf-id="hf-4ld7" class="s5-esp"></div>
+        <div data-hf-id="hf-51z0" class="s5-pcb">
+          <div data-hf-id="hf-sche" class="s5-ep" data-layout-ignore>
+            <img data-hf-id="hf-dbb0" src="assets/img/qr-1040.svg" alt="" />
+            <div data-hf-id="hf-y7yw">
+              <div data-hf-id="hf-oeq8" class="t">Scan to pay</div>
+              <div data-hf-id="hf-i7pj" class="amt"><span data-hf-id="hf-8p8n" class="old">₹1,040</span><span data-hf-id="hf-enlv" class="new">₹860</span></div>
+              <div data-hf-id="hf-1s2a" class="t">Amount is fixed</div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-z325" class="s5-label">Custom ESP32 screen</div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-17i4" id="s5-card" class="s5-abs">
+      <div data-hf-id="hf-mix4" class="ask">Want a custom device built for your shop?</div>
+      <div data-hf-id="hf-c4xp" class="mail">
+        <svg data-hf-id="hf-hkw5" viewBox="0 0 64 64" fill="none" stroke="#1fc48c" stroke-width="5">
+          <rect data-hf-id="hf-nph8" x="6" y="14" width="52" height="36" rx="6" />
+          <path data-hf-id="hf-959y" d="M8 18 L32 36 L56 18" />
+        </svg>
+        <span data-hf-id="hf-ucn1" data-var-text="contact">vikashpatel.d0414@gmail.com</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => document.querySelectorAll(s);
+
+      function waterfall(els, t, opts = {}) {
+        let gap = opts.gap ?? 0.09;
+        els.forEach((el, i) => {
+          const y = i === 0 ? (opts.y0 ?? 80) : (opts.y ?? 48);
+          tl.set(el, { opacity: 1, y }, t);
+          tl.to(el, { y: 0, duration: i === 0 ? 0.2 : 0.15, ease: "power4.out" }, t);
+          t += gap;
+          gap *= 0.84;
+        });
+      }
+
+      // the headline arrives composed inside the retracting seam; nothing grows here
+
+      // ---- the devices arrive on their words ----
+      [
+        ["#s5-phone", 2.4],
+        ["#s5-mon", 3.3],
+        ["#s5-eink", 4.5],
+      ].forEach(([sel, t]) => {
+        tl.set(sel, { opacity: 1, y: 140 }, t);
+        tl.to(sel, { y: 0, duration: 0.55, ease: "expo.out" }, t);
+      });
+      tl.fromTo(".s5-paper .bar", { scaleX: 1 }, { scaleX: 0.8, duration: 9, ease: "none", immediateRender: false }, 2.4);
+
+      // ---- "Works with what you have." (waterfall cut, leftward) ----
+      q("#s5-h1 span").forEach((el, i) => {
+        tl.to(el, { x: -230, duration: 0.34, ease: "power4.in" }, 5.85 + i * 0.022);
+        tl.to(el, { opacity: 0, duration: 0.18, ease: "power1.in" }, 5.85 + i * 0.022);
+      });
+      let off = 0,
+        gap = 0.06;
+      q("#s5-h2 span").forEach((el) => {
+        tl.fromTo(el, { x: 230, opacity: 0.35 }, { x: 0, opacity: 1, duration: 0.3, ease: "power4.out", immediateRender: false }, 6.19 + off);
+        off += gap;
+        gap *= 0.84;
+      });
+
+      // the next customer: one new amount reaches every screen on the same frame
+      q(".s5-dev .amt").forEach((amt) => {
+        const o = amt.querySelector(".old");
+        const n = amt.querySelector(".new");
+        tl.to(o, { opacity: 0, filter: "blur(6px)", duration: 0.13, ease: "power2.in" }, 7.6);
+        tl.fromTo(n, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out", immediateRender: false }, 7.7);
+      });
+
+      // ---- custom device? the row steps up, the contact card rises (9.1 – 9.8) ----
+      tl.to("#s5-h2", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 9.0);
+      tl.to("#s5-row", { scale: 0.62, y: -170, duration: 0.6, ease: "power2.inOut" }, 9.05);
+      tl.set("#s5-card", { opacity: 1, y: 160 }, 9.2);
+      tl.to("#s5-card", { y: 0, duration: 0.55, ease: "expo.out" }, 9.2);
+
+      window.__timelines["s5"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,418 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Noto Sans Devanagari";
+      src: url("assets/fonts/noto-sans-devanagari-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: "Noto Sans Bengali";
+      src: url("assets/fonts/noto-sans-bengali-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: "Noto Sans Tamil";
+      src: url("assets/fonts/noto-sans-tamil-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: "Noto Sans Telugu";
+      src: url("assets/fonts/noto-sans-telugu-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: "Noto Sans Kannada";
+      src: url("assets/fonts/noto-sans-kannada-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #0c110f;
+      font-family: "Inter", sans-serif;
+      color: #e8eeea;
+    }
+    .s4-abs {
+      position: absolute;
+    }
+    #s4-cam {
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 0 0;
+    }
+
+    /* the customer-facing monitor */
+    #s4-bezel {
+      left: 110px;
+      top: 150px;
+      width: 1196px;
+      height: 764px;
+      border-radius: 22px;
+      background: #1a201d;
+      box-shadow: 0 40px 90px rgb(0 0 0 / 55%);
+    }
+    #s4-neck {
+      left: 618px;
+      top: 914px;
+      width: 180px;
+      height: 110px;
+      background: #1a201d;
+    }
+    #s4-foot {
+      left: 478px;
+      top: 1020px;
+      width: 460px;
+      height: 30px;
+      border-radius: 14px 14px 0 0;
+      background: #1a201d;
+    }
+    /* the real landscape Pay scene: its 640 x 400 design canvas at 1.8x */
+    #s4-screen {
+      left: 132px;
+      top: 172px;
+      width: 1152px;
+      height: 720px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #f3f5f2;
+      color: #0f1513;
+      font-family: "Inter", "Noto Sans Devanagari", "Noto Sans Bengali", "Noto Sans Tamil",
+        "Noto Sans Telugu", "Noto Sans Kannada", sans-serif;
+    }
+    .s4-pay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      padding: 0 58px;
+    }
+    .s4-qrcard {
+      flex: none;
+      padding: 11px;
+      border-radius: 29px;
+      background: #ffffff;
+      box-shadow:
+        0 2px 4px rgb(16 20 19 / 6%),
+        0 18px 50px rgb(16 20 19 / 9%);
+    }
+    #s4-qr {
+      display: block;
+      width: 540px;
+      height: 540px;
+    }
+    .s4-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .s4-shop {
+      font-size: 27px;
+      font-weight: 700;
+    }
+    #s4-amount {
+      font-size: 115px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    #s4-amount .num span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s4-lock {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #14b37d;
+      opacity: 0;
+    }
+    #s4-lock svg {
+      display: block;
+      width: 64px;
+      height: 64px;
+    }
+    .s4-hint {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+    }
+    .s4-h1 {
+      font-size: 23px;
+      font-weight: 700;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+    #s4-fixed {
+      display: inline-block;
+      position: relative;
+    }
+    #s4-fixed-bar {
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: -2px;
+      height: 10px;
+      border-radius: 5px;
+      background: rgb(20 179 125 / 35%);
+      transform-origin: 0 50%;
+    }
+    .s4-h2 {
+      position: relative;
+      height: 34px;
+      font-size: 21px;
+      font-weight: 700;
+      color: #5e6a64;
+      white-space: nowrap;
+    }
+    .s4-h2 span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .s4-payee {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      opacity: 0;
+    }
+    .s4-payee small {
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #5e6a64;
+    }
+    #s4-payname {
+      font-size: 23px;
+      font-weight: 700;
+      border-radius: 8px;
+      padding: 0 6px;
+      margin-left: -6px;
+    }
+    #s4-expiry {
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 6px;
+      background: #14b37d;
+      transform-origin: 0 50%;
+    }
+
+    /* the standee comes back */
+    #s4-standee {
+      left: 1440px;
+      top: 420px;
+      width: 330px;
+      height: 560px;
+      opacity: 0;
+    }
+    .s4-slab {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 330px;
+      height: 500px;
+      border-radius: 20px;
+      background: #f3f5f2;
+      text-align: center;
+      color: #0f1513;
+    }
+    .s4-slab b {
+      display: block;
+      margin-top: 30px;
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .s4-slab img {
+      display: block;
+      width: 230px;
+      height: 230px;
+      margin: 26px auto 0;
+    }
+    #s4-chip {
+      left: 1475px;
+      top: 850px;
+      padding: 10px 22px;
+      border-radius: 14px;
+      background: #14b37d;
+      color: #ffffff;
+      font-size: 30px;
+      font-weight: 700;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    .s4-sfoot {
+      position: absolute;
+      left: 50px;
+      top: 500px;
+      width: 230px;
+      height: 56px;
+      border-radius: 0 0 16px 16px;
+      background: #8d9993;
+    }
+
+    /* right-column kinetic type (screen space) */
+    .s4-k {
+      left: 1380px;
+      top: 170px;
+      font-size: 104px;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.02;
+      white-space: nowrap;
+    }
+    .s4-k span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .s4-k .g {
+      color: #1fc48c;
+    }
+    #s4-k3 {
+      top: 300px;
+    }
+  </style>
+
+  <div data-hf-id="hf-t4sa" id="root" data-composition-id="s4" data-width="1920" data-height="1080" data-duration="13.6">
+    <div data-hf-id="hf-z5oy" id="s4-cam" class="s4-abs" data-layout-allow-overflow>
+      <div data-hf-id="hf-hsxv" id="s4-neck" class="s4-abs"></div>
+      <div data-hf-id="hf-rs52" id="s4-foot" class="s4-abs"></div>
+      <div data-hf-id="hf-bf9m" id="s4-bezel" class="s4-abs"></div>
+      <div data-hf-id="hf-20uy" id="s4-screen" class="s4-abs">
+        <div data-hf-id="hf-dw7c" class="s4-pay">
+          <div data-hf-id="hf-mx8t" class="s4-qrcard"><img data-hf-id="hf-4frc" id="s4-qr" src="assets/img/qr-1040.svg" alt="UPI QR for ₹1,040" /></div>
+          <div data-hf-id="hf-lllb" class="s4-text">
+            <div data-hf-id="hf-8jo4" class="s4-shop" data-var-text="shop">Your Shop</div>
+            <div data-hf-id="hf-lalt" id="s4-amount">
+              <span data-hf-id="hf-rjcf" class="num"><span data-hf-id="hf-1rns">₹</span><span data-hf-id="hf-ikog">1</span><span data-hf-id="hf-jrlj">,</span><span data-hf-id="hf-i6df">0</span><span data-hf-id="hf-gl5b">4</span><span data-hf-id="hf-djcz">0</span></span>
+              <span data-hf-id="hf-wldp" id="s4-lock"
+                ><svg data-hf-id="hf-l6o9" viewBox="0 0 64 64">
+                  <rect data-hf-id="hf-u6e5" x="20" y="30" width="24" height="18" rx="3" fill="#fff" />
+                  <path data-hf-id="hf-ucp8" d="M25 30 v-5 a7 7 0 0 1 14 0 v5" stroke="#fff" stroke-width="4.5" fill="none" /></svg
+              ></span>
+            </div>
+            <div data-hf-id="hf-7amh" class="s4-hint">
+              <div data-hf-id="hf-2k5a" class="s4-h1">Scan with any UPI app · <span data-hf-id="hf-yjjs" id="s4-fixed">Amount is fixed<i data-hf-id="hf-aph1" id="s4-fixed-bar"></i></span></div>
+              <div data-hf-id="hf-i2p4" class="s4-h2" data-layout-ignore>
+                <span data-hf-id="hf-bddu" lang="hi">किसी भी UPI ऐप से स्कैन करें</span>
+                <span data-hf-id="hf-sh0a" lang="bn">যেকোনো UPI অ্যাপ দিয়ে স্ক্যান করুন</span>
+                <span data-hf-id="hf-0dps" lang="ta">எந்த UPI செயலியிலும் ஸ்கேன் செய்யவும்</span>
+                <span data-hf-id="hf-0rcj" lang="te">ఏ UPI యాప్‌తోనైనా స్కాన్ చేయండి</span>
+                <span data-hf-id="hf-u91h" lang="kn">ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಿಂದ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</span>
+              </div>
+            </div>
+            <div data-hf-id="hf-jlsq" class="s4-payee">
+              <small data-hf-id="hf-b4ko" data-layout-ignore>Paying</small>
+              <div data-hf-id="hf-pdug" id="s4-payname" data-var-text="shop">Your Shop</div>
+            </div>
+          </div>
+        </div>
+        <div data-hf-id="hf-jdi3" id="s4-expiry" class="s4-abs"></div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-ab5w" id="s4-standee" class="s4-abs">
+      <div data-hf-id="hf-hshm" class="s4-slab">
+        <b data-hf-id="hf-117s">Scan &amp; Pay</b>
+        <img data-hf-id="hf-aia8" src="assets/img/qr-standee.svg" alt="" />
+      </div>
+      <div data-hf-id="hf-bwyt" class="s4-sfoot"></div>
+    </div>
+    <div data-hf-id="hf-n4v4" id="s4-chip" class="s4-abs" data-var-text="shop">Your Shop</div>
+
+    <div data-hf-id="hf-8xwv" id="s4-k1" class="s4-k s4-abs"><span data-hf-id="hf-5mr1">Amount</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-rr04" class="g">fixed.</span></div>
+    <div data-hf-id="hf-y2f8" id="s4-k2" class="s4-k s4-abs"><span data-hf-id="hf-ixae">Your</span> <span data-hf-id="hf-hscr">own</span><br data-hf-id="hf-rsrt" /><span data-hf-id="hf-zel4">QR.</span></div>
+    <div data-hf-id="hf-yu31" id="s4-k3" class="s4-k s4-abs"><span data-hf-id="hf-uhsw">Every</span><br data-hf-id="hf-szow" /><span data-hf-id="hf-s0dd" class="g">rupee.</span></div>
+    <div data-hf-id="hf-jtuq" id="s4-k4" class="s4-k s4-abs" style="font-size: 92px">
+      <span data-hf-id="hf-ow2n">English</span><br data-hf-id="hf-sldv" /><span data-hf-id="hf-kyim">+</span> <span data-hf-id="hf-9jwx" class="g">10</span><br data-hf-id="hf-qluq" /><span data-hf-id="hf-ca8a">Indian</span><br data-hf-id="hf-q7jp" /><span data-hf-id="hf-2uo6">languages.</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => document.querySelectorAll(s);
+
+      function waterfall(els, t, opts = {}) {
+        let gap = opts.gap ?? 0.09;
+        els.forEach((el, i) => {
+          const y = i === 0 ? (opts.y0 ?? 80) : (opts.y ?? 48);
+          tl.set(el, { opacity: 1, y }, t);
+          tl.to(el, { y: 0, duration: i === 0 ? 0.2 : 0.15, ease: "power4.out" }, t);
+          t += gap;
+          gap *= 0.84;
+        });
+      }
+      function clearK(sel, t) {
+        tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, t);
+      }
+
+      gsap.set("#s4-cam", { x: 0, y: 0, scale: 1 });
+      gsap.set("#s4-qr", { clipPath: "inset(0% 0% 100% 0%)" });
+      gsap.set("#s4-fixed-bar", { scaleX: 0 });
+
+      // the QR draws itself on "sees a QR"
+      tl.fromTo("#s4-qr", { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power2.inOut", immediateRender: false }, 0.2);
+
+      // ₹1,040 lands on "one thousand and forty"
+      waterfall(q("#s4-amount .num span"), 2.95, { y0: 70, y: 46, gap: 0.06 });
+      tl.fromTo(".s4-hint", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, 3.35);
+      tl.set(".s4-h2 span[lang=hi]", { opacity: 1 }, 3.35);
+      tl.fromTo(".s4-payee", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, 3.5);
+      // the QR's own timer runs down: the product behaving
+      tl.fromTo("#s4-expiry", { scaleX: 1 }, { scaleX: 0.86, duration: 10.1, ease: "none", immediateRender: false }, 3.5);
+
+      // ---- Amount fixed. ----
+      tl.set("#s4-lock", { opacity: 1, scale: 0.4 }, 4.12);
+      tl.to("#s4-lock", { scale: 1, duration: 0.35, ease: "back.out(1.7)" }, 4.12);
+      tl.to("#s4-fixed-bar", { scaleX: 1, duration: 0.35, ease: "power3.out" }, 4.2);
+      tl.to("#s4-fixed", { color: "#0b7a55", duration: 0.2 }, 4.2);
+      waterfall(q("#s4-k1 span"), 4.12, { y0: 70, y: 70, gap: 0.3 });
+      clearK("#s4-k1", 5.4);
+
+      // ---- your own standee QR → your account ----
+      tl.set("#s4-standee", { opacity: 1, x: 260 }, 5.6);
+      tl.to("#s4-standee", { x: 0, duration: 0.55, ease: "expo.out" }, 5.6);
+      waterfall(q("#s4-k2 span"), 6.25, { y0: 60, y: 60, gap: 0.2 });
+      // the standee's payee leaves it and flies into the screen's PAYING row
+      tl.set("#s4-chip", { opacity: 1, scale: 0.6 }, 7.5);
+      tl.to("#s4-chip", { scale: 1, duration: 0.25, ease: "power4.out" }, 7.5);
+      tl.to("#s4-chip", { x: 805 - 1475, y: 690 - 850, scale: 0.72, duration: 0.55, ease: "power3.inOut" }, 8.0);
+      tl.set("#s4-chip", { opacity: 0 }, 8.55);
+      tl.fromTo("#s4-payname", { backgroundColor: "rgba(20,179,125,0.45)" }, { backgroundColor: "rgba(20,179,125,0)", duration: 0.9, ease: "power2.out", immediateRender: false }, 8.55);
+      clearK("#s4-k2", 9.15);
+      tl.to("#s4-standee", { x: 300, opacity: 0, duration: 0.3, ease: "power3.in" }, 9.1);
+
+      // ---- Every rupee. ----
+      waterfall(q("#s4-k3 span"), 9.42, { y0: 70, y: 70, gap: 0.28 });
+      clearK("#s4-k3", 10.55);
+
+      // ---- languages: push in on the hint lines, the second line rolls through scripts ----
+      tl.to("#s4-cam", { x: 700 - 1.55 * 1014, y: 560 - 1.55 * 600, scale: 1.55, duration: 0.6, ease: "power2.inOut" }, 10.6);
+      const langs = q(".s4-h2 span");
+      const rollAt = [11.2, 11.75, 12.3, 12.85];
+      rollAt.forEach((t, i) => {
+        tl.to(langs[i], { opacity: 0, y: -16, filter: "blur(4px)", duration: 0.1, ease: "power2.in" }, t);
+        tl.fromTo(langs[i + 1], { opacity: 0, y: 16, filter: "blur(4px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.13, ease: "power2.out", immediateRender: false }, t + 0.08);
+      });
+      waterfall(q("#s4-k4 span"), 10.85, { y0: 70, y: 56, gap: 0.22 });
+
+      window.__timelines["s4"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,110 @@
+[
+  {
+    "text": "What",
+    "start": 0.05,
+    "end": 0.2,
+    "id": "w0"
+  },
+  {
+    "text": "if",
+    "start": 0.31,
+    "end": 0.37,
+    "id": "w1"
+  },
+  {
+    "text": "the",
+    "start": 0.37,
+    "end": 0.56,
+    "id": "w2"
+  },
+  {
+    "text": "amount",
+    "start": 0.56,
+    "end": 0.94,
+    "id": "w3"
+  },
+  {
+    "text": "was",
+    "start": 0.94,
+    "end": 1.13,
+    "id": "w4"
+  },
+  {
+    "text": "already",
+    "start": 1.13,
+    "end": 1.57,
+    "id": "w5"
+  },
+  {
+    "text": "in",
+    "start": 1.57,
+    "end": 1.69,
+    "id": "w6"
+  },
+  {
+    "text": "the",
+    "start": 1.69,
+    "end": 1.88,
+    "id": "w7"
+  },
+  {
+    "text": "QR?",
+    "start": 1.88,
+    "end": 2.24,
+    "id": "w8"
+  },
+  {
+    "text": "Meet",
+    "start": 2.29,
+    "end": 2.57,
+    "id": "w9"
+  },
+  {
+    "text": "counterpay,",
+    "start": 2.57,
+    "end": 3.56,
+    "id": "w10"
+  },
+  {
+    "text": "press",
+    "start": 3.56,
+    "end": 4.05,
+    "id": "w11"
+  },
+  {
+    "text": "F9,",
+    "start": 4.05,
+    "end": 4.64,
+    "id": "w12"
+  },
+  {
+    "text": "type",
+    "start": 4.64,
+    "end": 4.91,
+    "id": "w13"
+  },
+  {
+    "text": "the",
+    "start": 4.91,
+    "end": 5.11,
+    "id": "w14"
+  },
+  {
+    "text": "amount,",
+    "start": 5.11,
+    "end": 5.68,
+    "id": "w15"
+  },
+  {
+    "text": "press",
+    "start": 5.84,
+    "end": 6.05,
+    "id": "w16"
+  },
+  {
+    "text": "Enter.",
+    "start": 6.06,
+    "end": 6.6,
+    "id": "w17"
+  }
+]

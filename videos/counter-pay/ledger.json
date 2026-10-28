@@ -1,0 +1,40 @@
+{
+  "fps": 30,
+  "seams": [
+    {
+      "id": "rush→stack (the 40 falls)",
+      "cut": 17.95,
+      "technique": "cut-the-curve DOWN",
+      "exit": { "selector": "#s1", "axis": "y", "dir": 1 },
+      "entry": { "selector": "#s2", "axis": "y", "dir": 1 }
+    },
+    {
+      "id": "stack→meet (the turn rises)",
+      "cut": 30.55,
+      "technique": "cut-the-curve UP",
+      "exit": { "selector": "#s2", "axis": "y", "dir": -1 },
+      "entry": { "selector": "#s3", "axis": "y", "dir": -1 }
+    },
+    {
+      "id": "meet→display (into the amount)",
+      "cut": 40.75,
+      "technique": "zoom-through",
+      "exit": { "selector": "#s3", "axis": "z", "dir": 1 },
+      "entry": { "selector": "#s4", "axis": "z", "dir": 1 }
+    },
+    {
+      "id": "display→devices (arrival)",
+      "cut": 54.35,
+      "technique": "inverse zoom-through",
+      "exit": { "selector": "#s4", "axis": "z", "dir": -1 },
+      "entry": { "selector": "#s5", "axis": "z", "dir": -1, "scanRoot": "#s5" }
+    },
+    {
+      "id": "devices→close (conclusion rises)",
+      "cut": 67.15,
+      "technique": "cut-the-curve UP",
+      "exit": { "selector": "#s5", "axis": "y", "dir": -1 },
+      "entry": { "selector": "#s6", "axis": "y", "dir": -1 }
+    }
+  ]
+}
