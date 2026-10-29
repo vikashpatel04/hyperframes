@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Counter Pay — YouTube thumbnail</title>
+    <style>
+      @font-face {
+        font-family: "InterT";
+        src: url("fonts/inter-latin-900.woff2") format("woff2");
+        font-weight: 900;
+        unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF;
+      }
+      @font-face {
+        font-family: "InterT";
+        src: url("fonts/inter-latin-ext-900.woff2") format("woff2");
+        font-weight: 900;
+        unicode-range: U+0100-024F, U+20A0-20C0;
+      }
+      @font-face {
+        font-family: "InterT";
+        src: url("fonts/inter-latin-700.woff2") format("woff2");
+        font-weight: 700;
+        unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF;
+      }
+      @font-face {
+        font-family: "InterT";
+        src: url("fonts/inter-latin-ext-700.woff2") format("woff2");
+        font-weight: 700;
+        unicode-range: U+0100-024F, U+20A0-20C0;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background: #0c110f;
+        font-family: "InterT", sans-serif;
+      }
+      .abs {
+        position: absolute;
+      }
+      /* the shop by day, cut on a diagonal from the loss */
+      #paper {
+        left: 0;
+        top: 0;
+        width: 1280px;
+        height: 720px;
+        background: #f3f5f2;
+        clip-path: polygon(0 0, 700px 0, 560px 720px, 0 720px);
+      }
+      #bubble {
+        left: 48px;
+        top: 44px;
+        padding: 18px 30px;
+        border-radius: 28px;
+        background: #0f1513;
+        color: #f3f5f2;
+        font-weight: 900;
+        font-size: 50px;
+        letter-spacing: -0.02em;
+      }
+      #bubble::after {
+        content: "";
+        position: absolute;
+        left: 64px;
+        bottom: -20px;
+        border-width: 22px 18px 0;
+        border-style: solid;
+        border-color: #0f1513 transparent transparent;
+      }
+      #total-lbl {
+        left: 56px;
+        top: 250px;
+        font-weight: 900;
+        font-size: 34px;
+        letter-spacing: 0.1em;
+        color: #5e6a64;
+      }
+      #total {
+        left: 44px;
+        top: 290px;
+        font-weight: 900;
+        font-size: 176px;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        color: #0f1513;
+        white-space: nowrap;
+      }
+      #forty {
+        display: inline-block;
+        position: relative;
+        color: #d93025;
+        transform: rotate(16deg) translate(-4px, 40px);
+      }
+      #forty::after {
+        content: "";
+        position: absolute;
+        left: -8px;
+        right: -8px;
+        top: 52%;
+        height: 16px;
+        border-radius: 8px;
+        background: #d93025;
+        transform: rotate(-12deg);
+      }
+      #paid {
+        left: 56px;
+        top: 560px;
+        padding: 8px 22px;
+        border: 6px solid #d93025;
+        border-radius: 14px;
+        color: #d93025;
+        font-weight: 900;
+        font-size: 48px;
+        letter-spacing: 0.03em;
+        transform: rotate(-6deg);
+      }
+
+      /* the loss, at night */
+      #lost {
+        left: 640px;
+        top: 236px;
+        width: 610px;
+        white-space: nowrap;
+        text-align: right;
+      }
+      #lost .num {
+        font-weight: 900;
+        font-size: 128px;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        color: #ff4d3d;
+      }
+      #lost .per {
+        margin-top: 12px;
+        font-weight: 900;
+        font-size: 60px;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #e8eeea;
+      }
+      #fix {
+        right: 36px;
+        bottom: 46px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 16px 28px 16px 18px;
+        border-radius: 22px;
+        background: #14b37d;
+        color: #ffffff;
+        font-weight: 900;
+        font-size: 44px;
+        letter-spacing: -0.01em;
+      }
+      #fix img {
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+        background: #ffffff;
+        padding: 4px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="paper" class="abs"></div>
+    <div id="bubble" class="abs">"Round off, na?"</div>
+    <div id="total-lbl" class="abs">BILL TOTAL</div>
+    <div id="total" class="abs">₹1,0<span id="forty">40</span></div>
+    <div id="paid" class="abs">PAID ₹1,000</div>
+
+    <div id="lost" class="abs">
+      <div class="num">−₹18,000</div>
+      <div class="per">lost every month</div>
+    </div>
+    <div id="fix" class="abs"><img src="../assets/img/counter-pay-mark.svg" alt="" />Free fix →</div>
+  </body>
+</html>
