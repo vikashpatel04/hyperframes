@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>0 to 1 — the desk (portrait)</title>
+    <link rel="stylesheet" href="../styleframes/look.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; background: #e2cdac; }
+      #scene { left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 540px 980px; }
+
+      /* ---- wall + morning light ---- */
+      #wall { inset: 0; background: radial-gradient(1000px 1200px at 22% 14%, #f1e2c8 0%, #e3ceac 48%, #c7ad86 100%); }
+      #sun { left: -120px; top: 20px; width: 900px; height: 1200px; transform: rotate(-9deg) skewX(-18deg); filter: blur(18px); }
+      #sun i { position: absolute; width: 300px; height: 430px; background: #fff3d8; opacity: 0.92; border-radius: 4px; box-shadow: 0 0 60px 10px rgba(255, 214, 140, 0.35); }
+      #leaves { left: 330px; top: 120px; width: 700px; height: 700px; filter: blur(9px); opacity: 0.5; mix-blend-mode: multiply; }
+      #shaft { left: -400px; top: -100px; width: 1900px; height: 2200px;
+        background: linear-gradient(118deg, rgba(255, 226, 170, 0) 34%, rgba(255, 226, 170, 0.4) 44%, rgba(255, 226, 170, 0.1) 52%, rgba(255, 226, 170, 0) 60%); mix-blend-mode: screen; }
+
+      /* ---- desk ---- */
+      #desk { left: -200px; top: 1340px; width: 1500px; height: 160px;
+        background: repeating-linear-gradient(179deg, rgba(90, 55, 25, 0.09) 0 2px, rgba(0, 0, 0, 0) 2px 9px, rgba(90, 55, 25, 0.05) 9px 10px, rgba(0, 0, 0, 0) 10px 23px),
+          linear-gradient(180deg, #d9ae80 0%, #c99a6c 100%);
+        box-shadow: inset 0 2px 0 rgba(255, 240, 215, 0.6); }
+      #deskfront { left: -200px; top: 1500px; width: 1500px; height: 420px;
+        background: repeating-linear-gradient(178deg, rgba(60, 35, 15, 0.1) 0 2px, rgba(0, 0, 0, 0) 2px 11px, rgba(60, 35, 15, 0.06) 11px 12px, rgba(0, 0, 0, 0) 12px 27px),
+          linear-gradient(180deg, #9c6c47 0%, #6f4a2f 100%);
+        box-shadow: inset 0 3px 0 rgba(255, 220, 180, 0.35); }
+      .cshadow { border-radius: 50%; background: radial-gradient(closest-side, rgba(60, 35, 15, 0.45), rgba(60, 35, 15, 0)); }
+      #mug { left: 560px; top: 1236px; width: 130px; height: 146px; filter: blur(2px); }
+
+      /* ---- monitor + lock screen ---- */
+      #monitor { left: 40px; top: 640px; width: 1180px; height: 700px; border-radius: 26px; background: var(--bezel);
+        box-shadow: 0 40px 80px rgba(60, 35, 15, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.08); }
+      #neck { left: 520px; top: 1340px; width: 130px; height: 26px; background: #1d1d20; }
+      #foot { left: 430px; top: 1360px; width: 310px; height: 22px; border-radius: 6px; background: #232326; box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.08); }
+      #screen { left: 66px; top: 666px; width: 1128px; height: 648px; border-radius: 8px; overflow: hidden;
+        background: radial-gradient(800px 260px at 50% 74%, rgba(255, 170, 90, 0.85) 0%, rgba(230, 120, 60, 0.45) 40%, rgba(230, 120, 60, 0) 75%),
+          linear-gradient(180deg, #1c1416 0%, #3a2220 38%, #8a4426 66%, #d27a40 78%, #3a1d14 79%, #1a0f0c 100%); }
+      #hills { left: 0; bottom: 0; width: 1128px; height: 260px; }
+      #date { left: 0; top: 150px; width: 1014px; text-align: center; color: rgba(255, 240, 225, 0.8); font-size: 30px; font-weight: 600; }
+      #clock { left: 0; top: 188px; width: 1014px; text-align: center; color: rgba(255, 246, 235, 0.8); font-size: 168px; font-weight: 600; letter-spacing: -0.05em; line-height: 1; }
+      #reflect i { position: absolute; top: -80px; width: 240px; height: 900px; background: rgba(255, 238, 210, 0.05); transform: skewX(-24deg); filter: blur(14px); }
+
+      /* day counter: top-right of the visible screen */
+      #counter { left: 770px; top: 692px; width: 280px; height: 128px; border-radius: 20px; background: rgba(255, 255, 255, 0.07); border: 1.5px solid rgba(255, 255, 255, 0.09); }
+      #counter .lbl { position: absolute; left: 22px; top: 18px; font-size: 20px; font-weight: 700; letter-spacing: 0.22em; color: #8f8f96; }
+      #counter .lbl b { color: var(--orange); }
+      #odo { position: absolute; left: 20px; top: 46px; height: 66px; display: flex; gap: 2px; font-size: 62px; font-weight: 700; color: #f4f4f5; font-variant-numeric: tabular-nums; }
+      #odo .cell { position: relative; width: 38px; height: 66px; overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%); }
+      #odo .cell.vblur { filter: url(#vblur); }
+      #odo .comma { width: 14px; line-height: 66px; }
+      #odo .strip { position: absolute; left: 0; top: 0; width: 38px; text-align: center; line-height: 66px; }
+      #odo .strip span { display: block; height: 66px; }
+
+      /* ---- notes ---- */
+      #note { left: 34px; top: 1030px; width: 380px; height: 380px; transform: rotate(-3.5deg); transform-origin: 50% 0;
+        background: linear-gradient(180deg, #ffe98d 0%, var(--note) 18%, var(--note) 70%, var(--note-deep) 100%);
+        box-shadow: 0 2px 2px rgba(70, 45, 10, 0.12), 0 22px 36px rgba(70, 45, 10, 0.24); }
+      #note::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 50px; background: rgba(214, 178, 52, 0.18); }
+      #note::after { content: ""; position: absolute; right: 0; bottom: 0; width: 110px; height: 110px;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(120, 85, 20, 0.16) 75%, rgba(255, 245, 200, 0.6) 100%); }
+      #note .txt { position: absolute; left: 40px; top: 80px; font-size: 72px; line-height: 0.98; }
+      #note svg { position: absolute; left: 32px; top: 286px; width: 310px; height: 56px; }
+      #note2 { left: 430px; top: 1372px; width: 400px; height: 156px; transform: rotate(3deg);
+        background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%); box-shadow: 0 2px 2px rgba(70, 45, 10, 0.1), 0 14px 26px rgba(70, 45, 10, 0.2); }
+      #note2 .txt { position: absolute; left: 24px; top: 20px; font-size: 48px; line-height: 1.02; }
+      #note2 .ring { position: absolute; left: 196px; top: 64px; width: 170px; height: 80px; }
+      #note3 { left: 380px; top: 1424px; width: 470px; height: 120px; transform: rotate(2.5deg);
+        background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%); box-shadow: 0 2px 2px rgba(70, 45, 10, 0.1), 0 14px 26px rgba(70, 45, 10, 0.2); }
+      #note3 .txt { position: absolute; left: 24px; top: 28px; font-size: 48px; white-space: nowrap; }
+      #note3 .chk { color: var(--orange-deep); }
+
+      #plant { left: 690px; top: 1300px; width: 600px; height: 820px; filter: blur(16px); }
+
+      /* ---- the avalanche ---- */
+      .ntf { position: absolute; width: 640px; height: 132px; border-radius: 28px; background: rgba(250, 250, 250, 0.96);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 18px 40px rgba(0, 0, 0, 0.28); display: flex; align-items: center; gap: 22px; padding: 0 26px; box-sizing: border-box; }
+      .ntf i { flex: none; width: 70px; height: 70px; border-radius: 18px; display: grid; place-items: center; font-style: normal; font-size: 34px; font-weight: 800; color: #fff; }
+      .ntf b { display: block; font-size: 28px; font-weight: 700; color: #18181b; white-space: nowrap; }
+      .ntf span { display: block; margin-top: 2px; font-size: 24px; color: #52525b; white-space: nowrap; }
+      .ntf em { position: absolute; right: 24px; top: 20px; font-style: normal; font-size: 20px; color: #a1a1aa; }
+      #badge { left: 900px; top: 610px; width: 150px; height: 150px; border-radius: 50%; background: #ef4444; color: #fff;
+        font-size: 58px; font-weight: 800; line-height: 150px; text-align: center; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.45); letter-spacing: -0.03em; }
+      #noway { left: 120px; top: 880px; font-size: 300px; transform: rotate(-7deg); color: #1a1612; line-height: 1; white-space: nowrap;
+        text-shadow: 0 0 18px rgba(255, 250, 240, 0.9), 0 0 4px rgba(255, 250, 240, 1); }
+      #noway u { text-decoration: none; }
+
+      /* ---- the top text zone (doubles as captions) ---- */
+      .cap { left: 70px; top: 290px; width: 940px; font-weight: 900; letter-spacing: -0.045em; line-height: 0.98; color: #1f1b16; }
+      .cap .o { color: var(--orange-deep); }
+      .cap .m { color: #6f5a40; }
+
+      #grain { inset: 0; opacity: 0.06; mix-blend-mode: multiply; }
+      #vig { inset: 0; background: radial-gradient(900px 1400px at 50% 45%, rgba(0, 0, 0, 0) 60%, rgba(40, 25, 10, 0.2) 100%); }
+
+      /* ---- states ---- */
+      #avalanche, #noway, #note2, #note3, .cap, #counter { display: none; }
+      .p1 #avalanche, .p2 #avalanche { display: block; }
+      .p1 #note .txt, .p1 #note svg { filter: blur(5px); }
+      .p2 #noway { display: block; }
+      .p2 #scene { transform: scale(1.05); }
+      .p2 #avalanche { filter: saturate(0.85); }
+      .p3 #counter, .p4 #counter, .p8 #counter { display: block; }
+      .p3 #c-three { display: block; }
+      .p3 #sun { left: 140px; } .p3 .bg { filter: blur(2.5px); }
+      .p4 #note2 { display: block; } .p4 #c-question { display: block; } .p4 .bg { filter: blur(3px); }
+      .p6 .bg, .p6 #screen { filter: blur(7px) brightness(0.95); }
+      .p6 #note { left: 330px; top: 900px; transform: rotate(4deg) scale(1.4); box-shadow: 0 4px 6px rgba(70, 45, 10, 0.12), 0 60px 90px rgba(70, 45, 10, 0.3); }
+      .p6 #c-turn { display: block; }
+      .p8 #note3 { display: block; } .p8 #c-payoff { display: block; } .p8 .bg { filter: blur(2px); }
+    </style>
+  </head>
+  <body class="p1">
+    <svg width="0" height="0" style="position: absolute"><filter id="vblur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="0 4.5" /></filter></svg>
+    <div id="scene" class="abs">
+      <div class="bg abs" style="inset: 0">
+        <div id="wall" class="abs"></div>
+        <div id="sun" class="abs"><i style="left: 0; top: 0"></i><i style="left: 330px; top: 0"></i><i style="left: 0; top: 460px"></i><i style="left: 330px; top: 460px"></i></div>
+        <svg id="leaves" class="abs" viewBox="0 0 700 700" aria-hidden="true"><g fill="#b39c78">
+          <path d="M120 620 C 140 470, 220 360, 330 300 C 300 400, 240 520, 120 620 Z" /><path d="M330 300 C 420 220, 520 200, 610 210 C 540 290, 440 330, 330 300 Z" />
+          <path d="M300 420 C 360 340, 470 300, 560 330 C 500 410, 400 450, 300 420 Z" /><path d="M230 330 C 230 230, 280 140, 360 80 C 370 180, 320 270, 230 330 Z" /></g></svg>
+        <div id="shaft" class="abs"></div>
+        <div id="monitor" class="abs"></div>
+        <div id="desk" class="abs"></div>
+        <div id="deskfront" class="abs"></div>
+        <div class="cshadow abs" style="left: 400px; top: 1366px; width: 380px; height: 36px"></div>
+        <div id="neck" class="abs"></div>
+        <div id="foot" class="abs"></div>
+        <div class="cshadow abs" style="left: 545px; top: 1368px; width: 170px; height: 26px"></div>
+        <svg id="mug" class="abs" viewBox="0 0 150 168" aria-hidden="true">
+          <path d="M112 50 C 150 50, 150 112, 108 112" fill="none" stroke="#e8dfd1" stroke-width="13" /><rect x="8" y="22" width="108" height="140" rx="16" fill="#f1e9dc" />
+          <ellipse cx="62" cy="24" rx="54" ry="11" fill="#5a3a24" /><rect x="8" y="110" width="108" height="52" rx="14" fill="#e3d7c5" /></svg>
+      </div>
+
+      <div id="screen" class="abs">
+        <svg id="hills" class="abs" viewBox="0 0 1128 260" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 140 C 200 70, 380 120, 560 80 C 760 40, 920 110, 1128 60 L 1128 260 L 0 260 Z" fill="#3a1d14" opacity="0.9" />
+          <path d="M0 210 C 240 160, 460 210, 700 170 C 900 140, 1040 190, 1128 160 L 1128 260 L 0 260 Z" fill="#170e0c" /></svg>
+        <div id="date" class="abs">Monday, October 14</div>
+        <div id="clock" class="abs">7:42</div>
+        <div id="reflect" class="abs" style="inset: 0"><i style="left: 100px"></i><i style="left: 380px; width: 120px"></i></div>
+      </div>
+      <div id="counter" class="abs"><div class="lbl">DAY</div><div id="odo"></div></div>
+
+      <div id="note" class="abs">
+        <div class="txt hand">become a<br />software<br />engineer ✦</div>
+        <svg viewBox="0 0 320 60" aria-hidden="true">
+          <path d="M6 18 C 90 10, 200 8, 312 14" fill="none" stroke="#2a2520" stroke-width="5" stroke-linecap="round" />
+          <path d="M20 40 C 110 32, 210 30, 300 36" fill="none" stroke="#2a2520" stroke-width="4.5" stroke-linecap="round" /></svg>
+      </div>
+      <div id="note2" class="abs">
+        <div class="txt hand">okay, but what do I<br />actually do today?</div>
+        <svg class="ring" viewBox="0 0 170 80" aria-hidden="true"><path d="M20 40 C 20 16, 80 6, 126 12 C 166 18, 166 60, 122 68 C 80 76, 24 70, 18 46 C 14 28, 46 14, 68 12" fill="none" stroke="#ea580c" stroke-width="4.5" stroke-linecap="round" /></svg>
+      </div>
+      <div id="note3" class="abs"><div class="txt hand">Mon 9:00 · JS basics <span class="chk">✓</span></div></div>
+
+      <svg id="plant" class="abs" viewBox="0 0 560 820" aria-hidden="true">
+        <path d="M150 820 L 190 600 L 330 600 L 370 820 Z" fill="#8a5a3a" />
+        <g fill="#4f6b43"><path d="M250 610 C 120 520, 40 380, 60 230 C 170 300, 250 440, 250 610 Z" /><path d="M270 600 C 300 430, 400 300, 540 260 C 520 400, 420 520, 270 600 Z" /><path d="M260 600 C 230 430, 260 250, 360 120 C 400 270, 360 450, 260 600 Z" /></g>
+        <g fill="#3d5634"><path d="M250 610 C 170 560, 110 470, 100 380 C 180 430, 230 510, 250 610 Z" /><path d="M240 590 C 160 470, 150 330, 200 200 C 250 320, 260 460, 240 590 Z" /></g>
+        <g fill="#6b8a58"><path d="M262 600 C 280 470, 330 380, 420 330 C 410 430, 350 520, 262 600 Z" /></g></svg>
+
+      <!-- the avalanche: notifications piling over the screen, the bezel and the note -->
+      <div id="avalanche" class="abs" style="inset: 0">
+        <div class="ntf" style="left: 330px; top: 300px; transform: rotate(5deg)"><i style="background: #18181b">⌘</i><div><b>Calendar · Study block</b><span>Missed · 6:00 AM</span></div><em>now</em></div>
+        <div class="ntf" style="left: 60px; top: 460px; transform: rotate(-4deg)"><i style="background: #2563eb">G</i><div><b>Chrome · 47 tabs open</b><span>Memory usage is high</span></div><em>now</em></div>
+        <div class="ntf" style="left: 380px; top: 690px; transform: rotate(3deg)"><i style="background: #ef4444">!</i><div><b>Overdue · DSA practice</b><span>3 tasks overdue since Friday</span></div><em>2m</em></div>
+        <div class="ntf" style="left: 90px; top: 820px; transform: rotate(-6deg)"><i style="background: #7c3aed">▶</i><div><b>Course · 12% complete</b><span>You haven't watched in 23 days</span></div><em>5m</em></div>
+        <div class="ntf" style="left: 330px; top: 960px; transform: rotate(7deg)"><i style="background: #f59e0b">⏰</i><div><b>Reminder · start portfolio</b><span>Snoozed 14 times</span></div><em>1h</em></div>
+        <div class="ntf" style="left: 20px; top: 1110px; transform: rotate(-3deg)"><i style="background: #f97316">L</i><div><b>LeetCode · streak lost</b><span>Current streak: 0 days</span></div><em>1d</em></div>
+        <div class="ntf" style="left: 360px; top: 1240px; transform: rotate(-8deg)"><i style="background: #ef4444">!</i><div><b>Overdue × 3</b><span>Read “Clean Code” ch. 1</span></div><em>2d</em></div>
+        <div class="ntf" style="left: 120px; top: 1390px; transform: rotate(9deg)"><i style="background: #0f766e">✎</i><div><b>Notes · roadmap v4 (final)</b><span>Last edited 41 days ago</span></div><em>6w</em></div>
+        <div id="badge" class="abs">99+</div>
+      </div>
+      <div id="noway" class="abs hand">no way.</div>
+
+      <div id="c-monday" class="cap abs" style="font-size: 86px; top: 1580px; left: 70px; color: #fff; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45)">That's Riya's<br />Monday morning.</div>
+      <div id="c-three" class="cap abs" style="font-size: 120px">Three years<br /><span class="m">old.</span></div>
+      <div id="c-question" class="cap abs" style="font-size: 92px">Every morning,<br /><span class="m">the same question…</span></div>
+      <div id="c-turn" class="cap abs" style="font-size: 104px">What if your<br />goal came with<br />a <span class="o">Monday?</span></div>
+      <div id="c-payoff" class="cap abs" style="font-size: 132px">Her <span class="o">Monday</span><br />did.</div>
+
+      <svg id="grain" class="abs" viewBox="0 0 1080 1920" aria-hidden="true">
+        <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.9 0" /></filter>
+        <rect width="1080" height="1920" filter="url(#noise)" /></svg>
+      <div id="vig" class="abs"></div>
+    </div>
+
+    <script>
+      const odo = document.getElementById("odo");
+      function setDigits(ds, rolling) {
+        odo.innerHTML = "";
+        ds.forEach((d) => {
+          if (d === ",") { const c = document.createElement("div"); c.className = "comma"; c.textContent = ","; odo.appendChild(c); return; }
+          const cell = document.createElement("div"); cell.className = "cell";
+          if (rolling.includes(odo.children.length)) cell.classList.add("vblur");
+          const strip = document.createElement("div"); strip.className = "strip";
+          strip.innerHTML = "0123456789".split("").map((n) => `<span>${n}</span>`).join("");
+          strip.style.transform = `translateY(${-d * 66}px)`;
+          cell.appendChild(strip); odo.appendChild(cell);
+        });
+      }
+      const s = new URLSearchParams(location.search).get("s") || "p1";
+      document.body.className = s;
+      if (s === "p3") { setDigits([0, ",", 6, 8.22, 3.3], [3, 4]); document.getElementById("date").textContent = "Thursday, August 21"; }
+      else if (s === "p8") { setDigits([1], []); document.querySelector("#counter .lbl").innerHTML = "<b>DAY</b>"; }
+      else setDigits([1, ",", 0, 9, 5], []);
+    </script>
+  </body>
+</html>

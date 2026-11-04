@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>0 to 1 — Today (portrait)</title>
+    <link rel="stylesheet" href="../styleframes/look.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; background: var(--zinc-50); color: var(--zinc-950); }
+      /* app header (below Instagram's top overlay) */
+      #hdr { left: 60px; top: 260px; width: 960px; height: 84px; }
+      #hdr svg { position: absolute; left: 0; top: 10px; width: 64px; height: 64px; }
+      #hdr .nm { position: absolute; left: 84px; top: 16px; font-size: 40px; font-weight: 700; letter-spacing: -0.02em; }
+      #daypill { position: absolute; right: 0; top: 6px; height: 72px; padding: 0 26px 0 14px; border-radius: 999px; background: var(--paper);
+        border: 2px solid var(--zinc-200); display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 600; white-space: nowrap; }
+      #daypill svg { position: static; width: 46px; height: 46px; }
+
+      #goal { left: 60px; top: 390px; width: 560px; height: 130px; transform: rotate(-2.5deg);
+        background: linear-gradient(180deg, #ffe98d 0%, var(--note) 30%, var(--note-deep) 100%); box-shadow: 0 2px 2px rgba(70, 45, 10, 0.12), 0 14px 26px rgba(70, 45, 10, 0.2); }
+      #goal .hand { position: absolute; left: 26px; top: 16px; font-size: 48px; line-height: 0.95; }
+      #goallbl { left: 652px; top: 420px; font-size: 24px; font-weight: 700; letter-spacing: 0.08em; color: var(--zinc-500); line-height: 1.5; }
+
+      #title { left: 60px; top: 580px; font-size: 120px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+      #sub { left: 64px; top: 712px; font-size: 34px; color: var(--zinc-500); }
+
+      #next { left: 60px; top: 800px; width: 960px; height: 470px; border-radius: 36px; background: var(--zinc-950); color: #fafafa; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18); }
+      #next small { position: absolute; left: 50px; top: 46px; font-size: 26px; font-weight: 700; letter-spacing: 0.14em; color: var(--orange); }
+      #next h2 { position: absolute; left: 50px; top: 88px; margin: 0; font-size: 80px; font-weight: 700; letter-spacing: -0.03em; }
+      #flaps { position: absolute; left: 50px; top: 214px; display: flex; gap: 16px; }
+      .flap { position: relative; height: 112px; padding: 0 28px; border-radius: 16px; background: #1f1f23; font-size: 58px; font-weight: 700; line-height: 112px; letter-spacing: 0.02em; }
+      .flap::after { content: ""; position: absolute; left: 0; right: 0; top: 55px; height: 2px; background: #09090b; }
+      .flap.on { background: #2a2a2f; box-shadow: inset 0 0 0 3px var(--orange); }
+      #start { position: absolute; left: 50px; bottom: 44px; height: 92px; padding: 0 44px; border-radius: 20px; background: var(--orange-deep); color: #fff; font-size: 36px; font-weight: 700; line-height: 92px; }
+      #next .meta { position: absolute; right: 50px; bottom: 74px; font-size: 26px; color: #a1a1aa; }
+
+      #blocks { left: 60px; top: 1300px; width: 960px; }
+      .blk { height: 108px; border-radius: 22px; border: 2px solid var(--zinc-200); background: var(--paper); margin-bottom: 14px;
+        display: flex; align-items: center; gap: 22px; padding: 0 28px; box-sizing: border-box; }
+      .blk.on { border-color: var(--orange); box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.14); }
+      .blk time { width: 90px; font-size: 32px; font-weight: 700; color: var(--zinc-500); }
+      .blk.on time { color: var(--orange-deep); }
+      .blk b { flex: 1; font-size: 34px; font-weight: 600; }
+      .blk em { font-style: normal; font-size: 28px; font-weight: 600; color: var(--zinc-500); background: var(--zinc-100); padding: 4px 14px; border-radius: 10px; }
+
+      /* bottom tab bar (sits in Instagram's overlay zone: decorative) */
+      #tabbar { left: 0; top: 1700px; width: 1080px; height: 220px; background: var(--paper); border-top: 2px solid var(--zinc-200); }
+      #tabbar div { position: absolute; top: 34px; width: 270px; text-align: center; font-size: 24px; font-weight: 600; color: var(--zinc-500); }
+      #tabbar div.on { color: var(--orange-ink); }
+    </style>
+  </head>
+  <body>
+    <div id="hdr" class="abs">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="23" fill="none" stroke="#e4e4e7" stroke-width="9" /><circle cx="32" cy="32" r="23" fill="none" stroke="#f97316" stroke-width="9" stroke-linecap="round" stroke-dasharray="144.5" stroke-dashoffset="130" transform="rotate(-90 32 32)" /></svg>
+      <div class="nm">0 to 1</div>
+      <div id="daypill">
+        <svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="17" fill="none" stroke="#f4f4f5" stroke-width="7" /><circle cx="23" cy="23" r="17" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round" stroke-dasharray="106.8" stroke-dashoffset="100" transform="rotate(-90 23 23)" /></svg>
+        Day 1
+      </div>
+    </div>
+
+    <div id="goal" class="abs"><div class="hand">become a software engineer ✦</div></div>
+    <div id="goallbl" class="abs">YOUR GOAL<br />3 YEARS · 1 HR/DAY</div>
+
+    <div id="title" class="abs">Today</div>
+    <div id="sub" class="abs">Monday · 1 hour planned · 3 blocks</div>
+
+    <div id="next" class="abs">
+      <small>NEXT UP</small>
+      <h2>JavaScript basics</h2>
+      <div id="flaps"><div class="flap">MON</div><div class="flap on">9:00</div><div class="flap">25 MIN</div></div>
+      <div id="start">Start →</div>
+      <div class="meta">Phase 01 · Fundamentals</div>
+    </div>
+
+    <div id="blocks" class="abs">
+      <div class="blk on"><time>9:00</time><b>JavaScript basics</b><em>25m</em></div>
+      <div class="blk"><time>9:25</time><b>Practice exercises</b><em>20m</em></div>
+      <div class="blk"><time>9:45</time><b>Review your notes</b><em>15m</em></div>
+    </div>
+
+    <div id="tabbar" class="abs">
+      <div class="on" style="left: 0">● Today</div><div style="left: 270px">Roadmap</div><div style="left: 540px">Progress</div><div style="left: 810px">Assistant</div>
+    </div>
+  </body>
+</html>

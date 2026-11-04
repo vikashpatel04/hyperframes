@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>0 to 1 — act 2 (portrait)</title>
+    <link rel="stylesheet" href="../styleframes/look.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; }
+      /* inside her screen: the same sunrise wallpaper, now behind the clutter */
+      body { background:
+          radial-gradient(900px 500px at 50% 82%, rgba(255, 170, 90, 0.6) 0%, rgba(230, 120, 60, 0.25) 45%, rgba(230, 120, 60, 0) 75%),
+          linear-gradient(180deg, #1c1416 0%, #2c1a19 40%, #5e301d 75%, #2a1611 100%); }
+      .cap { left: 70px; top: 270px; font-weight: 900; letter-spacing: -0.045em; line-height: 1; color: #fff4e6; font-size: 116px; white-space: nowrap; }
+      .cap .m { color: #c9a98a; }
+      .cap .r { color: #f87171; }
+
+      /* the browser */
+      #win { left: 50px; top: 700px; width: 980px; height: 820px; border-radius: 26px; background: #f4f4f5; overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+      #tabs { left: 0; top: 0; width: 980px; height: 70px; background: #e4e4e7; display: flex; align-items: flex-end; gap: 2px; padding: 0 16px; box-sizing: border-box; }
+      #tabs i { flex: 1; height: 50px; border-radius: 10px 10px 0 0; background: #d4d4d8; position: relative; }
+      #tabs i::after { content: ""; position: absolute; left: 50%; top: 18px; width: 12px; height: 12px; margin-left: -6px; border-radius: 3px; background: var(--c, #a1a1aa); }
+      #tabs i.on { background: #f4f4f5; }
+      #tabcount { right: 18px; top: 12px; height: 46px; padding: 0 16px; border-radius: 12px; background: #ef4444; color: #fff; font-size: 26px; font-weight: 800; line-height: 46px; }
+      #url { left: 24px; top: 88px; width: 932px; height: 58px; border-radius: 14px; background: #fff; border: 2px solid #e4e4e7; font-size: 24px; color: #71717a; line-height: 54px; padding-left: 22px; box-sizing: border-box; }
+
+      .pdf { width: 520px; height: 300px; border-radius: 22px; background: #fff; border: 2px solid #e4e4e7; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14); padding: 28px; box-sizing: border-box; }
+      .pdf .tag { display: inline-block; padding: 4px 12px; border-radius: 8px; background: #fee2e2; color: #b91c1c; font-size: 22px; font-weight: 800; }
+      .pdf b { display: block; margin-top: 16px; font-size: 32px; font-weight: 700; color: #18181b; line-height: 1.15; }
+      .pdf span { display: block; margin-top: 10px; font-size: 24px; color: #71717a; }
+
+      #course { left: 70px; top: 1250px; width: 840px; height: 220px; border-radius: 22px; background: #fff; border: 2px solid #e4e4e7; padding: 30px 34px; box-sizing: border-box;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14); }
+      #course b { font-size: 34px; font-weight: 700; color: #18181b; }
+      #course .bar { margin-top: 26px; height: 22px; border-radius: 11px; background: #f4f4f5; overflow: hidden; }
+      #course .bar i { display: block; width: 12%; height: 100%; background: #a1a1aa; border-radius: 11px; }
+      #course span { display: block; margin-top: 18px; font-size: 26px; color: #71717a; }
+      #course .pct { position: absolute; right: 34px; top: 28px; font-size: 40px; font-weight: 800; color: #ef4444; }
+    </style>
+  </head>
+  <body>
+    <div class="cap abs">47 tabs.<br /><span class="m">3 roadmaps.</span><br /><span class="r">12%.</span></div>
+
+    <div id="win" class="abs">
+      <div id="tabs" class="abs"></div>
+      <div id="tabcount" class="abs">47</div>
+      <div id="url" class="abs">roadmap.sh · reddit.com/r/learnprogramming · youtube.com …</div>
+
+      <div class="pdf abs" style="left: 60px; top: 190px; transform: rotate(-6deg)"><span class="tag">PDF</span><b>Complete Roadmap 2024.pdf</b><span>48 pages · opened once</span></div>
+      <div class="pdf abs" style="left: 250px; top: 250px; transform: rotate(4deg)"><span class="tag">PDF</span><b>THE ONLY Software Engineer Roadmap.pdf</b><span>112 pages</span></div>
+      <div class="pdf abs" style="left: 400px; top: 320px; transform: rotate(-2deg)"><span class="tag">PDF</span><b>roadmap (final) (2).pdf</b><span>Downloaded 3 times</span></div>
+    </div>
+
+    <div id="course" class="abs"><b>JavaScript Mastery</b><div class="pct">12%</div><div class="bar"><i></i></div><span>Last watched 23 days ago</span></div>
+
+    <script>
+      const colors = ["#ef4444", "#2563eb", "#f97316", "#16a34a", "#7c3aed", "#0f766e", "#a1a1aa", "#eab308"];
+      const tabs = document.getElementById("tabs");
+      for (let i = 0; i < 47; i++) {
+        const t = document.createElement("i");
+        if (i === 46) t.className = "on";
+        t.style.setProperty("--c", colors[(i * 5) % colors.length]);
+        tabs.appendChild(t);
+      }
+    </script>
+  </body>
+</html>
