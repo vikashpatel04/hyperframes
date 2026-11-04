@@ -1,0 +1,63 @@
+See how 0 to 1 works
+app.zerotoone.io/plan/become-a-software-engineer
+Reset
+1. Create a goal
+2. Roadmap
+3. Daily plan
+4. Progress
+Step 4 · Progress & Momentum
+Goal Velocity Overview
+
+Target: Become a Software Engineer
+
+Restart demo
+OVERALL ROADMAP
+8%
+completed
+COMPLETED TASKS
+1
+of 13 total
+
+12 actions remaining
+
+CURRENT PHASE
+01 — Programming Fundamentals
+
+Pacing: Months 1 — 6
+
+ACTIVE MILESTONE
+Build a foundation in JavaScript.
+
+Foundation verification
+
+NEXT RECOMMENDED ACTION
+Understand functions and scope
+
+Deep dive into execution context, closures, arrow functions, and pure functions. (30 min)
+
+Open in Daily Plan
+PHASE PROGRESSION
+4 Core Milestones
+01
+IN PROGRESS
+Programming Fundamentals
+1/4
+25%
+02
+NOT STARTED
+Build Real Projects
+0/3
+0%
+03
+NOT STARTED
+Develop Job-Ready Skills
+0/3
+0%
+04
+NOT STARTED
+Interview Preparation
+0/3
+0%
+← Return to Roadmap
+Create Another Goal
+Go to Daily Plan

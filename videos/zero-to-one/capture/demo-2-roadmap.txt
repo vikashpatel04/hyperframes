@@ -1,0 +1,85 @@
+See how 0 to 1 works
+app.zerotoone.io/plan/become-a-software-engineer
+Reset
+1. Create a goal
+2. Roadmap
+3. Daily plan
+4. Progress
+Step 2 · Milestone & Task Roadmap
+Your roadmap
+APPROVED DRAFT
+
+Target: Become a Software Engineer · 3 years · 1 hour per day
+
+Roadmap Progress
+8%
+
+Tasks
+
+1/13
+
+01
+Programming Fundamentals
+In progress
+· Months 1 — 6
+
+Master core computational concepts, JavaScript mechanics, and modern web primitives.
+
+1/4 tasks
+PHASE MILESTONE OBJECTIVE
+Build a foundation in JavaScript.
+
+Understand how code executes, structure algorithmic logic, and construct interactive web components.
+
+MILESTONE TASKS (4)
+Click task to toggle
+
+Learn variables and data types
+
+Explore primitives, immutability, reference types, and type coercion in modern JS.
+
+25m
+
+Understand functions and scope
+
+Deep dive into execution context, closures, arrow functions, and pure functions.
+
+30m
+
+Practice arrays and objects
+
+Manipulate data structures using map, filter, reduce, destructuring, and spread syntax.
+
+20m
+
+Build a small JavaScript project
+
+Create an interactive DOM application combining event handling and persistent local state.
+
+45m
+02
+Build Real Projects
+Not started
+· Months 7 — 18
+
+Move from isolated syntax to shipping cohesive full-stack web applications with React and REST APIs.
+
+0/3 tasks
+03
+Develop Job-Ready Skills
+Not started
+· Months 19 — 28
+
+Adopt engineering industry practices: Git team workflows, automated testing, accessibility, and CI/CD.
+
+0/3 tasks
+04
+Interview Preparation
+Not started
+· Months 29 — 36
+
+System design principles, data structures, algorithms, and engineering behavioral storytelling.
+
+0/3 tasks
+← Edit Goal & Constraints
+Show daily plan

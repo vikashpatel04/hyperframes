@@ -1,0 +1,58 @@
+See how 0 to 1 works
+app.zerotoone.io/plan/become-a-software-engineer
+Reset
+1. Create a goal
+2. Roadmap
+3. Daily plan
+4. Progress
+Step 3 · Daily Execution
+Your Focus for Today
+
+Monday, October 19
+·
+Constraint: 1 hour per day
+
+Daily Execution
+42%
+
+Completed
+
+25/60m
+
+SCHEDULED BLOCKS (1 HOUR TOTAL)
+Click circle to check off
+01
+
+Learn JavaScript Fundamentals
+
+9:00 AM — 9:25 AM
+
+25m
+02
+
+Practice Coding Exercises
+
+9:25 AM — 9:45 AM
+
+20m
+03
+
+Review Your Notes
+
+9:45 AM — 10:00 AM
+
+15m
+Total planned: 60 minutes (1 hour) — matches your daily allocation.
+NEXT IMMEDIATE ACTION
+Practice Coding Exercises
+
+Duration: 20 minutes · 9:25 AM — 9:45 AM
+
+Ready to execute?
+Mark Done
+Realistic Execution Principle
+
+Missed blocks reschedule forward automatically without compounding into an overwhelming backlog.
+
+← Back to Roadmap
+View progress dashboard

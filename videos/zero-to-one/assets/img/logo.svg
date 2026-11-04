@@ -1,0 +1,43 @@
+<svg viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="0 to 1 Logo"><defs><linearGradient id="zto-bg-r0" x1="50" y1="0" x2="50" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#18181b"></stop><stop offset="100%" stop-color="#09090b"></stop></linearGradient><linearGradient id="zto-arch-r0" x1="50" y1="8" x2="50" y2="72" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"></stop><stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"></stop><stop offset="65%" stop-color="#FFFFFF" stop-opacity="0.35"></stop><stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"></stop></linearGradient><linearGradient id="zto-border-r0" x1="50" y1="0" x2="50" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"></stop><stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.12"></stop><stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.3"></stop></linearGradient></defs><rect x="14" y="8" width="72" height="144" rx="36" fill="url(#zto-bg-r0)" stroke="url(#zto-border-r0)" stroke-width="2"></rect><path d="M 14 68 
+           L 14 44 
+           A 36 36 0 0 1 86 44 
+           L 86 68 
+           L 68 68 
+           L 68 44 
+           A 18 18 0 0 0 32 44 
+           L 32 68 
+           Z" fill="url(#zto-arch-r0)"></path><g fill="#FFFFFF"><path d="M 40 67
+             L 40 72.5
+             L 44.5 72.5
+             L 44.5 77
+             L 40 77
+             L 40 86
+             C 40 88 41 89.2 43 89.2
+             C 43.8 89.2 44.5 89 45.2 88.6
+             L 45.2 92.8
+             C 43.8 93.4 42.4 93.6 41 93.6
+             C 37 93.6 35.2 91.2 35.2 86.5
+             L 35.2 77
+             L 32 77
+             L 32 72.5
+             L 35.2 72.5
+             L 35.2 67
+             Z"></path><path fill-rule="evenodd" d="M 58 72
+             C 64 72 68.8 76.8 68.8 83
+             C 68.8 89.2 64 94 58 94
+             C 52 94 47.2 89.2 47.2 83
+             C 47.2 76.8 52 72 58 72
+             Z
+             M 58 76.8
+             C 54.6 76.8 52 79.5 52 83
+             C 52 86.5 54.6 89.2 58 89.2
+             C 61.4 89.2 64 86.5 64 83
+             C 64 79.5 61.4 76.8 58 76.8
+             Z"></path></g><path d="M 40.5 119
+           L 49 112
+           L 55 112
+           L 55 142
+           L 48 142
+           L 48 118
+           L 43.5 121.5
+           Z" fill="#FFFFFF"></path></svg>
