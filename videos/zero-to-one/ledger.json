@@ -1,0 +1,40 @@
+{
+  "fps": 30,
+  "seams": [
+    {
+      "id": "zero→week (into the first hour)",
+      "cut": 14.4,
+      "technique": "zoom-through",
+      "exit": { "selector": "#s1", "axis": "z", "dir": 1 },
+      "entry": { "selector": "#s2", "axis": "z", "dir": 1 }
+    },
+    {
+      "id": "week→goal (the mark arrives)",
+      "cut": 24.7,
+      "technique": "inverse zoom-through",
+      "exit": { "selector": "#s2", "axis": "z", "dir": -1 },
+      "entry": { "selector": "#s3", "axis": "z", "dir": -1, "scanRoot": "#s3" }
+    },
+    {
+      "id": "goal→plan",
+      "cut": 30.75,
+      "technique": "cut-the-curve LEFT",
+      "exit": { "selector": "#s3", "axis": "x", "dir": -1 },
+      "entry": { "selector": "#s4", "axis": "x", "dir": -1 }
+    },
+    {
+      "id": "plan→adapt",
+      "cut": 41.6,
+      "technique": "cut-the-curve LEFT",
+      "exit": { "selector": "#s4", "axis": "x", "dir": -1 },
+      "entry": { "selector": "#s5", "axis": "x", "dir": -1 }
+    },
+    {
+      "id": "adapt→one (conclusion rises)",
+      "cut": 51.95,
+      "technique": "cut-the-curve UP",
+      "exit": { "selector": "#s5", "axis": "y", "dir": -1 },
+      "entry": { "selector": "#s6", "axis": "y", "dir": -1 }
+    }
+  ]
+}

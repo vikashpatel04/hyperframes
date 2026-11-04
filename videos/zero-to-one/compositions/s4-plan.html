@@ -1,0 +1,577 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #fafafa;
+      font-family: "Inter", sans-serif;
+      color: #09090b;
+    }
+    .s4-abs {
+      position: absolute;
+    }
+    .s4-card {
+      left: 130px;
+      top: 110px;
+      width: 1660px;
+      height: 900px;
+      border-radius: 26px;
+      background: #ffffff;
+      border: 2px solid #e4e4e7;
+      box-shadow:
+        0 2px 4px rgb(0 0 0 / 5%),
+        0 24px 60px rgb(0 0 0 / 8%);
+      box-sizing: border-box;
+      padding: 52px 64px;
+    }
+    .s4-badge {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: #f4f4f5;
+      color: #3f3f46;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .s4-h {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 60px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .s4-sub {
+      margin-top: 8px;
+      font-size: 30px;
+      color: #71717a;
+    }
+    .s4-sub b {
+      color: #09090b;
+      font-weight: 700;
+    }
+    #s4-status {
+      position: relative;
+      width: 200px;
+      height: 48px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    #s4-status span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 48px;
+      padding: 0 18px;
+      border-radius: 10px;
+      line-height: 48px;
+      white-space: nowrap;
+    }
+    #s4-draft {
+      background: #f4f4f5;
+      color: #71717a;
+    }
+    #s4-approved {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 2px solid #fdba74;
+      line-height: 44px !important;
+      opacity: 0;
+    }
+    #s4-approve {
+      position: absolute;
+      right: 64px;
+      top: 70px;
+      height: 84px;
+      padding: 0 36px;
+      border-radius: 16px;
+      background: #09090b;
+      color: #ffffff;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 84px;
+      white-space: nowrap;
+    }
+    .s4-body {
+      position: absolute;
+      left: 64px;
+      right: 64px;
+      top: 270px;
+      bottom: 52px;
+      display: flex;
+      gap: 56px;
+    }
+    .s4-label {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #71717a;
+      margin-bottom: 20px;
+    }
+    /* phases: a vertical timeline */
+    #s4-phases {
+      position: relative;
+      width: 600px;
+    }
+    #s4-line {
+      position: absolute;
+      left: 21px;
+      top: 70px;
+      width: 4px;
+      height: 400px;
+      background: #e4e4e7;
+      transform-origin: 50% 0;
+    }
+    .s4-phase {
+      position: relative;
+      height: 132px;
+      padding-left: 74px;
+      opacity: 0;
+    }
+    .s4-node {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 4px solid #d4d4d8;
+      box-sizing: border-box;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 38px;
+      text-align: center;
+      color: #71717a;
+    }
+    #s4-n1 {
+      border-color: #f97316;
+      color: #c2410c;
+    }
+    .s4-phase b {
+      display: block;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .s4-phase small {
+      display: block;
+      margin-top: 4px;
+      font-size: 26px;
+      color: #71717a;
+    }
+    /* milestone + tasks */
+    #s4-right {
+      flex: 1;
+    }
+    #s4-ms {
+      padding: 26px 32px;
+      border-radius: 20px;
+      border: 2px solid #e4e4e7;
+      background: #fafafa;
+      opacity: 0;
+    }
+    #s4-ms small {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #c2410c;
+    }
+    #s4-ms b {
+      display: block;
+      margin-top: 8px;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+    .s4-tasks {
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .s4-task {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      height: 82px;
+      padding: 0 26px;
+      border-radius: 16px;
+      border: 2px solid #e4e4e7;
+      font-size: 30px;
+      opacity: 0;
+    }
+    .s4-task i {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 3px solid #d4d4d8;
+      box-sizing: border-box;
+      flex: none;
+    }
+    .s4-task span {
+      flex: 1;
+      white-space: nowrap;
+    }
+    .s4-task em {
+      font-style: normal;
+      font-size: 24px;
+      font-weight: 700;
+      color: #71717a;
+      padding: 4px 14px;
+      border-radius: 8px;
+      background: #f4f4f5;
+    }
+
+    /* today */
+    #s4-today {
+      opacity: 0;
+    }
+    .s4-prog {
+      position: absolute;
+      right: 64px;
+      top: 70px;
+      width: 420px;
+      padding: 22px 28px;
+      border-radius: 20px;
+      border: 2px solid #e4e4e7;
+    }
+    .s4-prog div {
+      display: flex;
+      justify-content: space-between;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .s4-prog div span {
+      color: #71717a;
+      font-weight: 400;
+    }
+    .s4-bar {
+      margin-top: 14px;
+      height: 12px;
+      border-radius: 6px;
+      background: #f4f4f5;
+      overflow: hidden;
+    }
+    #s4-barfill {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      background: #f97316;
+      transform-origin: 0 50%;
+    }
+    #s4-pct {
+      position: relative;
+      display: inline-block;
+      width: 70px;
+      text-align: right;
+    }
+    #s4-pct b {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-weight: 700;
+    }
+    #s4-blocks {
+      width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .s4-blk {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .s4-time {
+      width: 110px;
+      font-size: 30px;
+      font-weight: 700;
+      color: #71717a;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .s4-row {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 112px;
+      padding: 0 28px;
+      border-radius: 18px;
+      border: 2px solid #e4e4e7;
+      background: #ffffff;
+    }
+    .s4-chk {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid #d4d4d8;
+      box-sizing: border-box;
+      flex: none;
+    }
+    #s4-chk1 svg {
+      position: absolute;
+      left: -3px;
+      top: -3px;
+      width: 40px;
+      height: 40px;
+      opacity: 0;
+    }
+    .s4-row span {
+      flex: 1;
+      position: relative;
+      font-size: 34px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    #s4-t1-strike {
+      position: absolute;
+      left: 0;
+      top: 22px;
+      width: 470px;
+      height: 3px;
+      background: #a1a1aa;
+      transform-origin: 0 50%;
+    }
+    .s4-row em {
+      font-style: normal;
+      font-size: 26px;
+      font-weight: 700;
+      color: #71717a;
+      padding: 4px 14px;
+      border-radius: 8px;
+      background: #f4f4f5;
+    }
+    #s4-next {
+      flex: 1;
+      position: relative;
+      padding: 40px 44px;
+      border-radius: 24px;
+      background: #09090b;
+      color: #fafafa;
+      box-shadow: 0 0 0 0 rgb(249 115 22 / 0%);
+    }
+    #s4-next small {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #f97316;
+    }
+    #s4-next b {
+      display: block;
+      margin-top: 18px;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    #s4-when {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 30px;
+      color: #a1a1aa;
+      border-radius: 8px;
+      padding: 2px 6px;
+      margin-left: -6px;
+    }
+    .s4-start {
+      position: absolute;
+      left: 44px;
+      bottom: 40px;
+      height: 80px;
+      padding: 0 40px;
+      border-radius: 16px;
+      background: #ea580c;
+      color: #ffffff;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 80px;
+    }
+
+    /* skeleton while it builds */
+    #s4-skel {
+      left: 194px;
+      top: 380px;
+      width: 1532px;
+      height: 560px;
+    }
+    .s4-sk {
+      position: absolute;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #f4f4f5 0%, #f4f4f5 40%, #e4e4e7 50%, #f4f4f5 60%, #f4f4f5 100%);
+      background-size: 300% 100%;
+      background-position: 100% 0;
+    }
+    #s4-cursor {
+      left: 0;
+      top: 0;
+      width: 84px;
+      height: 120px;
+      opacity: 0;
+    }
+  </style>
+
+  <div data-hf-id="hf-ix1w" id="root" data-composition-id="s4" data-width="1920" data-height="1080" data-duration="10.85">
+    <!-- the roadmap -->
+    <div data-hf-id="hf-d11o" id="s4-road" class="s4-card s4-abs">
+      <span data-hf-id="hf-ewzn" class="s4-badge">Step 2 · Roadmap</span>
+      <div data-hf-id="hf-rqp9" class="s4-h">
+        Your roadmap
+        <div data-hf-id="hf-upy3" id="s4-status"><span data-hf-id="hf-m1sw" id="s4-draft">DRAFT</span><span data-hf-id="hf-2aw1" id="s4-approved">✓ APPROVED</span></div>
+      </div>
+      <div data-hf-id="hf-r50b" class="s4-sub"><b data-hf-id="hf-9wa4" data-var-text="goal">Become a Software Engineer</b> · 3 years · 1 hour a day</div>
+      <div data-hf-id="hf-kku8" id="s4-approve">Approve plan</div>
+
+      <div data-hf-id="hf-ow1a" class="s4-body">
+        <div data-hf-id="hf-ix2p" id="s4-phases">
+          <div data-hf-id="hf-ur00" class="s4-label">PHASES</div>
+          <div data-hf-id="hf-enlr" id="s4-line"></div>
+          <div data-hf-id="hf-l9n3" class="s4-phase"><i data-hf-id="hf-h0ou" id="s4-n1" class="s4-node">01</i><b data-hf-id="hf-ez86">Programming Fundamentals</b><small data-hf-id="hf-qvvr">Months 1 – 6</small></div>
+          <div data-hf-id="hf-2xwv" class="s4-phase"><i data-hf-id="hf-od8s" class="s4-node">02</i><b data-hf-id="hf-6ya1">Build Real Projects</b><small data-hf-id="hf-glic">Months 7 – 18</small></div>
+          <div data-hf-id="hf-2jlu" class="s4-phase"><i data-hf-id="hf-nyxr" class="s4-node">03</i><b data-hf-id="hf-ofss">Job-Ready Skills</b><small data-hf-id="hf-dbiw">Months 19 – 28</small></div>
+          <div data-hf-id="hf-25at" class="s4-phase"><i data-hf-id="hf-p5uu" class="s4-node">04</i><b data-hf-id="hf-t9th">Interview Preparation</b><small data-hf-id="hf-d44a">Months 29 – 36</small></div>
+        </div>
+        <div data-hf-id="hf-i24x" id="s4-right">
+          <div data-hf-id="hf-togl" id="s4-ms"><small data-hf-id="hf-3f23">MILESTONE · PHASE 01</small><b data-hf-id="hf-njcr">Build a foundation in JavaScript</b></div>
+          <div data-hf-id="hf-ib5k" class="s4-tasks">
+            <div data-hf-id="hf-5mu1" id="s4-task1" class="s4-task"><i data-hf-id="hf-wt6k"></i><span data-hf-id="hf-kghe">Learn variables and data types</span><em data-hf-id="hf-tund">25m</em></div>
+            <div data-hf-id="hf-78yx" class="s4-task"><i data-hf-id="hf-zeb8"></i><span data-hf-id="hf-nipz">Understand functions and scope</span><em data-hf-id="hf-oraz">30m</em></div>
+            <div data-hf-id="hf-89p9" class="s4-task"><i data-hf-id="hf-y7e5"></i><span data-hf-id="hf-7jl3">Practice arrays and objects</span><em data-hf-id="hf-dez4">20m</em></div>
+            <div data-hf-id="hf-9gmc" class="s4-task"><i data-hf-id="hf-ylp6"></i><span data-hf-id="hf-gqhn">Build a small JavaScript project</span><em data-hf-id="hf-sjij">45m</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- today -->
+    <div data-hf-id="hf-8z3p" id="s4-today" class="s4-card s4-abs">
+      <span data-hf-id="hf-6ey0" class="s4-badge">Step 3 · Daily plan</span>
+      <div data-hf-id="hf-098n" class="s4-h">Today</div>
+      <div data-hf-id="hf-zkfq" class="s4-sub">Monday, Oct 19 · 1 hour planned</div>
+      <div data-hf-id="hf-zm6q" class="s4-prog">
+        <div data-hf-id="hf-zrc1">Today <span data-hf-id="hf-ckgd" id="s4-pct"><b data-hf-id="hf-j1lf" id="s4-p0">0%</b><b data-hf-id="hf-56ap" id="s4-p1" style="opacity: 0">42%</b></span></div>
+        <div data-hf-id="hf-3lnh" class="s4-bar"><div data-hf-id="hf-rluj" id="s4-barfill"></div></div>
+      </div>
+      <div data-hf-id="hf-6lgy" class="s4-body">
+        <div data-hf-id="hf-epyb" id="s4-blocks">
+          <div data-hf-id="hf-g59v" class="s4-blk">
+            <div data-hf-id="hf-krsy" class="s4-time">9:00</div>
+            <div data-hf-id="hf-pnti" class="s4-row">
+              <i data-hf-id="hf-kk63" id="s4-chk1" class="s4-chk"
+                ><svg data-hf-id="hf-sav0" viewBox="0 0 40 40" aria-hidden="true">
+                  <circle data-hf-id="hf-g1zh" cx="20" cy="20" r="20" fill="#f97316" />
+                  <path data-hf-id="hf-53ny" d="M12 20.5 L17.5 26 L28 15" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg
+              ></i>
+              <span data-hf-id="hf-1eqc" id="s4-t1">Learn JavaScript Fundamentals<i data-hf-id="hf-yeyz" id="s4-t1-strike"></i></span><em data-hf-id="hf-rrdp">25m</em>
+            </div>
+          </div>
+          <div data-hf-id="hf-jj0z" class="s4-blk">
+            <div data-hf-id="hf-2m1s" id="s4-time2" class="s4-time">9:25</div>
+            <div data-hf-id="hf-kc64" id="s4-row2" class="s4-row"><i data-hf-id="hf-lim2" class="s4-chk"></i><span data-hf-id="hf-o3mt">Practice Coding Exercises</span><em data-hf-id="hf-ndgo">20m</em></div>
+          </div>
+          <div data-hf-id="hf-j4py" class="s4-blk">
+            <div data-hf-id="hf-fnj9" class="s4-time">9:45</div>
+            <div data-hf-id="hf-z6wq" class="s4-row"><i data-hf-id="hf-wvfi" class="s4-chk"></i><span data-hf-id="hf-7ti9">Review Your Notes</span><em data-hf-id="hf-2byw">15m</em></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-q40y" id="s4-next">
+          <small data-hf-id="hf-wmxe">NEXT UP</small>
+          <b data-hf-id="hf-xe1l">Practice Coding Exercises</b>
+          <div data-hf-id="hf-4f7r" id="s4-when">9:25 – 9:45 · 20 min</div>
+          <div data-hf-id="hf-1res" class="s4-start">Start →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- shadcn skeletons while the roadmap builds -->
+    <div data-hf-id="hf-8lx0" id="s4-skel" class="s4-abs" data-layout-ignore>
+      <i data-hf-id="hf-pexi" class="s4-sk" style="left: 0; top: 50px; width: 520px; height: 46px"></i>
+      <i data-hf-id="hf-6yrj" class="s4-sk" style="left: 0; top: 182px; width: 440px; height: 46px"></i>
+      <i data-hf-id="hf-0ll8" class="s4-sk" style="left: 0; top: 314px; width: 480px; height: 46px"></i>
+      <i data-hf-id="hf-ckra" class="s4-sk" style="left: 0; top: 446px; width: 400px; height: 46px"></i>
+      <i data-hf-id="hf-0vxg" class="s4-sk" style="left: 656px; top: 30px; width: 876px; height: 108px"></i>
+      <i data-hf-id="hf-e2u8" class="s4-sk" style="left: 656px; top: 170px; width: 876px; height: 82px"></i>
+      <i data-hf-id="hf-id1a" class="s4-sk" style="left: 656px; top: 266px; width: 876px; height: 82px"></i>
+      <i data-hf-id="hf-ok6n" class="s4-sk" style="left: 656px; top: 362px; width: 876px; height: 82px"></i>
+    </div>
+
+    <svg data-hf-id="hf-el3x" id="s4-cursor" class="s4-abs" viewBox="0 0 28 40" aria-hidden="true">
+      <path data-hf-id="hf-oj4x" d="M2 2 L2 31 L9.5 24.5 L14.5 36 L19.5 33.8 L14.6 22.6 L24.5 22.6 Z" fill="#09090b" stroke="#ffffff" stroke-width="2.2" stroke-linejoin="round" />
+    </svg>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+
+      function waterfall(els, t, opts = {}) {
+        let gap = opts.gap ?? 0.09;
+        els.forEach((el, i) => {
+          const y = i === 0 ? (opts.y0 ?? 60) : (opts.y ?? 40);
+          tl.set(el, { opacity: 1, y }, t);
+          tl.to(el, { y: 0, duration: i === 0 ? 0.2 : 0.16, ease: "power4.out" }, t);
+          t += gap;
+          gap *= 0.84;
+        });
+      }
+
+      gsap.set("#s4-line", { scaleY: 0 });
+      gsap.set("#s4-t1-strike", { scaleX: 0 });
+      gsap.set("#s4-barfill", { scaleX: 0 });
+
+      // ---- it builds: skeletons sweep twice, then give way to the plan ----
+      tl.fromTo(".s4-sk", { backgroundPosition: "100% 0" }, { backgroundPosition: "-50% 0", duration: 0.8, ease: "power1.inOut", immediateRender: false }, 0.4);
+      tl.fromTo(".s4-sk", { backgroundPosition: "100% 0" }, { backgroundPosition: "-50% 0", duration: 0.8, ease: "power1.inOut", immediateRender: false }, 1.25);
+      tl.to("#s4-skel", { opacity: 0, duration: 0.2, ease: "power2.out" }, 2.15);
+
+      // ---- Phases ----
+      tl.to("#s4-line", { scaleY: 1, duration: 0.5, ease: "power2.inOut" }, 2.2);
+      waterfall(q(".s4-phase"), 2.22, { y0: 50, y: 40, gap: 0.1 });
+      // ---- Milestones ----
+      tl.fromTo("#s4-ms", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out", immediateRender: false }, 2.7);
+      tl.to("#s4-n1", { backgroundColor: "#f97316", color: "#ffffff", duration: 0.15 }, 2.72);
+      // ---- Tasks ----
+      waterfall(q(".s4-task"), 3.68, { y0: 40, y: 34, gap: 0.08 });
+
+      // ---- you review it, and you approve it ----
+      tl.fromTo("#s4-cursor", { opacity: 1, x: 1960, y: 700 }, { opacity: 1, x: 1640, y: 200, duration: 0.6, ease: "power3.out", immediateRender: false }, 4.55);
+      tl.to("#s4-cursor", { scale: 0.88, duration: 0.06, ease: "power2.in" }, 5.32);
+      tl.to("#s4-cursor", { scale: 1, duration: 0.12, ease: "power2.out" }, 5.38);
+      tl.to("#s4-approve", { scale: 0.96, duration: 0.06, ease: "power2.in" }, 5.32);
+      tl.to("#s4-approve", { scale: 1, backgroundColor: "#ea580c", duration: 0.14, ease: "power2.out" }, 5.38);
+      tl.set("#s4-draft", { opacity: 0 }, 5.38);
+      tl.fromTo("#s4-approved", { opacity: 1, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.7)", immediateRender: false }, 5.38);
+      tl.to("#s4-cursor", { opacity: 0, x: 1760, y: 320, duration: 0.3, ease: "power3.in" }, 5.9);
+      tl.to("#s4-approve", { opacity: 0, x: 40, duration: 0.25, ease: "power3.in" }, 5.75);
+
+      // ---- into today: push through task 1 (zoom-through inside the scene) ----
+      tl.to("#s4-road", { scale: 1.08, transformOrigin: "1040px 520px", duration: 0.9, ease: "power2.in" }, 6.6);
+      tl.to("#s4-road", { scale: 1.3, filter: "blur(10px)", duration: 0.22, ease: "power3.in" }, 7.5);
+      tl.to("#s4-road", { opacity: 0.15, duration: 0.22, ease: "none" }, 7.5);
+      tl.set("#s4-road", { opacity: 0 }, 7.72);
+      tl.fromTo("#s4-today", { opacity: 0.15, scale: 0.8, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, 7.72);
+
+      // ---- exactly what to do next ----
+      tl.to("#s4-chk1 svg", { opacity: 1, duration: 0.1 }, 8.85);
+      tl.fromTo("#s4-chk1 svg", { scale: 0.5 }, { scale: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 8.85);
+      tl.to("#s4-t1-strike", { scaleX: 1, duration: 0.25, ease: "power3.out" }, 8.9);
+      tl.to("#s4-t1", { color: "#a1a1aa", duration: 0.2 }, 8.95);
+      tl.to("#s4-barfill", { scaleX: 0.42, duration: 0.5, ease: "power3.out" }, 8.95);
+      tl.set("#s4-p0", { opacity: 0 }, 9.1);
+      tl.set("#s4-p1", { opacity: 1 }, 9.1);
+      tl.to("#s4-row2", { borderColor: "#f97316", duration: 0.2 }, 9.7);
+      tl.fromTo("#s4-next", { scale: 1.03 }, { scale: 1, boxShadow: "0 0 0 6px rgba(249,115,22,0.9)", duration: 0.3, ease: "power3.out", immediateRender: false }, 9.75);
+      // … and when
+      tl.to(["#s4-time2"], { color: "#ea580c", duration: 0.15 }, 10.04);
+      tl.to("#s4-when", { color: "#fafafa", backgroundColor: "rgba(249,115,22,0.35)", duration: 0.15 }, 10.06);
+
+      window.__timelines["s4"] = tl;
+    })();
+  </script>
+</template>

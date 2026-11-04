@@ -1,0 +1,450 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #fafafa;
+      font-family: "Inter", sans-serif;
+      color: #09090b;
+    }
+    .s5-abs {
+      position: absolute;
+    }
+    .s5-head {
+      left: 110px;
+      top: 70px;
+      font-size: 120px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .s5-head span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .s5-head .o {
+      color: #ea580c;
+    }
+
+    #s5-week {
+      left: 110px;
+      top: 300px;
+      width: 1702px;
+      height: 400px;
+      transform-origin: 0 0;
+    }
+    .s5-card {
+      position: absolute;
+      top: 0;
+      width: 226px;
+      height: 360px;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 4%);
+    }
+    .s5-card b {
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #71717a;
+    }
+    .s5-card.today b {
+      color: #ea580c;
+    }
+    .s5-rest {
+      position: absolute;
+      left: 22px;
+      top: 92px;
+      font-size: 26px;
+      color: #a1a1aa;
+    }
+    .s5-missed {
+      position: absolute;
+      right: 14px;
+      top: 18px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      opacity: 0;
+    }
+    .s5-chip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 202px;
+      height: 70px;
+      border-radius: 14px;
+      background: #f4f4f5;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      font-size: 22px;
+      font-weight: 700;
+      padding: 0 14px;
+      line-height: 66px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .s5-chip em {
+      position: absolute;
+      right: 12px;
+      top: 0;
+      font-style: normal;
+      font-weight: 400;
+      color: #63636b;
+    }
+    .s5-chip.done {
+      color: #6b6b74;
+      text-decoration: line-through;
+    }
+    .s5-chip.half {
+      opacity: 0;
+    }
+
+    /* toast */
+    #s5-toast {
+      left: 1210px;
+      top: 850px;
+      width: 600px;
+      padding: 26px 30px;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 2px solid #e4e4e7;
+      box-shadow: 0 18px 50px rgb(0 0 0 / 12%);
+      opacity: 0;
+    }
+    #s5-toast b {
+      display: block;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    #s5-toast span {
+      display: block;
+      margin-top: 6px;
+      font-size: 26px;
+      color: #71717a;
+    }
+
+    /* the assistant: a shadcn sheet */
+    #s5-sheet {
+      left: 1150px;
+      top: 0;
+      width: 770px;
+      height: 1080px;
+      background: #ffffff;
+      border-left: 2px solid #e4e4e7;
+      box-shadow: -30px 0 80px rgb(0 0 0 / 8%);
+      box-sizing: border-box;
+      padding: 56px 52px;
+    }
+    .s5-sh-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .s5-sh-head i {
+      font-style: normal;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .s5-sh-sub {
+      margin-top: 6px;
+      font-size: 26px;
+      color: #71717a;
+    }
+    .s5-msgs {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    #s5-me {
+      align-self: flex-end;
+      max-width: 560px;
+      padding: 22px 28px;
+      border-radius: 22px 22px 6px 22px;
+      background: #09090b;
+      color: #fafafa;
+      font-size: 30px;
+      line-height: 1.3;
+      opacity: 0;
+    }
+    #s5-me i {
+      font-style: normal;
+      display: none;
+    }
+    #s5-ai {
+      max-width: 600px;
+      padding: 22px 28px;
+      border-radius: 22px 22px 22px 6px;
+      background: #f4f4f5;
+      font-size: 30px;
+      line-height: 1.3;
+      opacity: 0;
+    }
+    #s5-ai span {
+      opacity: 0;
+    }
+    #s5-sug {
+      padding: 26px 28px;
+      border-radius: 20px;
+      border: 2px solid #e4e4e7;
+      opacity: 0;
+    }
+    #s5-sug small {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #71717a;
+    }
+    .s5-line {
+      margin-top: 16px;
+      display: flex;
+      gap: 16px;
+      font-size: 28px;
+    }
+    .s5-line b {
+      width: 64px;
+      color: #ea580c;
+      font-weight: 700;
+    }
+    .s5-btns {
+      position: relative;
+      margin-top: 26px;
+      height: 76px;
+      display: flex;
+      gap: 14px;
+    }
+    .s5-btn {
+      height: 76px;
+      padding: 0 30px;
+      border-radius: 14px;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 72px;
+      border: 2px solid #e4e4e7;
+      white-space: nowrap;
+    }
+    #s5-apply {
+      background: #ea580c;
+      border-color: #ea580c;
+      color: #ffffff;
+    }
+    #s5-applied {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 76px;
+      line-height: 76px;
+      font-size: 30px;
+      font-weight: 700;
+      color: #c2410c;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    #s5-applied u {
+      margin-left: 22px;
+      color: #09090b;
+      font-weight: 400;
+    }
+
+    #s5-yours {
+      left: 110px;
+      top: 690px;
+      font-size: 112px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+      white-space: nowrap;
+    }
+    #s5-yours span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s5-yours .o {
+      color: #ea580c;
+    }
+    #s5-cursor {
+      left: 0;
+      top: 0;
+      width: 84px;
+      height: 120px;
+      opacity: 0;
+    }
+  </style>
+
+  <div data-hf-id="hf-g1kg" id="root" data-composition-id="s5" data-width="1920" data-height="1080" data-duration="10.35">
+    <div data-hf-id="hf-4004" id="s5-h1" class="s5-head s5-abs"><span data-hf-id="hf-9l59">Miss</span> <span data-hf-id="hf-zhz4">a</span> <span data-hf-id="hf-qzbm">day?</span></div>
+    <div data-hf-id="hf-cnvz" id="s5-h2" class="s5-head s5-abs"><span data-hf-id="hf-7n2u">No</span> <span data-hf-id="hf-1vvo" class="o">pile-up.</span></div>
+
+    <div data-hf-id="hf-3xhh" id="s5-week" class="s5-abs" data-layout-allow-overflow>
+      <div data-hf-id="hf-pcrs" class="s5-card" style="left: 0px"><b data-hf-id="hf-kon5">MON</b></div>
+      <div data-hf-id="hf-w4x4" class="s5-card" style="left: 246px"><b data-hf-id="hf-09ol">TUE</b></div>
+      <div data-hf-id="hf-empk" id="s5-wed" class="s5-card" style="left: 492px"><b data-hf-id="hf-fnlj">WED</b><i data-hf-id="hf-92av" class="s5-missed">Missed</i></div>
+      <div data-hf-id="hf-yizt" class="s5-card today" style="left: 738px"><b data-hf-id="hf-hqwk">THU · TODAY</b></div>
+      <div data-hf-id="hf-szyd" class="s5-card" style="left: 984px"><b data-hf-id="hf-2xoo">FRI</b></div>
+      <div data-hf-id="hf-30gw" class="s5-card" style="left: 1230px"><b data-hf-id="hf-sk7r">SAT</b></div>
+      <div data-hf-id="hf-8354" class="s5-card" style="left: 1476px"><b data-hf-id="hf-m9y9">SUN</b><span data-hf-id="hf-7q3j" id="s5-rest" class="s5-rest">Rest</span></div>
+
+      <div data-hf-id="hf-bd09" id="s5-c0" class="s5-chip done">JS basics<em data-hf-id="hf-7gr2">1h</em></div>
+      <div data-hf-id="hf-jkbn" id="s5-c1" class="s5-chip done">Exercises<em data-hf-id="hf-m4cy">1h</em></div>
+      <div data-hf-id="hf-gc4i" id="s5-c2" class="s5-chip">Functions<em data-hf-id="hf-minz">1h</em></div>
+      <div data-hf-id="hf-1lxu" id="s5-c3" class="s5-chip">Arrays<em data-hf-id="hf-mwz0">1h</em></div>
+      <div data-hf-id="hf-srnh" id="s5-c4" class="s5-chip">Mini project<em data-hf-id="hf-nba1">1h</em></div>
+      <div data-hf-id="hf-2cpq" id="s5-c5" class="s5-chip">Review<em data-hf-id="hf-npl2">1h</em></div>
+      <div data-hf-id="hf-7h96" id="s5-h1a" class="s5-chip half">Functions<em data-hf-id="hf-oraz">30m</em></div>
+      <div data-hf-id="hf-0pwn" id="s5-h1b" class="s5-chip half">Functions<em data-hf-id="hf-hgqj">30m</em></div>
+    </div>
+
+    <div data-hf-id="hf-21ln" id="s5-toast" class="s5-abs"><b data-hf-id="hf-tb46">✓ Plan updated</b><span data-hf-id="hf-yv2w">1 task moved forward · nothing piled up</span></div>
+
+    <div data-hf-id="hf-p9hf" id="s5-sheet" class="s5-abs">
+      <div data-hf-id="hf-5iqj" class="s5-sh-head">✦ Assistant <i data-hf-id="hf-gv7u">AI</i></div>
+      <div data-hf-id="hf-8mde" class="s5-sh-sub">Knows your goal, your roadmap and your week</div>
+      <div data-hf-id="hf-chyf" class="s5-msgs">
+        <div data-hf-id="hf-ckug" id="s5-me">I only have 30 minutes today.</div>
+        <div data-hf-id="hf-lvyw" id="s5-ai">
+          <span data-hf-id="hf-zqt6">No</span> <span data-hf-id="hf-v5l6">problem.</span> <span data-hf-id="hf-njv1">I'll</span> <span data-hf-id="hf-7gxz">split</span> <span data-hf-id="hf-3i18">today's</span>
+          <span data-hf-id="hf-13yp">1-hour</span> <span data-hf-id="hf-i72u">block</span> <span data-hf-id="hf-fd6j">so</span> <span data-hf-id="hf-920g">you</span> <span data-hf-id="hf-h7o4">stay</span> <span data-hf-id="hf-dnos">on</span>
+          <span data-hf-id="hf-mhza">track:</span>
+        </div>
+        <div data-hf-id="hf-ffdx" id="s5-sug">
+          <small data-hf-id="hf-5s5h">SUGGESTED CHANGE</small>
+          <div data-hf-id="hf-c4ze" class="s5-line"><b data-hf-id="hf-9w4s">Thu</b>Functions &amp; scope · 30 min</div>
+          <div data-hf-id="hf-n8wu" class="s5-line"><b data-hf-id="hf-rya0">Fri</b>Functions &amp; scope · 30 min</div>
+          <div data-hf-id="hf-d5ju" class="s5-btns">
+            <div data-hf-id="hf-cnuz" id="s5-keep" class="s5-btn">Keep plan</div>
+            <div data-hf-id="hf-nx8e" id="s5-apply" class="s5-btn">Apply</div>
+            <div data-hf-id="hf-0qkz" id="s5-applied">✓ Applied <u data-hf-id="hf-lj6e">Undo</u></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-61r6" id="s5-yours" class="s5-abs">
+      <span data-hf-id="hf-uhsw">Every</span> <span data-hf-id="hf-0r27">decision</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-mujp">stays</span> <span data-hf-id="hf-ykqa" class="o">yours.</span>
+    </div>
+
+    <svg data-hf-id="hf-5vyx" id="s5-cursor" class="s5-abs" viewBox="0 0 28 40" aria-hidden="true">
+      <path data-hf-id="hf-oj4x" d="M2 2 L2 31 L9.5 24.5 L14.5 36 L19.5 33.8 L14.6 22.6 L24.5 22.6 Z" fill="#09090b" stroke="#ffffff" stroke-width="2.2" stroke-linejoin="round" />
+    </svg>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const COL = 246;
+      const X = (d) => d * COL + 12;
+      const Y = (k) => 84 + k * 82;
+
+      // the week as planned: one block a day, Mon/Tue done
+      [0, 1, 2, 3, 4, 5].forEach((d) => gsap.set("#s5-c" + d, { x: X(d), y: Y(0) }));
+      gsap.set(["#s5-h1a", "#s5-h1b"], { x: X(3), y: Y(0) });
+      gsap.set("#s5-sheet", { x: 800 });
+
+      const me = document.getElementById("s5-me");
+      me.innerHTML = [...me.textContent].map((c) => `<i>${c === " " ? "&nbsp;" : c}</i>`).join("");
+
+      function waterfall(els, t, opts = {}) {
+        let gap = opts.gap ?? 0.09;
+        els.forEach((el, i) => {
+          const y = i === 0 ? (opts.y0 ?? 80) : (opts.y ?? 50);
+          tl.set(el, { opacity: 1, y }, t);
+          tl.to(el, { y: 0, duration: i === 0 ? 0.2 : 0.16, ease: "power4.out" }, t);
+          t += gap;
+          gap *= 0.84;
+        });
+      }
+
+      // ---- Miss a day? ----
+      waterfall(q("#s5-h1 span"), 0.22, { y0: 70, y: 60, gap: 0.22 });
+      tl.to("#s5-wed", { borderColor: "#ef4444", duration: 0.2 }, 0.7);
+      tl.fromTo("#s5-wed .s5-missed", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)", immediateRender: false }, 0.72);
+      tl.to("#s5-c2", { borderColor: "#fca5a5", backgroundColor: "#fef2f2", duration: 0.2 }, 0.75);
+
+      // ---- your plan adapts: everything ahead glides forward one day, calmly ----
+      tl.to("#s5-c2", { borderColor: "#e4e4e7", backgroundColor: "#f4f4f5", duration: 0.3 }, 1.8);
+      [5, 4, 3, 2].forEach((d, i) => {
+        const t = 1.82 + i * 0.07;
+        const x0 = X(d);
+        // nudge curve: ramp 10% / burst 65% / long settle, with a small lift over the gap
+        tl.to("#s5-c" + d, { x: x0 + 25, duration: 0.1, ease: "power3.in" }, t);
+        tl.to("#s5-c" + d, { x: x0 + 185, duration: 0.09, ease: "none" }, t + 0.1);
+        tl.to("#s5-c" + d, { x: X(d + 1), duration: 0.32, ease: "power4.out" }, t + 0.19);
+        tl.to("#s5-c" + d, { y: Y(0) - 22, duration: 0.19, ease: "power2.out" }, t);
+        tl.to("#s5-c" + d, { y: Y(0), duration: 0.32, ease: "power2.inOut" }, t + 0.19);
+      });
+      tl.to("#s5-rest", { opacity: 0, duration: 0.2 }, 1.85);
+      tl.to("#s5-wed", { borderColor: "#e4e4e7", duration: 0.3 }, 2.1);
+      tl.to("#s5-wed .s5-missed", { opacity: 0, duration: 0.2 }, 2.1);
+      tl.fromTo("#s5-toast", { opacity: 1, y: 140 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out", immediateRender: false }, 2.5);
+      q("#s5-h1 span").forEach((el, i) => {
+        tl.to(el, { x: -230, duration: 0.34, ease: "power4.in" }, 2.35 + i * 0.022);
+        tl.to(el, { opacity: 0, duration: 0.18, ease: "power1.in" }, 2.35 + i * 0.022);
+      });
+      let off = 0,
+        g = 0.06;
+      q("#s5-h2 span").forEach((el) => {
+        tl.fromTo(el, { x: 230, opacity: 0.35 }, { x: 0, opacity: 1, duration: 0.3, ease: "power4.out", immediateRender: false }, 2.69 + off);
+        off += g;
+        g *= 0.84;
+      });
+
+      // ---- the assistant slides in; the week steps aside (nudge curve) ----
+      tl.to("#s5-toast", { opacity: 0, y: 60, duration: 0.2, ease: "power3.in" }, 3.75);
+      tl.to("#s5-h2", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 3.8);
+      tl.to("#s5-week", { scale: 0.92, y: 14, duration: 0.12, ease: "power3.in" }, 3.9);
+      tl.to("#s5-week", { scale: 0.66, y: 100, duration: 0.11, ease: "none" }, 4.02);
+      tl.to("#s5-week", { scale: 0.6, y: 120, duration: 0.42, ease: "power4.out" }, 4.13);
+      tl.to("#s5-sheet", { x: 0, duration: 0.55, ease: "expo.out" }, 3.95);
+
+      // "I only have 30 minutes today."
+      tl.set("#s5-me", { opacity: 1 }, 4.55);
+      q("#s5-me i").forEach((c, i) => tl.set(c, { display: "inline" }, 4.55 + i * 0.02));
+      // explains
+      tl.set("#s5-ai", { opacity: 1 }, 5.25);
+      q("#s5-ai span").forEach((w, i) => tl.to(w, { opacity: 1, duration: 0.08 }, 5.28 + i * 0.055));
+      // suggests
+      tl.fromTo("#s5-sug", { opacity: 1, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out", immediateRender: false }, 6.02);
+
+      // reorganizes: the cursor applies it, today's block splits across Thu and Fri
+      tl.fromTo("#s5-cursor", { opacity: 1, x: 1960, y: 1100 }, { opacity: 1, x: 1519, y: 649, duration: 0.6, ease: "power3.out", immediateRender: false }, 6.95);
+      tl.to("#s5-cursor", { scale: 0.88, duration: 0.06, ease: "power2.in" }, 7.66);
+      tl.to("#s5-cursor", { scale: 1, duration: 0.12, ease: "power2.out" }, 7.72);
+      tl.to("#s5-apply", { scale: 0.95, duration: 0.06, ease: "power2.in" }, 7.66);
+      tl.to(["#s5-apply", "#s5-keep"], { opacity: 0, duration: 0.12 }, 7.75);
+      tl.to("#s5-applied", { opacity: 1, duration: 0.15 }, 7.8);
+      tl.to("#s5-cursor", { opacity: 0, x: 1560, y: 1000, duration: 0.3, ease: "power3.in" }, 8.1);
+      tl.set("#s5-c2", { opacity: 0 }, 7.74);
+      tl.set(["#s5-h1a", "#s5-h1b"], { opacity: 1 }, 7.74);
+      tl.to("#s5-h1b", { x: X(4), y: Y(1), duration: 0.55, ease: "power3.inOut" }, 7.78);
+      tl.fromTo(["#s5-h1a", "#s5-h1b"], { borderColor: "#f97316" }, { borderColor: "#e4e4e7", duration: 0.8, ease: "power2.out", immediateRender: false }, 8.3);
+
+      // ---- every decision stays yours ----
+      const yAt = [8.5, 9.0, 9.3, 9.7];
+      q("#s5-yours span").forEach((el, i) => {
+        tl.set(el, { opacity: 1, y: i % 2 ? 50 : 70 }, yAt[i]);
+        tl.to(el, { y: 0, duration: 0.2, ease: "power4.out" }, yAt[i]);
+      });
+
+      window.__timelines["s5"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,368 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #fafafa;
+      font-family: "Inter", sans-serif;
+      color: #09090b;
+    }
+    .s6-abs {
+      position: absolute;
+    }
+    #s6-step {
+      left: 110px;
+      top: 64px;
+      font-size: 108px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #s6-step span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s6-step .o {
+      color: #ea580c;
+    }
+
+    /* the progress dashboard */
+    #s6-dash {
+      left: 130px;
+      top: 230px;
+      width: 1660px;
+      height: 780px;
+      border-radius: 26px;
+      background: #ffffff;
+      border: 2px solid #e4e4e7;
+      box-shadow:
+        0 2px 4px rgb(0 0 0 / 5%),
+        0 24px 60px rgb(0 0 0 / 8%);
+      box-sizing: border-box;
+    }
+    .s6-badge {
+      position: absolute;
+      left: 64px;
+      top: 52px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: #f4f4f5;
+      color: #3f3f46;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .s6-sub {
+      position: absolute;
+      left: 135px;
+      top: 668px;
+      width: 470px;
+      text-align: center;
+      font-size: 28px;
+      color: #71717a;
+    }
+    #s6-bars {
+      position: absolute;
+      left: 640px;
+      top: 150px;
+      width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 44px;
+    }
+    .s6-ph {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .s6-ph div {
+      display: flex;
+      justify-content: space-between;
+      font-size: 32px;
+      font-weight: 700;
+    }
+    .s6-ph div span {
+      color: #71717a;
+      font-weight: 400;
+      font-size: 28px;
+    }
+    .s6-track {
+      height: 18px;
+      border-radius: 9px;
+      background: #f4f4f5;
+      overflow: hidden;
+    }
+    .s6-fill {
+      width: 100%;
+      height: 100%;
+      border-radius: 9px;
+      background: #f97316;
+      transform-origin: 0 50%;
+    }
+
+    /* the ring: progress on the dashboard, then the 0 of the name */
+    #s6-ring {
+      left: 290px;
+      top: 330px;
+      width: 420px;
+      height: 420px;
+      transform-origin: 0 0;
+    }
+    #s6-pct {
+      left: 290px;
+      top: 330px;
+      width: 420px;
+      height: 420px;
+      font-size: 92px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 420px;
+      text-align: center;
+    }
+    #s6-pct span {
+      position: absolute;
+      left: 0;
+      width: 420px;
+      opacity: 0;
+    }
+
+    /* the name */
+    #s6-brand {
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: 0 0;
+    }
+    #s6-to1 {
+      left: 870px;
+      top: 220px;
+      font-size: 300px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #s6-tag {
+      left: 560px;
+      top: 600px;
+      font-size: 116px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1.08;
+      white-space: nowrap;
+    }
+    #s6-tag span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s6-tag .mute {
+      color: #85858e;
+    }
+
+    /* the waitlist */
+    #s6-wait {
+      left: 1000px;
+      top: 200px;
+      width: 810px;
+      padding: 56px 56px 48px;
+      border-radius: 28px;
+      background: #ffffff;
+      border: 2px solid #e4e4e7;
+      box-shadow:
+        0 2px 4px rgb(0 0 0 / 5%),
+        0 30px 70px rgb(0 0 0 / 10%);
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    .s6-soon {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .s6-wt {
+      margin-top: 22px;
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+    .s6-ws {
+      margin-top: 14px;
+      font-size: 28px;
+      line-height: 1.4;
+      color: #71717a;
+    }
+    .s6-email {
+      margin-top: 34px;
+      height: 96px;
+      border-radius: 18px;
+      border: 2px solid #e4e4e7;
+      padding: 0 30px;
+      font-size: 32px;
+      line-height: 92px;
+      color: #85858e;
+    }
+    #s6-join {
+      margin-top: 16px;
+      height: 100px;
+      border-radius: 18px;
+      background: #ea580c;
+      color: #ffffff;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 100px;
+      text-align: center;
+    }
+    .s6-fine {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 24px;
+      color: #71717a;
+    }
+    #s6-link {
+      left: 1000px;
+      top: 910px;
+      width: 810px;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      opacity: 0;
+    }
+    #s6-link span {
+      color: #ea580c;
+    }
+    #s6-cursor {
+      left: 0;
+      top: 0;
+      width: 84px;
+      height: 120px;
+      opacity: 0;
+    }
+  </style>
+
+  <div data-hf-id="hf-kh0k" id="root" data-composition-id="s6" data-width="1920" data-height="1080" data-duration="12.05">
+    <div data-hf-id="hf-rpvw" id="s6-step" class="s6-abs">
+      <span data-hf-id="hf-p93f">One</span> <span data-hf-id="hf-6rme">clear</span> <span data-hf-id="hf-47d7">step</span> <span data-hf-id="hf-ypng">at</span> <span data-hf-id="hf-zhz4">a</span> <span data-hf-id="hf-pced" class="o">time.</span>
+    </div>
+
+    <div data-hf-id="hf-y74i" id="s6-dash" class="s6-abs">
+      <span data-hf-id="hf-xmqy" class="s6-badge">Step 4 · Progress</span>
+      <div data-hf-id="hf-k57e" class="s6-sub">of your roadmap</div>
+      <div data-hf-id="hf-a7jx" id="s6-bars">
+        <div data-hf-id="hf-59pc" class="s6-ph"><div data-hf-id="hf-a761">01 · Programming Fundamentals <span data-hf-id="hf-13v9" id="s6-t1">1 / 4 tasks</span></div><div data-hf-id="hf-1c6d" class="s6-track"><div data-hf-id="hf-a7o3" class="s6-fill"></div></div></div>
+        <div data-hf-id="hf-xzrs" class="s6-ph"><div data-hf-id="hf-hdrl">02 · Build Real Projects <span data-hf-id="hf-il78">3 tasks</span></div><div data-hf-id="hf-n9dl" class="s6-track"><div data-hf-id="hf-9gvn" class="s6-fill"></div></div></div>
+        <div data-hf-id="hf-wsup" class="s6-ph"><div data-hf-id="hf-kxg5">03 · Job-Ready Skills <span data-hf-id="hf-2vos">3 tasks</span></div><div data-hf-id="hf-ogao" class="s6-track"><div data-hf-id="hf-92km" class="s6-fill"></div></div></div>
+        <div data-hf-id="hf-x75q" class="s6-ph"><div data-hf-id="hf-grzb">04 · Interview Preparation <span data-hf-id="hf-1orp">3 tasks</span></div><div data-hf-id="hf-o1zn" class="s6-track"><div data-hf-id="hf-8o9l" class="s6-fill"></div></div></div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-rgxd" id="s6-brand" class="s6-abs">
+      <div data-hf-id="hf-vdl8" id="s6-to1" class="s6-abs">to 1</div>
+      <div data-hf-id="hf-h6hm" id="s6-tag" class="s6-abs">
+        <span data-hf-id="hf-ytsl">Big</span> <span data-hf-id="hf-mivz">goals.</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-301f" class="mute">Clear</span> <span data-hf-id="hf-7813" class="mute">next</span>
+        <span data-hf-id="hf-1lnh" class="mute">steps.</span>
+      </div>
+      <svg data-hf-id="hf-a5nz" id="s6-ring" class="s6-abs" viewBox="0 0 420 420" aria-hidden="true">
+        <circle data-hf-id="hf-5q17" cx="210" cy="210" r="176" fill="none" stroke="#f4f4f5" stroke-width="44" />
+        <circle data-hf-id="hf-3qwt"
+          id="s6-arc"
+          cx="210"
+          cy="210"
+          r="176"
+          fill="none"
+          stroke="#f97316"
+          stroke-width="44"
+          stroke-linecap="round"
+          stroke-dasharray="1105.84"
+          stroke-dashoffset="1017.37"
+          transform="rotate(-90 210 210)"
+        />
+      </svg>
+      <div data-hf-id="hf-h0a7" id="s6-pct" class="s6-abs">
+        <span data-hf-id="hf-awz5" style="opacity: 1">8%</span><span data-hf-id="hf-clav">21%</span><span data-hf-id="hf-25zt">34%</span><span data-hf-id="hf-icfr">47%</span><span data-hf-id="hf-1tce">59%</span><span data-hf-id="hf-bkis">71%</span
+        ><span data-hf-id="hf-cld3">83%</span><span data-hf-id="hf-ikoz">94%</span><span data-hf-id="hf-k7an">100%</span>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-gwk9" id="s6-wait" class="s6-abs">
+      <span data-hf-id="hf-w7qk" class="s6-soon">Coming soon</span>
+      <div data-hf-id="hf-daqn" class="s6-wt">Your next chapter starts here.</div>
+      <div data-hf-id="hf-28f4" class="s6-ws">Be among the first to turn big goals into daily progress.</div>
+      <div data-hf-id="hf-pojm" class="s6-email">you@example.com</div>
+      <div data-hf-id="hf-phlf" id="s6-join">Join the waitlist →</div>
+      <div data-hf-id="hf-pllz" class="s6-fine">Early access · No spam · Instant confirmation</div>
+    </div>
+    <div data-hf-id="hf-c9pm" id="s6-link" class="s6-abs"><span data-hf-id="hf-o03m">↗</span> <b data-hf-id="hf-63sc" data-var-text="waitlist">0-to-1-waitlist.vercel.app</b></div>
+
+    <svg data-hf-id="hf-tl8p" id="s6-cursor" class="s6-abs" viewBox="0 0 28 40" aria-hidden="true">
+      <path data-hf-id="hf-oj4x" d="M2 2 L2 31 L9.5 24.5 L14.5 36 L19.5 33.8 L14.6 22.6 L24.5 22.6 Z" fill="#09090b" stroke="#ffffff" stroke-width="2.2" stroke-linejoin="round" />
+    </svg>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const C = 1105.84;
+
+      function waterfall(els, t, opts = {}) {
+        let gap = opts.gap ?? 0.09;
+        els.forEach((el, i) => {
+          const y = i === 0 ? (opts.y0 ?? 80) : (opts.y ?? 50);
+          tl.set(el, { opacity: 1, y }, t);
+          tl.to(el, { y: 0, duration: i === 0 ? 0.2 : 0.16, ease: "power4.out" }, t);
+          t += gap;
+          gap *= 0.84;
+        });
+      }
+
+      q(".s6-fill").forEach((f, i) => gsap.set(f, { scaleX: i === 0 ? 0.25 : 0 }));
+      gsap.set("#s6-to1", { clipPath: "inset(0% 100% 0% 0%)" });
+
+      // ---- progress you can see: the ring and the phases fill together ----
+      tl.fromTo("#s6-arc", { attr: { "stroke-dashoffset": C * 0.92 } }, { attr: { "stroke-dashoffset": 0 }, duration: 2.7, ease: "power2.inOut", immediateRender: false }, 0.4);
+      const pct = q("#s6-pct span");
+      const pctAt = [0, 0.75, 1.05, 1.3, 1.55, 1.8, 2.05, 2.35, 2.75];
+      pct.forEach((p, i) => {
+        if (!i) return;
+        tl.set(pct[i - 1], { opacity: 0 }, 0.4 + pctAt[i]);
+        tl.set(p, { opacity: 1 }, 0.4 + pctAt[i]);
+      });
+      q(".s6-fill").forEach((f, i) => tl.to(f, { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, 0.45 + i * 0.62));
+      waterfall(q("#s6-step span"), 1.85, { y0: 70, y: 56, gap: 0.2 });
+
+      // ---- the ring completes: the dashboard falls away, the ring becomes the 0 ----
+      tl.to("#s6-arc", { attr: { "stroke-width": 52 }, duration: 0.12, ease: "power2.out" }, 3.1);
+      tl.to("#s6-arc", { attr: { "stroke-width": 44 }, duration: 0.3, ease: "power2.inOut" }, 3.22);
+      tl.to(["#s6-dash", "#s6-step"], { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 3.4);
+      tl.to("#s6-pct", { opacity: 0, duration: 0.2, ease: "power2.in" }, 3.45);
+      // ring: 420 px at (290,330) → 300 px at (540,220), the zero of "0 to 1"
+      tl.to("#s6-ring", { x: 540 - 290, y: 220 - 330, scale: 300 / 420, duration: 0.65, ease: "power3.inOut" }, 3.5);
+      tl.fromTo("#s6-to1", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power3.out", immediateRender: false }, 4.45);
+
+      // ---- Big goals. / Clear next steps. ----
+      waterfall(q("#s6-tag span").slice(0, 2), 5.02, { y0: 80, y: 60, gap: 0.22 });
+      waterfall(q("#s6-tag span").slice(2), 5.98, { y0: 60, y: 50, gap: 0.17 });
+
+      // ---- coming soon: the name steps left (nudge curve), the waitlist rises ----
+      tl.to("#s6-brand", { x: -30, scale: 0.98, y: 6, duration: 0.14, ease: "power3.in" }, 7.25);
+      tl.to("#s6-brand", { x: -250, scale: 0.84, y: 44, duration: 0.12, ease: "none" }, 7.39);
+      tl.to("#s6-brand", { x: -322, scale: 0.8, y: 60, duration: 0.45, ease: "power4.out" }, 7.51);
+      tl.fromTo("#s6-wait", { opacity: 1, y: 180 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", immediateRender: false }, 7.42);
+      tl.fromTo("#s6-link", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out", immediateRender: false }, 8.62);
+
+      // the cursor comes to rest on "Join the waitlist" (hover, held)
+      tl.fromTo("#s6-cursor", { opacity: 1, x: 1960, y: 1000 }, { opacity: 1, x: 1684, y: 744, duration: 0.7, ease: "power3.out", immediateRender: false }, 8.15);
+      tl.to("#s6-join", { backgroundColor: "#c2410c", duration: 0.15 }, 8.7);
+
+      window.__timelines["s6"] = tl;
+    })();
+  </script>
+</template>

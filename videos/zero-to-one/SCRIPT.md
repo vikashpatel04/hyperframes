@@ -1,8 +1,8 @@
-# 0 to 1: "Zero, to one" (coming-soon film), SCRIPT DRAFT v1
+# 0 to 1: "Zero, to one" (coming-soon film), SCRIPT v2 (built)
 
-**Length:** about 70 s · **Format:** 16:9, 1920×1080 (9:16 cut later) · **Voice:** Kokoro `af_heart` (same free female voice as Counter Pay)
-**Look:** the struggle is **dark** (`#09090b`, the logo's own black); the product world is **white shadcn** (white / zinc-50, zinc-200 borders, 12 px radii, Inter, the site's real components). The film goes from dark to clear. The only colour is the ink-blue shimmer from the site's "Join the waitlist" button, kept for the final call to action.
-**The thread:** the **0** from the logo. It opens empty, everything happens inside it, it fills as the plan comes together, and it lands as the mark: **0 → 1**. There are no hard cuts; the camera dives into the zero and pulls back out of it.
+**Length:** 64 s · **Format:** 16:9, 1920×1080 (9:16 cut later) · **Voice:** Kokoro `af_heart` (same free female voice as Counter Pay)
+**Look (v2, no branding yet):** the struggle is **dark** (`#09090b`); day floods out of the ring at the reveal and the product world is **white shadcn**, recreated and polished (white cards, zinc-200 borders, Inter). **One accent:** shadcn's orange theme (`#f97316`; buttons `#ea580c`), only on what moves you forward. Red only on the missed day.
+**The thread:** the **0** of the name is an empty progress ring. It opens the film empty, takes its first orange step at the reveal, fills to 100% on the dashboard, and becomes the 0 of **0 → 1** on the end card. The camera dives into the first hour and pulls back out at the end.
 
 ---
 

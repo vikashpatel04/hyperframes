@@ -1,0 +1,234 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #09090b;
+      font-family: "Inter", sans-serif;
+      color: #fafafa;
+    }
+    .s2-abs {
+      position: absolute;
+    }
+    #s2-day {
+      left: 110px;
+      top: 70px;
+      height: 150px;
+      width: 1700px;
+      font-size: 132px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #s2-day span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    #s2-day .red {
+      color: #ef4444;
+    }
+    #s2-day .dim {
+      color: #52525b;
+    }
+    #s2-week {
+      left: 110px;
+      top: 300px;
+      width: 1700px;
+      height: 700px;
+    }
+    .s2-card {
+      position: absolute;
+      top: 0;
+      width: 226px;
+      height: 480px;
+      border-radius: 22px;
+      background: #18181b;
+      border: 2px solid #27272a;
+      box-sizing: border-box;
+    }
+    .s2-card b {
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #a1a1aa;
+    }
+    .s2-missed {
+      position: absolute;
+      right: 14px;
+      top: 18px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      opacity: 0;
+    }
+    .s2-chip {
+      position: absolute;
+      width: 202px;
+      height: 70px;
+      border-radius: 14px;
+      background: #27272a;
+      color: #e4e4e7;
+      font-size: 23px;
+      font-weight: 700;
+      line-height: 70px;
+      padding-left: 16px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    .s2-chip em {
+      position: absolute;
+      right: 14px;
+      top: 0;
+      font-style: normal;
+      font-weight: 400;
+      color: #a1a1aa;
+    }
+    .s2-chip .strike {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 34px;
+      height: 3px;
+      background: #ef4444;
+      transform-origin: 0 50%;
+    }
+    .s2-chip.extra {
+      background: #3f3f46;
+    }
+    #s2-know {
+      left: 110px;
+      top: 330px;
+      font-size: 128px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1.08;
+      white-space: nowrap;
+    }
+    #s2-know span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #s2-know .mute {
+      color: #71717a;
+    }
+  </style>
+
+  <div data-hf-id="hf-ik7i" id="root" data-composition-id="s2" data-width="1920" data-height="1080" data-duration="10.3">
+    <div data-hf-id="hf-sjpw" id="s2-day" class="s2-abs">
+      <span data-hf-id="hf-0v7d">Sunday.</span><span data-hf-id="hf-lk3k" class="red">Wednesday.</span><span data-hf-id="hf-0ysc" class="dim">Friday.</span>
+    </div>
+
+    <div data-hf-id="hf-yjxh" id="s2-week" class="s2-abs" data-layout-allow-overflow>
+      <div data-hf-id="hf-4abt" class="s2-card" style="left: 0px"><b data-hf-id="hf-kon5">MON</b></div>
+      <div data-hf-id="hf-1uih" class="s2-card" style="left: 246px"><b data-hf-id="hf-09ol">TUE</b></div>
+      <div data-hf-id="hf-t4ae" id="s2-wed" class="s2-card" style="left: 492px"><b data-hf-id="hf-fnlj">WED</b><i data-hf-id="hf-29f2" class="s2-missed">Missed</i></div>
+      <div data-hf-id="hf-gfjf" class="s2-card" style="left: 738px"><b data-hf-id="hf-ywq4">THU</b></div>
+      <div data-hf-id="hf-v76k" class="s2-card" style="left: 984px"><b data-hf-id="hf-2xoo">FRI</b></div>
+      <div data-hf-id="hf-t7tj" class="s2-card" style="left: 1230px"><b data-hf-id="hf-sk7r">SAT</b></div>
+      <div data-hf-id="hf-f3zn" id="s2-sun" class="s2-card" style="left: 1476px"><b data-hf-id="hf-m9y9">SUN</b></div>
+
+      <!-- the Sunday plan: two hours a day, every day -->
+      <div data-hf-id="hf-cvy1" class="s2-chip plan" data-day="0">JS basics<em data-hf-id="hf-7gr2">1h</em></div>
+      <div data-hf-id="hf-udd8" class="s2-chip plan" data-day="0">Exercises<em data-hf-id="hf-m4cy">1h</em></div>
+      <div data-hf-id="hf-1v6y" class="s2-chip plan" data-day="1">Arrays<em data-hf-id="hf-minz">1h</em></div>
+      <div data-hf-id="hf-jhyr" class="s2-chip plan" data-day="1">Read docs<em data-hf-id="hf-mwz0">1h</em></div>
+      <div data-hf-id="hf-qj70" class="s2-chip plan wed" data-day="2">Functions<em data-hf-id="hf-nba1">1h</em><i data-hf-id="hf-7qtu" class="strike"></i></div>
+      <div data-hf-id="hf-xkzx" class="s2-chip plan wed" data-day="2">Mini project<em data-hf-id="hf-npl2">1h</em><i data-hf-id="hf-rffa" class="strike"></i></div>
+      <div data-hf-id="hf-2sva" class="s2-chip plan" data-day="3">DOM<em data-hf-id="hf-o3w3">1h</em></div>
+      <div data-hf-id="hf-1855" class="s2-chip plan" data-day="3">Exercises<em data-hf-id="hf-oi74">1h</em></div>
+      <div data-hf-id="hf-mfub" class="s2-chip plan" data-day="4">Git<em data-hf-id="hf-ijlp">1h</em></div>
+      <div data-hf-id="hf-ai7f" class="s2-chip plan" data-day="4">Portfolio<em data-hf-id="hf-ixwq">1h</em></div>
+      <div data-hf-id="hf-m33d" class="s2-chip plan" data-day="5">Project<em data-hf-id="hf-ieiu">1h</em></div>
+      <div data-hf-id="hf-eyvs" class="s2-chip plan" data-day="5">Review<em data-hf-id="hf-i07t">1h</em></div>
+      <!-- the backlog that lands on Friday -->
+      <div data-hf-id="hf-1y3s" class="s2-chip extra">Catch up<em data-hf-id="hf-j74w">1h</em></div>
+      <div data-hf-id="hf-gstc" class="s2-chip extra">Catch up<em data-hf-id="hf-istv">1h</em></div>
+      <div data-hf-id="hf-flw9" class="s2-chip extra">Catch up<em data-hf-id="hf-gtaq">1h</em></div>
+      <div data-hf-id="hf-g07a" class="s2-chip extra">Catch up<em data-hf-id="hf-gezp">1h</em></div>
+      <div data-hf-id="hf-eta7" class="s2-chip extra">Catch up<em data-hf-id="hf-hlws">1h</em></div>
+      <div data-hf-id="hf-f7l8" class="s2-chip extra">Catch up<em data-hf-id="hf-h7lr">1h</em></div>
+    </div>
+
+    <div data-hf-id="hf-sfmz" id="s2-know" class="s2-abs">
+      <span data-hf-id="hf-i7j6">Knowing</span> <span data-hf-id="hf-43uj">what</span> <span data-hf-id="hf-920g">you</span> <span data-hf-id="hf-syhf">want</span><br data-hf-id="hf-x5px" /><span data-hf-id="hf-i732" class="mute">≠</span>
+      <span data-hf-id="hf-xbz7" class="mute">knowing</span> <span data-hf-id="hf-zjg4" class="mute">how</span> <span data-hf-id="hf-zban" class="mute">to</span>
+      <span data-hf-id="hf-vehy" class="mute">get</span> <span data-hf-id="hf-pag6" class="mute">there.</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const COL = 246;
+      const slotY = (k) => 84 + k * 82;
+      const slotX = (d) => d * COL + 12;
+
+      // the plan's resting places
+      const plan = q(".s2-chip.plan");
+      const slot = plan.map((c, i) => ({ d: +c.dataset.day, k: i % 2 }));
+      plan.forEach((c, i) => gsap.set(c, { x: slotX(slot[i].d), y: slotY(slot[i].k) }));
+      const extra = q(".s2-chip.extra");
+      extra.forEach((c) => gsap.set(c, { x: slotX(4), y: slotY(2) }));
+      q(".strike").forEach((s) => gsap.set(s, { scaleX: 0 }));
+
+      // header day name rolls: Sunday → Wednesday → Friday
+      const days = q("#s2-day span");
+      [0.95, 2.55, 4.15].forEach((t, i) => {
+        if (i) tl.to(days[i - 1], { opacity: 0, y: -40, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t - 0.1);
+        tl.fromTo(days[i], { opacity: 0, y: 60, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.2, ease: "power4.out", immediateRender: false }, t);
+      });
+      tl.to(days[2], { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 5.9);
+
+      // ---- Sunday: the plan deals itself out of Sunday into the week ----
+      tl.to("#s2-sun", { borderColor: "#71717a", duration: 0.2 }, 0.7);
+      plan.forEach((c, i) => {
+        const t = 0.75 + i * 0.055;
+        tl.fromTo(c, { opacity: 1, x: slotX(6), y: slotY(0) }, { opacity: 1, x: slotX(slot[i].d), y: slotY(slot[i].k), duration: 0.42, ease: "expo.out", immediateRender: false }, t);
+      });
+
+      // ---- Wednesday: missed ----
+      tl.to("#s2-wed", { borderColor: "#ef4444", backgroundColor: "#1c1213", duration: 0.2 }, 2.62);
+      tl.fromTo("#s2-wed .s2-missed", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)", immediateRender: false }, 2.66);
+      q(".s2-chip.wed .strike").forEach((s, i) => tl.to(s, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 2.78 + i * 0.1));
+      q(".s2-chip.wed").forEach((c) => tl.to(c, { color: "#71717a", duration: 0.2 }, 2.8));
+
+      // ---- by Friday: it all piles forward ----
+      const wed = q(".s2-chip.wed");
+      wed.forEach((c, i) => tl.to(c, { x: slotX(3), y: slotY(2 + i), rotation: i ? -3 : 2, duration: 0.4, ease: "power3.inOut" }, 3.55 + i * 0.08));
+      extra.forEach((c, i) => {
+        const t = 3.95 + i * 0.1;
+        tl.fromTo(c, { opacity: 1, x: slotX(3), y: slotY(3) }, { opacity: 1, x: slotX(4) + (i % 2 ? 6 : -6), y: slotY(2 + i), rotation: [3, -4, 6, -7, 9, -11][i], duration: 0.35, ease: "power3.out", immediateRender: false }, t);
+      });
+
+      // ---- gone: the week topples out of frame ----
+      const all = [...extra.slice().reverse(), ...plan.filter((c, i) => slot[i].d >= 3).reverse(), ...plan.filter((c, i) => slot[i].d < 3)];
+      all.forEach((c, i) => {
+        tl.to(c, { y: "+=900", rotation: [24, -32, 40, -18, 28, -36][i % 6], duration: 0.7, ease: "power3.in" }, 4.85 + i * 0.025);
+      });
+      tl.to(".s2-card", { opacity: 0.25, duration: 0.5, ease: "power2.in" }, 5.2);
+
+      // ---- knowing what you want ≠ knowing how to get there ----
+      tl.to("#s2-week", { opacity: 0.18, duration: 0.4, ease: "power2.out" }, 6.0);
+      const knowAt = [6.56, 6.95, 7.18, 7.37, 7.7, 8.5, 8.82, 8.98, 9.1, 9.28];
+      q("#s2-know span").forEach((el, i) => {
+        const to = el.classList.contains("mute") ? "#71717a" : "#fafafa";
+        tl.set(el, { opacity: 1, color: "#27272a" }, knowAt[i]);
+        tl.to(el, { color: to, duration: 0.18, ease: "power2.out" }, knowAt[i]);
+      });
+
+      window.__timelines["s2"] = tl;
+    })();
+  </script>
+</template>
