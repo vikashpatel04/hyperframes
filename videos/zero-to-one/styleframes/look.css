@@ -1,0 +1,42 @@
+/* 0 to 1 — "The Note": shared look tokens for style frames (reused by the build) */
+@font-face { font-family: "Caveat"; src: url("../assets/fonts/caveat-latin-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Caveat"; src: url("../assets/fonts/caveat-latin-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "InterSF"; src: url("../assets/fonts/inter-latin-400.woff2") format("woff2"); font-weight: 400; unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+@font-face { font-family: "InterSF"; src: url("../assets/fonts/inter-latin-ext-400.woff2") format("woff2"); font-weight: 400; unicode-range: U+0100-024F, U+20A0-20C0, U+2713; }
+@font-face { font-family: "InterSF"; src: url("../assets/fonts/inter-latin-600.woff2") format("woff2"); font-weight: 600; unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+@font-face { font-family: "InterSF"; src: url("../assets/fonts/inter-latin-700.woff2") format("woff2"); font-weight: 700; unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+@font-face { font-family: "InterSF"; src: url("../assets/fonts/inter-latin-900.woff2") format("woff2"); font-weight: 900; unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
+
+:root {
+  /* the desk (warm, morning) */
+  --wall: #e9dcc6;
+  --wall-lit: #fff4dc;
+  --wall-shadow: #cdb999;
+  --wood: #b5855c;
+  --wood-dark: #8f6342;
+  --bezel: #141416;
+  --screen: #0e1013;
+  --note: #ffe27a;
+  --note-deep: #f6d35e;
+  --ink: #2a2520;
+  --leaf: #4f6b43;
+  /* the product (day) */
+  --paper: #ffffff;
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-500: #71717a;
+  --zinc-900: #18181b;
+  --zinc-950: #09090b;
+  /* one accent: forward motion */
+  --orange: #f97316;
+  --orange-deep: #ea580c;
+  --orange-ink: #c2410c;
+  --orange-soft: #fff7ed;
+}
+
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: "InterSF", sans-serif; }
+.abs { position: absolute; }
+.hand { font-family: "Caveat", cursive; font-weight: 700; color: var(--ink); }

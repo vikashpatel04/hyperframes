@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>0 to 1 — the desk</title>
+    <link rel="stylesheet" href="look.css" />
+    <style>
+      body { background: var(--wall); }
+      #scene { left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+
+      /* ---- the wall and the morning light ---- */
+      #wall {
+        inset: 0;
+        background:
+          radial-gradient(1300px 900px at 18% 18%, #efe0c6 0%, #e2cdac 45%, #c9b08b 100%);
+      }
+      #sun { left: -60px; top: -120px; width: 1100px; height: 1000px; transform: rotate(-9deg) skewX(-20deg); filter: blur(16px); }
+      #sun i { position: absolute; width: 300px; height: 360px; background: #fff3d8; opacity: 0.92; border-radius: 4px; box-shadow: 0 0 60px 10px rgba(255, 214, 140, 0.35); }
+      #leaves { left: 180px; top: 60px; width: 700px; height: 700px; filter: blur(9px); opacity: 0.5; mix-blend-mode: multiply; }
+      #shaft {
+        left: -200px; top: -200px; width: 1500px; height: 1500px;
+        background: linear-gradient(118deg, rgba(255, 226, 170, 0) 34%, rgba(255, 226, 170, 0.42) 44%, rgba(255, 226, 170, 0.12) 52%, rgba(255, 226, 170, 0) 60%);
+        mix-blend-mode: screen;
+      }
+
+      /* ---- the desk ---- */
+      #desk { left: -440px; top: 830px; width: 2400px; height: 120px;
+        background:
+          repeating-linear-gradient(179deg, rgba(90, 55, 25, 0.09) 0 2px, rgba(0, 0, 0, 0) 2px 9px, rgba(90, 55, 25, 0.05) 9px 10px, rgba(0, 0, 0, 0) 10px 23px),
+          linear-gradient(180deg, #d9ae80 0%, #c99a6c 100%);
+        box-shadow: inset 0 2px 0 rgba(255, 240, 215, 0.6); }
+      #deskfront { left: -440px; top: 950px; width: 2400px; height: 140px;
+        background:
+          repeating-linear-gradient(178deg, rgba(60, 35, 15, 0.1) 0 2px, rgba(0, 0, 0, 0) 2px 11px, rgba(60, 35, 15, 0.06) 11px 12px, rgba(0, 0, 0, 0) 12px 27px),
+          linear-gradient(180deg, #9c6c47 0%, #7f5536 100%);
+        box-shadow: inset 0 3px 0 rgba(255, 220, 180, 0.35); }
+      .cshadow { border-radius: 50%; background: radial-gradient(closest-side, rgba(60, 35, 15, 0.45), rgba(60, 35, 15, 0)); }
+      #mug { left: 440px; top: 680px; width: 150px; height: 168px; filter: blur(2.5px); }
+
+      /* ---- the monitor ---- */
+      #monitor { left: 790px; top: 64px; width: 1250px; height: 770px; border-radius: 26px; background: var(--bezel);
+        box-shadow: 0 40px 80px rgba(60, 35, 15, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.08); }
+      #screen { left: 818px; top: 92px; width: 1194px; height: 714px; border-radius: 8px; overflow: hidden;
+        background:
+          radial-gradient(900px 300px at 58% 72%, rgba(255, 170, 90, 0.85) 0%, rgba(230, 120, 60, 0.45) 40%, rgba(230, 120, 60, 0) 75%),
+          linear-gradient(180deg, #1c1416 0%, #3a2220 38%, #8a4426 66%, #d27a40 78%, #3a1d14 79%, #1a0f0c 100%); }
+      #hills { left: 0; bottom: 0; width: 1194px; height: 300px; }
+      #clock { left: 0; top: 236px; width: 1194px; text-align: center; color: rgba(255, 246, 235, 0.8);
+        font-size: 184px; font-weight: 600; letter-spacing: -0.05em; line-height: 1; }
+      #date { left: 0; top: 196px; width: 1194px; text-align: center; color: rgba(255, 240, 225, 0.8);
+        font-size: 34px; font-weight: 600; letter-spacing: 0.01em; }
+      #reflect { inset: 0; }
+      #reflect i { position: absolute; top: -80px; width: 260px; height: 900px; background: rgba(255, 238, 210, 0.05); transform: skewX(-24deg); filter: blur(14px); }
+      #neck { left: 1330px; top: 830px; width: 170px; height: 30px; background: #1d1d20; }
+      #foot { left: 1230px; top: 852px; width: 370px; height: 26px; border-radius: 6px; background: #232326; box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.08); }
+
+      /* the day counter: a desktop widget, top-right of the screen */
+      #counter { left: 1500px; top: 128px; width: 380px; height: 150px; border-radius: 22px;
+        background: rgba(255, 255, 255, 0.06); border: 1.5px solid rgba(255, 255, 255, 0.08); }
+      #counter .lbl { position: absolute; left: 28px; top: 24px; font-size: 22px; font-weight: 700; letter-spacing: 0.22em; color: #8f8f96; }
+      #counter .lbl b { color: var(--orange); }
+      #odo { position: absolute; left: 26px; top: 56px; height: 76px; display: flex; gap: 2px; font-size: 72px; font-weight: 700;
+        color: #f4f4f5; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+      #odo .cell { position: relative; width: 44px; height: 76px; overflow: hidden;
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%); }
+      #odo .cell.vblur .strip { filter: blur(0.6px); }
+      #odo .cell.vblur { filter: url(#vblur); }
+      #odo .comma { width: 18px; line-height: 76px; }
+      #odo .strip { position: absolute; left: 0; top: 0; width: 44px; text-align: center; line-height: 76px; }
+      #odo .strip span { display: block; height: 76px; }
+      .vblur { filter: url(#vblur); }
+
+      /* ---- the note ---- */
+      #note { left: 600px; top: 330px; width: 400px; height: 400px; transform: rotate(-3.5deg); transform-origin: 50% 0;
+        background: linear-gradient(180deg, #ffe98d 0%, var(--note) 18%, var(--note) 70%, var(--note-deep) 100%);
+        box-shadow: 0 2px 2px rgba(70, 45, 10, 0.12), 0 22px 36px rgba(70, 45, 10, 0.24); }
+      #note::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 52px; background: rgba(214, 178, 52, 0.18); }
+      #note::after { content: ""; position: absolute; right: 0; bottom: 0; width: 120px; height: 120px;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(120, 85, 20, 0.16) 75%, rgba(255, 245, 200, 0.6) 100%); }
+      #note .txt { position: absolute; left: 44px; top: 84px; font-size: 76px; line-height: 0.98; }
+      #note svg { position: absolute; left: 36px; top: 300px; width: 320px; height: 60px; }
+
+      #note2 { left: 690px; top: 760px; width: 330px; height: 150px; transform: rotate(2.5deg);
+        background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%);
+        box-shadow: 0 2px 2px rgba(70, 45, 10, 0.1), 0 14px 26px rgba(70, 45, 10, 0.2); }
+      #note2 .txt { position: absolute; left: 26px; top: 22px; font-size: 44px; line-height: 1.02; }
+      #note2 .ring { position: absolute; left: 178px; top: 66px; width: 150px; height: 70px; }
+
+      #note3 { left: 640px; top: 756px; width: 440px; height: 120px; transform: rotate(2deg);
+        background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%);
+        box-shadow: 0 2px 2px rgba(70, 45, 10, 0.1), 0 14px 26px rgba(70, 45, 10, 0.2); }
+      #note3 .txt { position: absolute; left: 26px; top: 26px; font-size: 46px; line-height: 1; white-space: nowrap; }
+      #note3 .chk { color: var(--orange-deep); }
+
+      /* ---- the plant: foreground, out of focus ---- */
+      #plant { left: -120px; top: 330px; width: 560px; height: 820px; filter: blur(16px); }
+
+      /* ---- the kinetic lines ---- */
+      .line { font-weight: 900; letter-spacing: -0.045em; line-height: 0.98; color: #1f1b16; white-space: nowrap; }
+      .line .o { color: var(--orange-deep); }
+
+      #grain { inset: 0; opacity: 0.06; mix-blend-mode: multiply; }
+      #vig { inset: 0; background: radial-gradient(1400px 900px at 50% 45%, rgba(0, 0, 0, 0) 60%, rgba(40, 25, 10, 0.18) 100%); }
+
+      /* ---- states ---- */
+      .f1 #note .txt, .f1 #note svg { filter: blur(6px); }
+      .f1 #counter { opacity: 0; }
+      .f1 #note2, .f1 #note3, .f1 .line, .f2 #note2, .f2 #note3, .f2 .line, .f3 #note3, .f3 .line { display: none; }
+      .f2 #sun { left: 260px; top: -60px; } .f2 #leaves { left: 420px; }
+      .f2 .bg, .f3 .bg { filter: blur(3px); }
+      .f3 #sun { left: 80px; }
+      /* the turn: the note lifts off toward camera; the desk falls back */
+      .f4 #note2, .f4 #note3, .f4 #counter { display: none; }
+      .f4 .bg, .f4 #screen { filter: blur(7px) brightness(0.94); transform: translateX(330px); }
+      .f4 #note { left: 1300px; top: 290px; transform: rotate(4deg) scale(1.38);
+        box-shadow: 0 4px 6px rgba(70, 45, 10, 0.12), 0 60px 90px rgba(70, 45, 10, 0.3); }
+      .f4 #turn { display: block; }
+      .f6 #note2 { display: none; }
+      .f6 .bg { filter: blur(2px); }
+      .f6 #screen, .f6 #counter { filter: blur(1.5px); }
+      .f6 #payoff { display: block; }
+      #turn, #payoff { display: none; }
+    </style>
+  </head>
+  <body class="f1">
+    <svg width="0" height="0" style="position: absolute">
+      <filter id="vblur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="0 4.5" /></filter>
+    </svg>
+    <div id="scene" class="abs">
+      <div class="bg abs" style="inset: 0">
+        <div id="wall" class="abs"></div>
+        <div id="sun" class="abs">
+          <i style="left: 0; top: 0"></i><i style="left: 334px; top: 0"></i>
+          <i style="left: 0; top: 394px"></i><i style="left: 334px; top: 394px"></i>
+        </div>
+        <svg id="leaves" class="abs" viewBox="0 0 700 700" aria-hidden="true">
+          <g fill="#b39c78">
+            <path d="M120 620 C 140 470, 220 360, 330 300 C 300 400, 240 520, 120 620 Z" />
+            <path d="M330 300 C 420 220, 520 200, 610 210 C 540 290, 440 330, 330 300 Z" />
+            <path d="M300 420 C 360 340, 470 300, 560 330 C 500 410, 400 450, 300 420 Z" />
+            <path d="M230 330 C 230 230, 280 140, 360 80 C 370 180, 320 270, 230 330 Z" />
+          </g>
+        </svg>
+        <div id="shaft" class="abs"></div>
+        <div id="monitor" class="abs"></div>
+        <div id="desk" class="abs"></div>
+        <div id="deskfront" class="abs"></div>
+        <div class="cshadow abs" style="left: 1180px; top: 856px; width: 470px; height: 40px"></div>
+        <div id="neck" class="abs"></div>
+        <div id="foot" class="abs"></div>
+        <div class="cshadow abs" style="left: 420px; top: 838px; width: 190px; height: 30px"></div>
+        <svg id="mug" class="abs" viewBox="0 0 150 168" aria-hidden="true">
+          <path d="M112 50 C 150 50, 150 112, 108 112" fill="none" stroke="#e8dfd1" stroke-width="13" />
+          <rect x="8" y="22" width="108" height="140" rx="16" fill="#f1e9dc" />
+          <ellipse cx="62" cy="24" rx="54" ry="11" fill="#5a3a24" />
+          <rect x="8" y="110" width="108" height="52" rx="14" fill="#e3d7c5" />
+        </svg>
+      </div>
+
+      <div id="screen" class="abs">
+        <svg id="hills" class="abs" viewBox="0 0 1194 300" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 160 C 200 90, 380 140, 560 100 C 760 60, 920 130, 1194 80 L 1194 300 L 0 300 Z" fill="#3a1d14" opacity="0.9" />
+          <path d="M0 250 C 240 190, 460 240, 700 200 C 900 170, 1040 220, 1194 190 L 1194 300 L 0 300 Z" fill="#170e0c" />
+        </svg>
+        <div id="date" class="abs">Monday, October 14</div>
+        <div id="clock" class="abs">7:42</div>
+        <div id="reflect" class="abs"><i style="left: 120px"></i><i style="left: 400px; width: 120px"></i></div>
+      </div>
+      <div id="counter" class="abs">
+        <div class="lbl">DAY</div>
+        <div id="odo">
+          <div class="cell"><div class="strip"><span>1</span></div></div>
+          <div class="comma">,</div>
+          <div class="cell"><div class="strip"><span>0</span></div></div>
+          <div class="cell"><div class="strip"><span>9</span></div></div>
+          <div class="cell"><div class="strip"><span>5</span></div></div>
+        </div>
+      </div>
+
+      <div id="note" class="abs">
+        <div class="txt hand">become a<br />software<br />engineer ✦</div>
+        <svg viewBox="0 0 320 60" aria-hidden="true">
+          <path d="M6 18 C 90 10, 200 8, 312 14" fill="none" stroke="#2a2520" stroke-width="5" stroke-linecap="round" />
+          <path d="M20 40 C 110 32, 210 30, 300 36" fill="none" stroke="#2a2520" stroke-width="4.5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <div id="note2" class="abs">
+        <div class="txt hand">okay, but what do I<br />actually do <u style="text-decoration: none">today</u>?</div>
+        <svg class="ring" viewBox="0 0 150 70" aria-hidden="true">
+          <path d="M18 36 C 18 14, 70 6, 112 12 C 146 18, 146 52, 108 60 C 70 68, 22 62, 16 40 C 12 24, 40 12, 60 10" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <div id="note3" class="abs">
+        <div class="txt hand">Mon 9:00 · JS basics <span class="chk">✓</span></div>
+      </div>
+
+      <svg id="plant" class="abs" viewBox="0 0 560 820" aria-hidden="true">
+        <path d="M150 820 L 190 600 L 330 600 L 370 820 Z" fill="#8a5a3a" />
+        <g fill="#4f6b43">
+          <path d="M250 610 C 120 520, 40 380, 60 230 C 170 300, 250 440, 250 610 Z" />
+          <path d="M270 600 C 300 430, 400 300, 540 260 C 520 400, 420 520, 270 600 Z" />
+          <path d="M260 600 C 230 430, 260 250, 360 120 C 400 270, 360 450, 260 600 Z" />
+        </g>
+        <g fill="#3d5634">
+          <path d="M250 610 C 170 560, 110 470, 100 380 C 180 430, 230 510, 250 610 Z" />
+          <path d="M280 590 C 360 520, 470 470, 560 470 C 500 540, 400 590, 280 590 Z" />
+          <path d="M240 590 C 160 470, 150 330, 200 200 C 250 320, 260 460, 240 590 Z" />
+        </g>
+        <g fill="#6b8a58">
+          <path d="M262 600 C 280 470, 330 380, 420 330 C 410 430, 350 520, 262 600 Z" />
+        </g>
+      </svg>
+
+      <div id="turn" class="abs" style="left: 110px; top: 330px">
+        <div class="line" style="font-size: 96px">What if your goal<br />came with a <span class="o">Monday?</span></div>
+      </div>
+      <div id="payoff" class="abs" style="left: 110px; top: 120px">
+        <div class="line" style="font-size: 120px">Her <span class="o">Monday</span><br />did.</div>
+      </div>
+
+      <svg id="grain" class="abs" viewBox="0 0 1920 1080" aria-hidden="true">
+        <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.9 0" /></filter>
+        <rect width="1920" height="1080" filter="url(#noise)" />
+      </svg>
+      <div id="vig" class="abs"></div>
+    </div>
+
+    <script>
+      // style-frame states: odometer mid-roll for f2, "1" for the payoff
+      const odo = document.getElementById("odo");
+      function setDigits(ds, rolling) {
+        odo.innerHTML = "";
+        ds.forEach((d) => {
+          if (d === ",") {
+            const c = document.createElement("div");
+            c.className = "comma";
+            c.textContent = ",";
+            odo.appendChild(c);
+            return;
+          }
+          const cell = document.createElement("div");
+          cell.className = "cell";
+          const strip = document.createElement("div");
+          strip.className = "strip";
+          if (rolling && rolling.includes(odo.children.length)) cell.classList.add("vblur");
+          strip.innerHTML = "0123456789".split("").map((n) => `<span>${n}</span>`).join("");
+          const off = typeof d === "number" ? d : parseFloat(d);
+          strip.style.transform = `translateY(${-off * 76}px)`;
+          cell.appendChild(strip);
+          odo.appendChild(cell);
+        });
+      }
+      window.applyState = (s) => {
+        document.body.className = s;
+        if (s === "f2") {
+          setDigits([0, ",", 6, 8.22, 3.3], [3, 4]);
+          document.getElementById("date").textContent = "Thursday, August 21";
+        }
+        else if (s === "f6") {
+          setDigits([1], []);
+          document.querySelector("#counter .lbl").innerHTML = "<b>DAY</b>";
+        } else setDigits([1, ",", 0, 9, 5], []);
+      };
+      applyState(new URLSearchParams(location.search).get("s") || "f1");
+    </script>
+  </body>
+</html>
