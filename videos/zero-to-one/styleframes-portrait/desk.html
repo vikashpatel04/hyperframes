@@ -108,6 +108,33 @@
       .p6 #note { left: 330px; top: 900px; transform: rotate(4deg) scale(1.4); box-shadow: 0 4px 6px rgba(70, 45, 10, 0.12), 0 60px 90px rgba(70, 45, 10, 0.3); }
       .p6 #c-turn { display: block; }
       .p8 #note3 { display: block; } .p8 #c-payoff { display: block; } .p8 .bg { filter: blur(2px); }
+
+      /* ===== reaction options for the freeze (0:02) ===== */
+      #crack, #flash, #rings, #circle, #arrow, #c-meme, #caberr { display: none; }
+      /* A · overload crack: the screen glass splits from the badge */
+      .p2a #avalanche, .p2b #avalanche, .p2c #avalanche { display: block; }
+      .p2a #scene { transform: scale(1.06) rotate(-1.2deg); }
+      .p2a #crack, .p2a #flash { display: block; }
+      .p2a .ntf { box-shadow: -11px 0 0 rgba(255, 30, 70, 0.5), 11px 0 0 rgba(0, 200, 255, 0.5), 0 18px 40px rgba(0, 0, 0, 0.28); }
+      .p2a #vig { background: radial-gradient(900px 1400px at 50% 45%, rgba(0,0,0,0) 45%, rgba(120, 10, 10, 0.35) 100%); }
+      .p2a #note .txt, .p2a #note svg { filter: blur(5px); }
+      #crack { left: 0; top: 0; width: 1080px; height: 1920px; }
+      #flash { inset: 0; background: radial-gradient(520px 520px at 975px 690px, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0) 70%); mix-blend-mode: screen; }
+      /* B · the badge blows: 99+ → ∞, a shockwave throws the pile outward */
+      .p2b #rings { display: block; }
+      .p2b #badge { transform: scale(2.3); font-size: 76px; }
+      .p2b .ntf { filter: blur(3.5px); }
+      .p2b #note .txt, .p2b #note svg { filter: blur(5px); }
+      #rings { left: 0; top: 0; width: 1080px; height: 1920px; }
+      /* C · freeze-frame: the meme everyone knows, played deadpan */
+      .p2c .bg, .p2c #screen, .p2c #avalanche, .p2c #note, .p2c #plant { filter: grayscale(0.9) sepia(0.35) contrast(1.08); }
+      .p2c #scene { transform: scale(1.04); }
+      .p2c #grain { opacity: 0.16; }
+      .p2c #circle, .p2c #arrow, .p2c #c-meme { display: block; }
+      .p2c .ntf:nth-child(1), .p2c .ntf:nth-child(2) { display: none; }
+      #circle { left: 0; top: 0; width: 1080px; height: 1920px; }
+      #c-meme { left: 0; top: 250px; padding: 30px 60px 40px; background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.0)); width: 960px; font-size: 92px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.02; color: #fff; z-index: 5;
+        -webkit-text-stroke: 3px #111; paint-order: stroke fill; text-shadow: 0 6px 0 #111; }
     </style>
   </head>
   <body class="p1">
@@ -172,6 +199,171 @@
         <div class="ntf" style="left: 120px; top: 1390px; transform: rotate(9deg)"><i style="background: #0f766e">✎</i><div><b>Notes · roadmap v4 (final)</b><span>Last edited 41 days ago</span></div><em>6w</em></div>
         <div id="badge" class="abs">99+</div>
       </div>
+
+      <!-- A: crack lines radiating from the badge -->
+      <svg id="crack" class="abs" viewBox="0 0 1080 1920" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="1011,750 1058,825 1014,843 993,758" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="971,760 968,848 917,837 950,755" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="926,740 866,804 826,741 909,713" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="905,694 817,700 819,664 906,679" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="911,662 830,627 848,596 919,649" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="932,635 876,567 910,546 946,627" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="966,621 954,533 991,533 981,620" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="1011,630 1055,554 1102,596 1031,648" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M975 690 L 863 674 L 729 651 L 632 630 L 513 601 L 373 564" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 891 659 L 786 617 L 661 562 L 572 519 L 463 463 L 335 394 L 242 337" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 877 609 L 796 568 L 705 500 L 598 415 L 524 350 L 433 268 L 327 169 L 252 90" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 912 607 L 838 504 L 761 450 L 691 361 L 609 253 L 554 170 L 487 68 L 409 -56 L 357 -151" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 920 560 L 882 463 L 840 343 L 767 277 L 725 172 L 676 45 L 646 -50 L 609 -167 L 568 -307 L 545 -414" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 959 573 L 943 433 L 936 329 L 930 202 L 867 120 L 857 7" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 983 595 L 997 478 L 1018 339 L 1037 236 L 1063 112 L 1014 16 L 1033 -96 L 1057 -230" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 851 735 L 760 764 L 647 797 L 510 833 L 408 855 L 283 879 L 220 975 L 109 1002 L -24 1032" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 867 703 L 735 714 L 640 719 L 522 722 L 381 722 L 277 717 L 149 709 L 65 797 L -49 794 L -186 790" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 871 792 L 810 884 L 720 981 L 652 1048 L 566 1129 L 461 1224" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 925 803 L 863 934 L 850 1047 L 799 1169 L 757 1254 L 704 1360 L 639 1486" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 970 790 L 960 913 L 945 1058 L 981 1168 L 973 1300 L 961 1395 L 946 1512 L 926 1653" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1044 571 L 1097 487 L 1165 384 L 1248 264 L 1257 144 L 1328 32 L 1384 -46 L 1455 -141 L 1540 -255" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1066 622 L 1178 542 L 1262 488 L 1367 424 L 1493 350" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1026 766 L 1086 862 L 1156 980 L 1203 1068 L 1259 1178 L 1323 1310 L 1442 1364" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1012 813 L 1035 901 L 1061 1012 L 1089 1146 L 1104 1245 L 1121 1367 L 1139 1513 L 1247 1598" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 863 674 L 729 651 L 632 630 L 513 601 L 373 564" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 891 659 L 786 617 L 661 562 L 572 519 L 463 463 L 335 394 L 242 337" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 877 609 L 796 568 L 705 500 L 598 415 L 524 350 L 433 268 L 327 169 L 252 90" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 912 607 L 838 504 L 761 450 L 691 361 L 609 253 L 554 170 L 487 68 L 409 -56 L 357 -151" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 920 560 L 882 463 L 840 343 L 767 277 L 725 172 L 676 45 L 646 -50 L 609 -167 L 568 -307 L 545 -414" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 959 573 L 943 433 L 936 329 L 930 202 L 867 120 L 857 7" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 983 595 L 997 478 L 1018 339 L 1037 236 L 1063 112 L 1014 16 L 1033 -96 L 1057 -230" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 851 735 L 760 764 L 647 797 L 510 833 L 408 855 L 283 879 L 220 975 L 109 1002 L -24 1032" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 867 703 L 735 714 L 640 719 L 522 722 L 381 722 L 277 717 L 149 709 L 65 797 L -49 794 L -186 790" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 871 792 L 810 884 L 720 981 L 652 1048 L 566 1129 L 461 1224" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 925 803 L 863 934 L 850 1047 L 799 1169 L 757 1254 L 704 1360 L 639 1486" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 970 790 L 960 913 L 945 1058 L 981 1168 L 973 1300 L 961 1395 L 946 1512 L 926 1653" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1044 571 L 1097 487 L 1165 384 L 1248 264 L 1257 144 L 1328 32 L 1384 -46 L 1455 -141 L 1540 -255" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1066 622 L 1178 542 L 1262 488 L 1367 424 L 1493 350" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1026 766 L 1086 862 L 1156 980 L 1203 1068 L 1259 1178 L 1323 1310 L 1442 1364" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1012 813 L 1035 901 L 1061 1012 L 1089 1146 L 1104 1245 L 1121 1367 L 1139 1513 L 1247 1598" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M632 630 L 554 643 L 449 655 L 319 662" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M609 253 L 578 179 L 543 80 L 507 -45" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M1037 236 L 1018 159 L 999 55 L 982 -74" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M720 981 L 652 1022 L 558 1071 L 439 1124" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M1257 144 L 1271 65 L 1296 -37 L 1333 -162" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M1089 1146 L 1086 1226 L 1076 1331 L 1056 1459" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M632 630 L 554 643 L 449 655 L 319 662" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M609 253 L 578 179 L 543 80 L 507 -45" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1037 236 L 1018 159 L 999 55 L 982 -74" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M720 981 L 652 1022 L 558 1071 L 439 1124" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1257 144 L 1271 65 L 1296 -37 L 1333 -162" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1089 1146 L 1086 1226 L 1076 1331 L 1056 1459" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1003 734 L 988 740" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M992 757 L 973 744" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M952 747 L 935 732" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M936 732 L 918 709" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M925 706 L 913 694" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M910 679 L 914 664" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M918 666 L 921 649" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M929 655 L 931 636" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M946 625 L 968 638" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M966 624 L 981 635" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M982 627 L 1004 641" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1049 809 L 1009 826" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1013 842 L 970 832" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M919 828 L 875 797" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M876 796 L 834 736" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M841 734 L 825 700" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M823 663 L 833 630" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M837 631 L 850 596" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M858 602 L 876 567" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M910 545 L 955 550" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M953 537 L 990 548" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M991 540 L 1048 564" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1113 910 L 1038 942" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1042 959 L 966 952" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M874 939 L 794 885" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M794 884 L 720 773" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M727 771 L 706 709" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M705 642 L 723 583" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M726 585 L 755 524" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M763 530 L 800 474" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M862 435 L 939 432" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M937 418 L 1002 428" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1003 420 L 1108 461" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1078 1104 L 961 1102" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M960 1113 L 820 1074" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M818 1078 L 691 994" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M584 817 L 556 719" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M548 720 L 559 617" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M557 616 L 585 524" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M643 440 L 706 357" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M716 370 L 800 297" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M801 298 L 918 283" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1019 271 L 1182 331" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1184 329 L 1312 445" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1003 734 L 988 740" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M992 757 L 973 744" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M952 747 L 935 732" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M936 732 L 918 709" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M925 706 L 913 694" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M910 679 L 914 664" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M918 666 L 921 649" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M929 655 L 931 636" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M946 625 L 968 638" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M966 624 L 981 635" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M982 627 L 1004 641" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1049 809 L 1009 826" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1013 842 L 970 832" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M919 828 L 875 797" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M876 796 L 834 736" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M841 734 L 825 700" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M823 663 L 833 630" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M837 631 L 850 596" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M858 602 L 876 567" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M910 545 L 955 550" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M953 537 L 990 548" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M991 540 L 1048 564" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1113 910 L 1038 942" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1042 959 L 966 952" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M874 939 L 794 885" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M794 884 L 720 773" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M727 771 L 706 709" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M705 642 L 723 583" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M726 585 L 755 524" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M763 530 L 800 474" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M862 435 L 939 432" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M937 418 L 1002 428" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1003 420 L 1108 461" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1078 1104 L 961 1102" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M960 1113 L 820 1074" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M818 1078 L 691 994" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M584 817 L 556 719" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M548 720 L 559 617" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M557 616 L 585 524" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M643 440 L 706 357" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M716 370 L 800 297" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M801 298 L 918 283" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1019 271 L 1182 331" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1184 329 L 1312 445" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<circle cx="975" cy="690" r="30" fill="rgba(255,255,255,0.6)" stroke="#fff" stroke-width="4"/>
+</g></svg>
+      <div id="flash" class="abs"></div>
+
+      <!-- B: shockwave rings from the badge -->
+      <svg id="rings" class="abs" viewBox="0 0 1080 1920" aria-hidden="true">
+        <g fill="none">
+          <circle cx="975" cy="690" r="200" stroke="rgba(255,255,255,0.95)" stroke-width="10" />
+          <circle cx="975" cy="690" r="380" stroke="rgba(255,255,255,0.55)" stroke-width="6" />
+          <circle cx="975" cy="690" r="600" stroke="rgba(255,255,255,0.28)" stroke-width="4" />
+          <circle cx="975" cy="690" r="880" stroke="rgba(255,255,255,0.12)" stroke-width="3" />
+        </g>
+      </svg>
+
+      <!-- C: freeze-frame dressing: marker circle + arrow onto the buried note -->
+      <svg id="circle" class="abs" viewBox="0 0 1080 1920" aria-hidden="true">
+        <path d="M60 1180 C 40 1060, 200 1000, 330 1030 C 470 1060, 500 1250, 420 1370 C 330 1490, 120 1470, 70 1350 C 40 1280, 70 1150, 160 1110"
+          fill="none" stroke="#ef2b2b" stroke-width="12" stroke-linecap="round" />
+        <path d="M640 640 C 560 780, 480 880, 380 1000" fill="none" stroke="#ef2b2b" stroke-width="12" stroke-linecap="round" />
+        <path d="M352 940 L 378 1004 L 444 984" fill="none" stroke="#ef2b2b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div id="c-meme" class="abs">That's Riya's<br />Monday morning.</div>
       <div id="noway" class="abs hand">no way.</div>
 
       <div id="c-monday" class="cap abs" style="font-size: 86px; top: 1580px; left: 70px; color: #fff; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45)">That's Riya's<br />Monday morning.</div>
@@ -205,6 +397,7 @@
       if (s === "p3") { setDigits([0, ",", 6, 8.22, 3.3], [3, 4]); document.getElementById("date").textContent = "Thursday, August 21"; }
       else if (s === "p8") { setDigits([1], []); document.querySelector("#counter .lbl").innerHTML = "<b>DAY</b>"; }
       else setDigits([1, ",", 0, 9, 5], []);
+      if (s === "p2b") document.getElementById("badge").textContent = "∞";
     </script>
   </body>
 </html>
