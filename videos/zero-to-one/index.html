@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>0 to 1 — The Note (hook + Act 1 review)</title>
+    <title>0 to 1 — The Note</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       html,
@@ -14,12 +14,17 @@
         overflow: hidden;
         background: #e2cdac;
       }
-      /* Opaque stage ground: the sunlit wall colour, so nothing ever composites over white. */
+      /* Opaque stage ground, never white: it takes the colour of the world each seam passes through. */
       #root {
         position: relative;
         width: 1080px;
         height: 1920px;
         overflow: hidden;
+        background: #e2cdac;
+      }
+      #ground {
+        position: absolute;
+        inset: 0;
         background: #e2cdac;
       }
       .scene-host {
@@ -29,29 +34,64 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="19.6" data-width="1080" data-height="1920">
-      <div
-        id="s1"
-        class="scene-host"
-        data-composition-id="s1"
-        data-composition-src="compositions/s1-desk.html"
-        data-start="0"
-        data-duration="19.6"
-        data-track-index="1"
-        data-track-kind="graphics"
-        data-width="1080"
-        data-height="1920"
-      ></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="68" data-width="1080" data-height="1920">
+      <div id="ground"></div>
+      <!-- hook + Act 1: the desk, the note, Day 1,095 -->
+      <div id="s1" class="scene-host" data-composition-id="s1" data-composition-src="compositions/s1-desk.html" data-start="0" data-duration="19.15" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <!-- Act 2: inside her screen -->
+      <div id="s2" class="scene-host" data-composition-id="s2" data-composition-src="compositions/s2-screen.html" data-start="19.15" data-duration="14.05" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <!-- Act 3: the turn -->
+      <div id="s3" class="scene-host" data-composition-id="s3" data-composition-src="compositions/s3-turn.html" data-start="33.2" data-duration="4.1" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <!-- Act 4: the setup and the roadmap -->
+      <div id="s4" class="scene-host" data-composition-id="s4" data-composition-src="compositions/s4-setup.html" data-start="37.3" data-duration="7.7" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <!-- Act 4: today, the missed day, the assistant -->
+      <div id="s5" class="scene-host" data-composition-id="s5" data-composition-src="compositions/s5-today.html" data-start="45" data-duration="12.45" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <!-- Act 5: her Monday, and the end card -->
+      <div id="s6" class="scene-host" data-composition-id="s6" data-composition-src="compositions/s6-payoff.html" data-start="57.45" data-duration="10.55" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
 
-      <!-- narrator (Kokoro af_heart, deadpan); stops before Act 2's first line at 19.4 -->
-      <audio id="vo" class="clip" src="assets/voice/narration.wav" data-start="0" data-duration="19.3" data-track-index="10" data-volume="1"></audio>
-      <!-- every effect and the room-tone bed, frame-placed by scripts/build-sfx.py -->
-      <audio id="sfx" class="clip" src="assets/sfx/hook-act1.wav" data-start="0" data-duration="19.6" data-track-index="11" data-volume="1"></audio>
+      <!-- narrator (Kokoro af_heart, deadpan), timed by scripts/retime-voice.py -->
+      <audio id="vo" class="clip" src="assets/voice/narration.wav" data-start="0" data-duration="67.98" data-track-index="10" data-volume="1"></audio>
+      <!-- every effect, the room tone and the music bed, frame-placed by scripts/build-sfx.py -->
+      <audio id="sfx" class="clip" src="assets/sfx/film.wav" data-start="0" data-duration="68" data-track-index="11" data-volume="1"></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["main"] = gsap.timeline({ paused: true });
+      const tl = gsap.timeline({ paused: true });
+
+      // the ground matches the world each seam passes through, so a cut never flashes
+      const DESK = "#e2cdac",
+        SCREEN = "#2c1a19",
+        APP = "#fafafa";
+
+      // forward push (zoom-through): out grows past the lens, in grows into place
+      function push(out, inn, cut, origin, ground) {
+        gsap.set(out, { transformOrigin: origin });
+        tl.set("#ground", { backgroundColor: ground }, cut - 0.2);
+        tl.to(out, { scale: 1.2, filter: "blur(18px)", duration: 0.2, ease: "power3.in" }, cut - 0.2);
+        tl.to(out, { autoAlpha: 0.15, duration: 0.2, ease: "none" }, cut - 0.2);
+        tl.set(out, { autoAlpha: 0 }, cut);
+        tl.fromTo(inn, { scale: 0.75, filter: "blur(18px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, cut);
+        tl.fromTo(inn, { autoAlpha: 0.15 }, { autoAlpha: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, cut);
+      }
+      // pull back (inverse zoom-through): out recedes, in arrives oversized and settles
+      function pull(out, inn, cut, ground) {
+        tl.set("#ground", { backgroundColor: ground }, cut - 0.2);
+        tl.to(out, { scale: 0.8, filter: "blur(18px)", duration: 0.2, ease: "power3.in" }, cut - 0.2);
+        tl.to(out, { autoAlpha: 0.15, duration: 0.2, ease: "none" }, cut - 0.2);
+        tl.set(out, { autoAlpha: 0 }, cut);
+        tl.fromTo(inn, { scale: 1.25, filter: "blur(18px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, cut);
+        tl.fromTo(inn, { autoAlpha: 0.15 }, { autoAlpha: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, cut);
+      }
+
+      gsap.set(["#s2", "#s3", "#s4", "#s5", "#s6"], { autoAlpha: 0 });
+      push("#s1", "#s2", 19.15, "611px 954px", SCREEN); // into her screen
+      pull("#s2", "#s3", 33.2, DESK); // back out to the desk: the turn
+      push("#s3", "#s4", 37.3, "540px 1204px", APP); // into the clean card: the product
+      push("#s4", "#s5", 45.0, "538px 1054px", APP); // into today's first task
+      pull("#s5", "#s6", 57.45, DESK); // back out to the desk: the payoff
+
+      window.__timelines["main"] = tl;
     </script>
   </body>
 </html>

@@ -1,0 +1,540 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat";
+      src: url("assets/fonts/caveat-latin-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+      background: #fafafa;
+      color: #09090b;
+    }
+    .f-abs {
+      position: absolute;
+    }
+    .f-hand {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      color: #2a2520;
+    }
+    /* narrator captions */
+    .f-cap {
+      left: 70px;
+      top: 270px;
+      width: 940px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+      color: #18181b;
+      white-space: nowrap;
+    }
+    .f-cap span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .f-cap .m {
+      color: #71717a;
+    }
+
+    /* the app panels */
+    .f-panel {
+      left: 50px;
+      top: 600px;
+      width: 980px;
+      height: 940px;
+      border-radius: 36px;
+      background: #ffffff;
+      border: 2px solid #e4e4e7;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .f-h {
+      left: 44px;
+      top: 34px;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .f-lbl {
+      left: 44px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: #52525b;
+    }
+    #f-fromnote {
+      left: 214px;
+      top: 110px;
+      padding: 0 14px;
+      font-size: 32px;
+      line-height: 40px;
+      background: #ffe27a;
+      box-shadow: 0 4px 10px rgba(70, 45, 10, 0.15);
+      opacity: 0;
+    }
+    #f-in {
+      left: 44px;
+      top: 160px;
+      width: 892px;
+      height: 96px;
+      border-radius: 20px;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      padding: 0 28px;
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 92px;
+      white-space: nowrap;
+    }
+    #f-in i {
+      font-style: normal;
+      display: none;
+    }
+    #f-caret {
+      display: inline-block;
+      width: 3px;
+      height: 44px;
+      margin-left: 2px;
+      vertical-align: -8px;
+      background: #f97316;
+      opacity: 0;
+    }
+    #f-seg {
+      left: 44px;
+      top: 336px;
+      width: 892px;
+      height: 92px;
+      border-radius: 22px;
+      background: #f4f4f5;
+    }
+    #f-segpill {
+      left: 6px;
+      top: 6px;
+      width: 292px;
+      height: 80px;
+      border-radius: 18px;
+      background: #fff;
+      border: 3px solid #f97316;
+      box-sizing: border-box;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      opacity: 0;
+    }
+    .f-segl {
+      top: 0;
+      width: 297px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 92px;
+      color: #3f3f46;
+    }
+    .f-chip {
+      width: 190px;
+      height: 84px;
+      border-radius: 42px;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 80px;
+      color: #3f3f46;
+      background: #fff;
+    }
+    .f-per {
+      font-size: 28px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    #f-btn {
+      left: 44px;
+      top: 800px;
+      width: 892px;
+      height: 108px;
+      border-radius: 24px;
+      background: #ea580c;
+      color: #fff;
+      text-align: center;
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 108px;
+      overflow: hidden;
+    }
+    #f-rip {
+      left: 386px;
+      top: -6px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      opacity: 0;
+    }
+
+    /* roadmap */
+    #f-road {
+      opacity: 0;
+    }
+    #f-mini {
+      left: 36px;
+      top: 30px;
+      width: 560px;
+      height: 100px;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 30%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 12px 22px rgba(70, 45, 10, 0.18);
+    }
+    #f-mini .f-hand {
+      position: absolute;
+      left: 24px;
+      top: 22px;
+      font-size: 46px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #f-meta {
+      right: 40px;
+      top: 40px;
+      text-align: right;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+      color: #52525b;
+    }
+    #f-rt {
+      left: 40px;
+      top: 156px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .f-sk {
+      left: 40px;
+      width: 900px;
+      height: 92px;
+      border-radius: 20px;
+      background: #f4f4f5;
+      overflow: hidden;
+    }
+    .f-sk i {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 92px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 100%);
+    }
+    .f-ph {
+      left: 40px;
+      width: 900px;
+      height: 92px;
+      border-radius: 20px;
+      background: #fafafa;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    .f-ph.on {
+      border-color: #fdba74;
+      background: #fff7ed;
+    }
+    .f-ph .n {
+      position: absolute;
+      left: 18px;
+      top: 16px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #e4e4e7;
+      color: #3f3f46;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 56px;
+    }
+    .f-ph.on .n {
+      background: #f97316;
+      color: #fff;
+    }
+    .f-ph b {
+      position: absolute;
+      left: 94px;
+      top: 12px;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .f-ph span {
+      position: absolute;
+      left: 94px;
+      top: 50px;
+      font-size: 22px;
+      color: #52525b;
+    }
+    .f-ph em {
+      position: absolute;
+      right: 20px;
+      top: 25px;
+      padding: 4px 12px;
+      border-radius: 10px;
+      background: #f4f4f5;
+      font-style: normal;
+      font-size: 22px;
+      font-weight: 700;
+      color: #3f3f46;
+    }
+    #f-ms {
+      left: 40px;
+      top: 316px;
+      width: 900px;
+      height: 400px;
+      border-radius: 22px;
+      background: #fff;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    }
+    #f-ms small {
+      position: absolute;
+      left: 26px;
+      top: 22px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #c2410c;
+    }
+    #f-ms h4 {
+      position: absolute;
+      left: 26px;
+      top: 50px;
+      margin: 0;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .f-task {
+      left: 18px;
+      width: 860px;
+      height: 60px;
+      border-radius: 14px;
+      border: 2px solid transparent;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    .f-task i {
+      position: absolute;
+      left: 12px;
+      top: 15px;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      border: 3px solid #d4d4d8;
+      box-sizing: border-box;
+    }
+    .f-task b {
+      position: absolute;
+      left: 54px;
+      top: 11px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .f-task em {
+      position: absolute;
+      right: 16px;
+      top: 13px;
+      font-style: normal;
+      font-size: 24px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    #f-todaytag {
+      position: absolute;
+      right: 80px;
+      top: 12px;
+      padding: 2px 10px;
+      border-radius: 8px;
+      background: #ffedd5;
+      color: #c2410c;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      opacity: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920" data-duration="7.7">
+    <!-- the setup -->
+    <div id="f-form" class="f-panel f-abs">
+      <div class="f-h f-abs">New roadmap</div>
+      <div class="f-lbl f-abs" style="top: 120px">YOUR GOAL</div>
+      <div id="f-fromnote" class="f-abs f-hand">✦ from the note</div>
+      <div id="f-in" class="f-abs"><i>B</i><i>e</i><i>c</i><i>o</i><i>m</i><i>e</i><i>&nbsp;</i><i>a</i><i>&nbsp;</i><i>s</i><i>o</i><i>f</i><i>t</i><i>w</i><i>a</i><i>r</i><i>e</i><i>&nbsp;</i><i>e</i><i>n</i><i>g</i><i>i</i><i>n</i><i>e</i><i>e</i><i>r</i><span id="f-caret"></span></div>
+      <div class="f-lbl f-abs" style="top: 296px">WHERE SHE'S STARTING</div>
+      <div id="f-seg" class="f-abs">
+        <div id="f-segpill" class="f-abs"></div>
+        <div id="f-beg" class="f-segl f-abs" style="left: 4px">Beginner</div>
+        <div class="f-segl f-abs" style="left: 298px">Some basics</div>
+        <div class="f-segl f-abs" style="left: 592px">Working dev</div>
+      </div>
+      <div class="f-lbl f-abs" style="top: 466px">TIME SHE REALLY HAS</div>
+      <div class="f-chip f-abs" style="left: 44px; top: 506px">30 min</div>
+      <div id="f-hour" class="f-chip f-abs" style="left: 250px; top: 506px">1 hour</div>
+      <div class="f-chip f-abs" style="left: 456px; top: 506px">2 hours</div>
+      <div class="f-per f-abs" style="left: 672px; top: 530px">/ day</div>
+      <div class="f-lbl f-abs" style="top: 626px">TIMELINE</div>
+      <div class="f-chip f-abs" style="left: 44px; top: 666px">1 year</div>
+      <div id="f-years" class="f-chip f-abs" style="left: 250px; top: 666px">3 years</div>
+      <div class="f-chip f-abs" style="left: 456px; top: 666px">5 years</div>
+      <div id="f-btn" class="f-abs">Create my roadmap →<div id="f-rip" class="f-abs"></div></div>
+    </div>
+
+    <!-- the roadmap -->
+    <div id="f-road" class="f-panel f-abs">
+      <div id="f-mini" class="f-abs"><div class="f-hand">become a software engineer ✦</div></div>
+      <div id="f-meta" class="f-abs">3 YEARS<br />1 HR / DAY</div>
+      <div id="f-rt" class="f-abs">Your roadmap</div>
+      <div class="f-sk f-abs" style="top: 210px"><i></i></div>
+      <div class="f-sk f-abs" style="top: 318px"><i></i></div>
+      <div class="f-sk f-abs" style="top: 426px"><i></i></div>
+      <div class="f-sk f-abs" style="top: 534px"><i></i></div>
+      <div id="f-ms" class="f-abs">
+        <small>MILESTONE 1</small>
+        <h4>JavaScript foundations</h4>
+        <div class="f-task f-abs" style="top: 108px"><i></i><b>JavaScript basics</b><span id="f-todaytag">TODAY</span><em>25m</em></div>
+        <div class="f-task f-abs" style="top: 176px"><i></i><b>Practice exercises</b><em>20m</em></div>
+        <div class="f-task f-abs" style="top: 244px"><i></i><b>Review your notes</b><em>15m</em></div>
+        <div class="f-task f-abs" style="top: 312px"><i></i><b>Functions &amp; scope</b><em>25m</em></div>
+      </div>
+      <div class="f-ph on f-abs" style="top: 210px"><div class="n">01</div><b>Fundamentals</b><span>HTML, CSS, JavaScript</span><em>0–6 mo</em></div>
+      <div class="f-ph f-abs" style="top: 318px"><div class="n">02</div><b>Frontend</b><span>React, testing, tooling</span><em>6–14 mo</em></div>
+      <div class="f-ph f-abs" style="top: 426px"><div class="n">03</div><b>Projects</b><span>Three real apps, shipped</span><em>14–24 mo</em></div>
+      <div class="f-ph f-abs" style="top: 534px"><div class="n">04</div><b>Job-ready</b><span>DSA, interviews, portfolio</span><em>24–36 mo</em></div>
+    </div>
+
+    <!-- captions -->
+    <div id="f-capA" class="f-cap f-abs" style="font-size: 72px"><span class="m">The</span> <span>goal,</span><br /><span class="m">where</span> <span class="m">she's</span> <span>starting,</span><br /><span class="m">the</span> <span>hour</span> <span class="m">she</span> <span>really</span> <span class="m">has.</span></div>
+    <div id="f-capB" class="f-cap f-abs" style="font-size: 88px"><span>3</span> <span>years</span> <span class="m">into</span><br /><span>phases,</span> <span>milestones,</span><br /><span class="m">and</span> <span>tasks.</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const T0 = 37.3;
+      const at = (t) => t - T0;
+
+      const WEIGHT = { anchor: [72, 0.19], word: [46, 0.15], light: [34, 0.12] };
+      function arrive(el, t, kind = "word") {
+        const [dy, dur] = WEIGHT[kind];
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: dy, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: dur, ease: "power4.out", immediateRender: false }, at(t));
+      }
+      // a group leaves upward, word by word (waterfall cut)
+      function cutUp(els, t) {
+        els.forEach((el, i) => {
+          tl.to(el, { y: -160, duration: 0.3, ease: "power4.in" }, at(t) + i * 0.018);
+          tl.to(el, { opacity: 0, duration: 0.16, ease: "none" }, at(t) + i * 0.018);
+        });
+      }
+      function pick(sel, t) {
+        tl.to(sel, { backgroundColor: "#fff7ed", borderColor: "#f97316", color: "#c2410c", duration: 0.12, ease: "power2.out" }, at(t));
+        tl.fromTo(sel, { scale: 1.12 }, { scale: 1, duration: 0.22, ease: "back.out(2.4)", immediateRender: false }, at(t));
+      }
+      // the three-phase nudge: barely moves, bursts, creeps to rest
+      function nudge(el, t, prop, dist, dur) {
+        tl.to(el, { [prop]: `+=${dist * 0.1}`, duration: dur * 0.2, ease: "power3.in" }, at(t));
+        tl.to(el, { [prop]: `+=${dist * 0.65}`, duration: dur * 0.18, ease: "none" }, at(t) + dur * 0.2);
+        tl.to(el, { [prop]: `+=${dist * 0.25}`, duration: dur * 0.62, ease: "power4.out" }, at(t) + dur * 0.38);
+      }
+
+      gsap.set(".f-cap", { transformOrigin: "0% 50%" });
+      gsap.set("#f-fromnote", { rotation: -2 });
+      gsap.set("#f-mini", { rotation: -2.5 });
+
+      // ---------------------------------------------------------------- she tells it the goal (from the note)
+      const capA = q("#f-capA > span");
+      [
+        [37.88, "light"],
+        [38.04, "anchor"],
+        [38.5, "light"],
+        [38.69, "light"],
+        [38.95, "anchor"],
+        [39.61, "light"],
+        [39.75, "anchor"],
+        [40.23, "light"],
+        [40.43, "word"],
+        [40.86, "light"],
+      ].forEach(([t, k], i) => arrive(capA[i], t, k));
+
+      tl.set("#f-fromnote", { opacity: 1 }, at(37.86));
+      tl.fromTo("#f-fromnote", { scale: 1.4, rotation: -10 }, { scale: 1, rotation: -2, duration: 0.2, ease: "power4.out", immediateRender: false }, at(37.86));
+      tl.to("#f-in", { borderColor: "#f97316", duration: 0.1 }, at(37.92));
+      tl.set("#f-caret", { opacity: 1 }, at(37.92));
+      q("#f-in i").forEach((c, i) => tl.set(c, { display: "inline" }, at(37.96 + i * 0.027)));
+      tl.set("#f-caret", { opacity: 0 }, at(38.8));
+      tl.to("#f-in", { borderColor: "#e4e4e7", duration: 0.2 }, at(38.8));
+
+      // where she's starting · the hour she really has · the timeline
+      tl.set("#f-segpill", { opacity: 1 }, at(38.95));
+      tl.fromTo("#f-segpill", { scale: 0.85 }, { scale: 1, duration: 0.24, ease: "back.out(2.2)", immediateRender: false }, at(38.95));
+      tl.to("#f-beg", { color: "#c2410c", duration: 0.1 }, at(38.95));
+      pick("#f-hour", 39.75);
+      pick("#f-years", 40.43);
+
+      // she taps Create
+      tl.to("#f-btn", { scale: 0.96, duration: 0.07, ease: "power2.out" }, at(40.86));
+      tl.to("#f-btn", { scale: 1, duration: 0.24, ease: "back.out(2)" }, at(40.93));
+      tl.set("#f-rip", { opacity: 1 }, at(40.86));
+      tl.fromTo("#f-rip", { scale: 0 }, { scale: 9, duration: 0.45, ease: "power2.out", immediateRender: false }, at(40.86));
+      tl.to("#f-rip", { opacity: 0, duration: 0.35, ease: "none" }, at(40.96));
+
+      // ---------------------------------------------------------------- it turns three years into phases, milestones and tasks
+      cutUp(capA, 41.28);
+      tl.to("#f-form", { y: -230, duration: 0.34, ease: "power4.in" }, at(41.3));
+      tl.to("#f-form", { opacity: 0, duration: 0.24, ease: "none" }, at(41.3));
+      tl.set("#f-road", { opacity: 0.35, y: 230 }, at(41.64));
+      tl.to("#f-road", { y: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, at(41.64));
+      // skeletons sweep while it thinks
+      tl.fromTo(".f-sk i", { x: -300 }, { x: 1000, duration: 0.55, ease: "power1.inOut", stagger: 0.05, immediateRender: false }, at(41.7));
+      tl.fromTo(".f-sk i", { x: -300 }, { x: 1000, duration: 0.55, ease: "power1.inOut", stagger: 0.05, immediateRender: false }, at(42.2));
+
+      const capB = q("#f-capB > span");
+      [
+        [41.95, "anchor"],
+        [42.17, "word"],
+        [42.5, "light"],
+        [42.75, "anchor"],
+        [43.36, "anchor"],
+        [44.05, "light"],
+        [44.27, "anchor"],
+      ].forEach(([t, k], i) => arrive(capB[i], t, k));
+
+      // phases cascade in on "phases"
+      tl.to(".f-sk", { opacity: 0, duration: 0.12, ease: "none" }, at(42.72));
+      q(".f-ph").forEach((el, i) => {
+        tl.set(el, { opacity: 1 }, at(42.75 + i * 0.07));
+        tl.fromTo(el, { y: 44 }, { y: 0, duration: 0.18, ease: "power4.out", immediateRender: false }, at(42.75 + i * 0.07));
+      });
+      // the first phase opens into its milestone on "milestones"; the rest make room
+      gsap.set("#f-ms", { clipPath: "inset(0% 0% 100% 0%)" });
+      tl.to("#f-ms", { clipPath: "inset(0% 0% 0% 0%)", duration: 0.42, ease: "power3.out" }, at(43.36));
+      q(".f-ph").slice(1).forEach((el) => nudge(el, 43.36, "y", 414, 0.55));
+      // and the milestone fills with tasks
+      q(".f-task").forEach((el, i) => {
+        tl.set(el, { opacity: 1 }, at(43.75 + i * 0.08));
+        tl.fromTo(el, { y: 24 }, { y: 0, duration: 0.16, ease: "power4.out", immediateRender: false }, at(43.75 + i * 0.08));
+      });
+      // "tasks." — today's is marked
+      tl.to(q(".f-task")[0], { borderColor: "#f97316", backgroundColor: "#fff7ed", duration: 0.15 }, at(44.27));
+      tl.set("#f-todaytag", { opacity: 1 }, at(44.3));
+      tl.fromTo("#f-todaytag", { scale: 1.5 }, { scale: 1, duration: 0.18, ease: "back.out(2)", immediateRender: false }, at(44.3));
+
+      window.__timelines["s4"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,634 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat";
+      src: url("assets/fonts/caveat-latin-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    /* inside her screen: the same sunrise wallpaper, now behind the clutter */
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(900px 500px at 50% 82%, rgba(255, 170, 90, 0.6) 0%, rgba(230, 120, 60, 0.25) 45%, rgba(230, 120, 60, 0) 75%),
+        linear-gradient(180deg, #1c1416 0%, #2c1a19 40%, #5e301d 75%, #2a1611 100%);
+    }
+    .b-abs {
+      position: absolute;
+    }
+
+    /* ---- narrator captions (light ink on the dark screen) ---- */
+    .b-cap {
+      left: 70px;
+      top: 270px;
+      width: 940px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1;
+      color: #fff4e6;
+      white-space: nowrap;
+    }
+    .b-cap span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .b-cap .m {
+      color: #c9a98a;
+    }
+    .b-cap .r {
+      color: #f87171;
+    }
+    .b-cap .b-num {
+      font-variant-numeric: tabular-nums;
+    }
+    .b-cap .b-today {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      letter-spacing: 0;
+      font-size: 1.5em;
+      line-height: 0.8;
+      color: #fb923c;
+      margin-left: 0.08em;
+    }
+
+    /* ---- the browser ---- */
+    #b-win {
+      left: 50px;
+      top: 700px;
+      width: 980px;
+      height: 820px;
+      border-radius: 26px;
+      background: #f4f4f5;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    #b-tabs {
+      left: 0;
+      top: 0;
+      width: 900px;
+      height: 70px;
+      background: #e4e4e7;
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+    .b-tab {
+      flex: 1;
+      min-width: 0;
+      height: 50px;
+      border-radius: 10px 10px 0 0;
+      background: #d4d4d8;
+      position: relative;
+      transform-origin: 50% 100%;
+    }
+    .b-tab::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      width: 12px;
+      height: 12px;
+      margin-left: -6px;
+      border-radius: 3px;
+      background: var(--c, #a1a1aa);
+    }
+    #b-tabbar-end {
+      left: 900px;
+      top: 0;
+      width: 80px;
+      height: 70px;
+      background: #e4e4e7;
+    }
+    #b-count {
+      right: 14px;
+      top: 12px;
+      height: 46px;
+      min-width: 58px;
+      padding: 0 10px;
+      border-radius: 12px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 46px;
+      text-align: center;
+      box-sizing: border-box;
+      font-variant-numeric: tabular-nums;
+    }
+    #b-url {
+      left: 24px;
+      top: 88px;
+      width: 932px;
+      height: 58px;
+      border-radius: 14px;
+      background: #fff;
+      border: 2px solid #e4e4e7;
+      font-size: 24px;
+      color: #52525b;
+      line-height: 54px;
+      padding-left: 22px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    #b-page {
+      left: 40px;
+      top: 180px;
+      width: 900px;
+    }
+    #b-page .t {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #18181b;
+    }
+    #b-page .s {
+      margin-top: 10px;
+      font-size: 22px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    #b-page i {
+      display: block;
+      height: 18px;
+      margin-top: 22px;
+      border-radius: 9px;
+      background: #e4e4e7;
+    }
+    .b-pdf {
+      width: 520px;
+      height: 300px;
+      border-radius: 22px;
+      background: #fff;
+      border: 2px solid #e4e4e7;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
+      padding: 28px;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    .b-pdf .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .b-pdf b {
+      display: block;
+      margin-top: 16px;
+      font-size: 32px;
+      font-weight: 700;
+      color: #18181b;
+      line-height: 1.15;
+    }
+    .b-pdf span {
+      display: block;
+      margin-top: 10px;
+      font-size: 24px;
+      color: #52525b;
+    }
+    #b-course {
+      left: 70px;
+      top: 1250px;
+      width: 840px;
+      height: 220px;
+      border-radius: 22px;
+      background: #fff;
+      border: 2px solid #e4e4e7;
+      padding: 30px 34px;
+      box-sizing: border-box;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+    }
+    #b-course b {
+      font-size: 34px;
+      font-weight: 700;
+      color: #18181b;
+    }
+    #b-bar {
+      position: relative;
+      margin-top: 26px;
+      height: 22px;
+      border-radius: 11px;
+      background: #f4f4f5;
+      overflow: hidden;
+    }
+    #b-bar i {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #a1a1aa;
+      border-radius: 11px;
+    }
+    #b-course span {
+      display: block;
+      margin-top: 18px;
+      font-size: 26px;
+      color: #52525b;
+    }
+    #b-pct {
+      right: 34px;
+      top: 26px;
+      font-size: 40px;
+      font-weight: 800;
+      color: #52525b;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ---- the week ---- */
+    #b-week {
+      left: 50px;
+      top: 700px;
+      width: 980px;
+      height: 780px;
+      border-radius: 30px;
+      background: #fafafa;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+    }
+    #b-week h3 {
+      position: absolute;
+      left: 40px;
+      top: 30px;
+      margin: 0;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #18181b;
+    }
+    #b-week .sub {
+      position: absolute;
+      right: 40px;
+      top: 42px;
+      font-size: 26px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    .b-dh {
+      top: 112px;
+      width: 131px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #52525b;
+    }
+    .b-sep {
+      top: 160px;
+      width: 2px;
+      height: 580px;
+      background: #e4e4e7;
+    }
+    .b-pc {
+      left: 40px;
+      top: 182px;
+      width: 112px;
+      height: 170px;
+      border-radius: 16px;
+      background: #fff;
+      border: 2px solid #e4e4e7;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      opacity: 0;
+    }
+    .b-pc::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 10px;
+      background: var(--c);
+    }
+    .b-pc b {
+      position: absolute;
+      left: 14px;
+      top: 30px;
+      font-size: 26px;
+      font-weight: 800;
+      color: #18181b;
+    }
+    .b-pc em {
+      position: absolute;
+      left: 14px;
+      top: 68px;
+      font-style: normal;
+      font-size: 22px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    .b-pc .box {
+      position: absolute;
+      left: 14px;
+      bottom: 16px;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      border: 3px solid #d4d4d8;
+      box-sizing: border-box;
+    }
+    .b-pc .b-x {
+      position: absolute;
+      inset: 0;
+      background: rgba(239, 68, 68, 0.14);
+      border: 3px solid #ef4444;
+      border-radius: 14px;
+      opacity: 0;
+    }
+    .b-pc .b-missed {
+      position: absolute;
+      left: 8px;
+      bottom: 12px;
+      padding: 2px 8px;
+      border: 3px solid #dc2626;
+      border-radius: 8px;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: #dc2626;
+      opacity: 0;
+    }
+    #b-ball {
+      left: 690px;
+      top: 190px;
+      width: 150px;
+      height: 150px;
+      opacity: 0;
+    }
+
+    #b-vig {
+      inset: 0;
+      background: radial-gradient(1000px 1500px at 50% 50%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.35) 100%);
+    }
+  </style>
+
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920" data-duration="14.05">
+    <!-- the browser: tabs, roadmaps, the course -->
+    <div id="b-win" class="b-abs">
+      <div id="b-tabs" class="b-abs"><i class="b-tab" style="--c: #ef4444"></i><i class="b-tab" style="--c: #0f766e"></i><i class="b-tab" style="--c: #f97316"></i><i class="b-tab" style="--c: #eab308"></i><i class="b-tab" style="--c: #7c3aed"></i><i class="b-tab" style="--c: #2563eb"></i><i class="b-tab" style="--c: #a1a1aa"></i><i class="b-tab" style="--c: #16a34a"></i><i class="b-tab" style="--c: #ef4444"></i><i class="b-tab" style="--c: #0f766e"></i><i class="b-tab" style="--c: #f97316"></i><i class="b-tab" style="--c: #eab308"></i><i class="b-tab" style="--c: #7c3aed; display: none"></i><i class="b-tab" style="--c: #2563eb; display: none"></i><i class="b-tab" style="--c: #a1a1aa; display: none"></i><i class="b-tab" style="--c: #16a34a; display: none"></i><i class="b-tab" style="--c: #ef4444; display: none"></i><i class="b-tab" style="--c: #0f766e; display: none"></i><i class="b-tab" style="--c: #f97316; display: none"></i><i class="b-tab" style="--c: #eab308; display: none"></i><i class="b-tab" style="--c: #7c3aed; display: none"></i><i class="b-tab" style="--c: #2563eb; display: none"></i><i class="b-tab" style="--c: #a1a1aa; display: none"></i><i class="b-tab" style="--c: #16a34a; display: none"></i><i class="b-tab" style="--c: #ef4444; display: none"></i><i class="b-tab" style="--c: #0f766e; display: none"></i><i class="b-tab" style="--c: #f97316; display: none"></i><i class="b-tab" style="--c: #eab308; display: none"></i><i class="b-tab" style="--c: #7c3aed; display: none"></i><i class="b-tab" style="--c: #2563eb; display: none"></i><i class="b-tab" style="--c: #a1a1aa; display: none"></i><i class="b-tab" style="--c: #16a34a; display: none"></i><i class="b-tab" style="--c: #ef4444; display: none"></i><i class="b-tab" style="--c: #0f766e; display: none"></i><i class="b-tab" style="--c: #f97316; display: none"></i><i class="b-tab" style="--c: #eab308; display: none"></i><i class="b-tab" style="--c: #7c3aed; display: none"></i><i class="b-tab" style="--c: #2563eb; display: none"></i><i class="b-tab" style="--c: #a1a1aa; display: none"></i><i class="b-tab" style="--c: #16a34a; display: none"></i><i class="b-tab" style="--c: #ef4444; display: none"></i><i class="b-tab" style="--c: #0f766e; display: none"></i><i class="b-tab" style="--c: #f97316; display: none"></i><i class="b-tab" style="--c: #eab308; display: none"></i><i class="b-tab" style="--c: #7c3aed; display: none"></i><i class="b-tab" style="--c: #2563eb; display: none"></i><i class="b-tab" style="--c: #a1a1aa; display: none"></i></div>
+      <div id="b-tabbar-end" class="b-abs"><div id="b-count" class="b-abs">12</div></div>
+      <div id="b-url" class="b-abs">roadmap.sh · reddit.com/r/learnprogramming · youtube.com/watch?v=…</div>
+      <div id="b-page" class="b-abs" data-layout-allow-overlap>
+        <div class="t">How do I actually start learning to code?</div>
+        <div class="s">r/learnprogramming · 1.2k comments · saved 3 years ago</div>
+        <i style="width: 860px"></i><i style="width: 790px"></i><i style="width: 830px"></i><i style="width: 520px"></i>
+      </div>
+      <div id="b-pdf1" class="b-pdf b-abs" data-layout-allow-overlap style="left: 60px; top: 190px"><span class="tag">PDF</span><b>Complete Roadmap 2024.pdf</b><span>48 pages · opened once</span></div>
+      <div id="b-pdf2" class="b-pdf b-abs" data-layout-allow-overlap style="left: 250px; top: 250px"><span class="tag">PDF</span><b>THE ONLY Software Engineer Roadmap.pdf</b><span>112 pages</span></div>
+      <div id="b-pdf3" class="b-pdf b-abs" data-layout-allow-overlap style="left: 400px; top: 320px"><span class="tag">PDF</span><b>roadmap (final) (2).pdf</b><span>Downloaded 3 times</span></div>
+    </div>
+    <div id="b-course" class="b-abs">
+      <b>JavaScript Mastery</b>
+      <div id="b-pct" class="b-abs">0%</div>
+      <div id="b-bar"><i id="b-fill"></i></div>
+      <span>Last watched 23 days ago</span>
+    </div>
+
+    <!-- the week -->
+    <div id="b-week" class="b-abs">
+      <h3>This week</h3>
+      <div class="sub">Plan v7</div>
+      <div class="b-dh b-abs" style="left: 30px">Sun</div>
+      <div class="b-dh b-abs" style="left: 161px">Mon</div>
+      <div class="b-dh b-abs" style="left: 293px">Tue</div>
+      <div id="b-hwed" class="b-dh b-abs" style="left: 424px">Wed</div>
+      <div class="b-dh b-abs" style="left: 556px">Thu</div>
+      <div id="b-hfri" class="b-dh b-abs" style="left: 687px">Fri</div>
+      <div class="b-dh b-abs" style="left: 819px">Sat</div>
+      <div class="b-sep b-abs" style="left: 160px"></div>
+      <div class="b-sep b-abs" style="left: 292px"></div>
+      <div class="b-sep b-abs" style="left: 423px"></div>
+      <div class="b-sep b-abs" style="left: 555px"></div>
+      <div class="b-sep b-abs" style="left: 686px"></div>
+      <div class="b-sep b-abs" style="left: 818px"></div>
+      <div class="b-pc b-abs" style="--c: #2563eb"><b>DSA</b><em>2h</em><i class="box"></i></div>
+      <div class="b-pc b-abs" style="--c: #eab308"><b>JS</b><em>2h</em><i class="box"></i></div>
+      <div class="b-pc b-abs" style="--c: #7c3aed"><b>React</b><em>3h</em><i class="box"></i><i class="b-x"></i><i class="b-missed">MISSED</i></div>
+      <div class="b-pc b-abs" style="--c: #16a34a"><b>Build</b><em>3h</em><i class="box"></i></div>
+      <div class="b-pc b-abs" style="--c: #2563eb"><b>DSA</b><em>2h</em><i class="box"></i></div>
+      <div class="b-pc b-abs" style="--c: #0f766e"><b>Mock</b><em>2h</em><i class="box"></i></div>
+      <svg id="b-ball" class="b-abs" viewBox="0 0 150 150" aria-hidden="true">
+        <polygon points="30,40 62,14 104,22 136,52 128,96 104,132 58,138 22,112 12,74" fill="#f4f4f5" stroke="#a1a1aa" stroke-width="3" stroke-linejoin="round" />
+        <g fill="none" stroke="#c4c4cc" stroke-width="3" stroke-linecap="round">
+          <path d="M30 40 L 70 70 L 104 22" /><path d="M70 70 L 128 96" /><path d="M70 70 L 58 138" /><path d="M70 70 L 12 74" /><path d="M40 100 L 70 70" />
+        </g>
+        <path d="M62 14 L 70 34 L 84 18 Z" fill="#7c3aed" opacity="0.7" />
+        <path d="M110 110 L 124 102 L 116 124 Z" fill="#2563eb" opacity="0.7" />
+        <path d="M26 86 L 38 80 L 34 98 Z" fill="#16a34a" opacity="0.7" />
+      </svg>
+    </div>
+
+    <div id="b-vig" class="b-abs"></div>
+
+    <!-- captions -->
+    <div id="b-capA" class="b-cap b-abs" style="font-size: 116px"><span id="b-n47" class="b-num">12</span> <span>tabs.</span><br /><span class="m">3</span> <span class="m">roadmaps.</span><br /><span id="b-n12" class="r b-num">0%.</span></div>
+    <div id="b-row1" class="b-cap b-abs" style="font-size: 96px"><span class="m">New</span> <span class="m">plan:</span><br /><span style="font-size: 1.35em">Sunday.</span></div>
+    <div id="b-row2" class="b-cap b-abs" style="font-size: 96px"><span class="m">Missed:</span><br /><span class="r" style="font-size: 1.35em">Wednesday.</span></div>
+    <div id="b-row3" class="b-cap b-abs" style="font-size: 96px"><span class="m">Start</span> <span class="m">over:</span><br /><span style="font-size: 1.35em">Friday.</span></div>
+    <div id="b-capC" class="b-cap b-abs" style="font-size: 112px"><span class="m">The</span> <span class="m">goal</span> <span class="m">was</span><br /><span>never</span> <span>too</span> <span id="b-big">big.</span></div>
+    <div id="b-capD" class="b-cap b-abs" style="font-size: 112px"><span>Nobody</span> <span>turned</span> <span>it</span><br /><span class="m">into</span> <span class="b-today">today.</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      // times below are film seconds (cues from assets/voice/cues.json); this scene starts at T0
+      const T0 = 19.15;
+      const at = (t) => t - T0;
+
+      const WEIGHT = { anchor: [72, 0.19], word: [46, 0.15], light: [34, 0.12] };
+      function arrive(el, t, kind = "word") {
+        const [dy, dur] = WEIGHT[kind];
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: dy, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: dur, ease: "power4.out", immediateRender: false }, at(t));
+      }
+      function writeOn(el, t, dur) {
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { clipPath: "inset(-40% 100% -40% -8%)" }, { clipPath: "inset(-40% -8% -40% -8%)", duration: dur, ease: "none", immediateRender: false }, at(t));
+      }
+      function pushOut(sel, t) {
+        tl.to(sel, { scale: 1.2, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, at(t));
+        tl.to(sel, { opacity: 0, duration: 0.2, ease: "none" }, at(t));
+      }
+      // a whole block leaves left, word by word (waterfall cut)
+      function cutLeft(els, t) {
+        els.forEach((el, i) => {
+          tl.to(el, { x: -230, duration: 0.34, ease: "power4.in" }, at(t) + i * 0.022);
+          tl.to(el, { opacity: 0, duration: 0.18, ease: "none" }, at(t) + i * 0.022);
+        });
+      }
+      // a caption row rolls up and away like a slot reel
+      function rollOut(sel, t) {
+        tl.to(sel, { y: -160, filter: "blur(8px)", duration: 0.22, ease: "power3.in" }, at(t));
+        tl.to(sel, { opacity: 0, duration: 0.2, ease: "none" }, at(t));
+      }
+      function rollIn(el, t) {
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: 150, scaleY: 1.3, filter: "blur(10px)" }, { y: 0, scaleY: 1, filter: "blur(0px)", duration: 0.26, ease: "back.out(1.6)", immediateRender: false }, at(t));
+      }
+
+      gsap.set(".b-cap", { transformOrigin: "0% 50%" });
+      gsap.set("#b-fill", { scaleX: 0, transformOrigin: "0% 50%" });
+      gsap.set("#b-big", { transformOrigin: "0% 85%" });
+
+      // ---------------------------------------------------------------- 47 tabs (19.33)
+      const tabs = q(".b-tab");
+      const n47 = document.getElementById("b-n47");
+      const badge = document.getElementById("b-count");
+      for (let k = 12; k < 47; k++) {
+        const u = (k - 11) / 35;
+        const t = 19.33 + 0.6 * (1 - Math.pow(1 - u, 2));
+        tl.set(tabs[k], { display: "block" }, at(t));
+        tl.fromTo(tabs[k], { scaleY: 0.3 }, { scaleY: 1, duration: 0.1, ease: "power2.out", immediateRender: false }, at(t));
+      }
+      const cnt = { v: 12 };
+      tl.fromTo(
+        cnt,
+        { v: 12 },
+        {
+          v: 47,
+          duration: 0.6,
+          ease: "power2.out",
+          immediateRender: false,
+          onUpdate() {
+            const s = String(Math.round(cnt.v));
+            n47.textContent = s;
+            badge.textContent = s;
+          },
+        },
+        at(19.33),
+      );
+      const capA = q("#b-capA > span");
+      arrive(capA[0], 19.33, "anchor");
+      tl.fromTo("#b-count", { scale: 1 }, { scale: 1.25, duration: 0.3, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, at(19.33));
+      arrive(capA[1], 19.94, "word");
+
+      // ---------------------------------------------------------------- 3 roadmaps (20.83): the PDFs fan out
+      arrive(capA[2], 20.83, "anchor");
+      [
+        ["#b-pdf1", 20.86, -6],
+        ["#b-pdf2", 21.12, 4],
+        ["#b-pdf3", 21.42, -2],
+      ].forEach(([id, t, r]) => {
+        tl.set(id, { opacity: 1 }, at(t));
+        tl.fromTo(id, { x: 420, y: 140, rotation: r + 24 }, { x: 0, y: 0, rotation: r, duration: 0.32, ease: "power4.out", immediateRender: false }, at(t));
+      });
+      arrive(capA[3], 21.45, "word");
+
+      // ---------------------------------------------------------------- 12% (22.42): the course fills, then stalls
+      tl.set("#b-course", { opacity: 1 }, at(22.42));
+      tl.fromTo("#b-course", { y: 280 }, { y: 0, duration: 0.4, ease: "power4.out", immediateRender: false }, at(22.42));
+      const pct = document.getElementById("b-pct");
+      const n12 = document.getElementById("b-n12");
+      const fill = { v: 0 };
+      tl.fromTo(
+        fill,
+        { v: 0 },
+        {
+          v: 12,
+          duration: 0.52,
+          ease: "power2.out",
+          immediateRender: false,
+          onUpdate() {
+            const s = Math.round(fill.v);
+            pct.textContent = s + "%";
+            n12.textContent = s + "%.";
+            gsap.set("#b-fill", { scaleX: fill.v / 100 });
+          },
+        },
+        at(22.62),
+      );
+      arrive(capA[4], 22.62, "anchor");
+      tl.set("#b-pct", { color: "#dc2626" }, at(23.14));
+      tl.set("#b-fill", { backgroundColor: "#ef4444" }, at(23.14));
+      // the stall: it strains a little further, gives up, shudders
+      tl.to("#b-fill", { scaleX: 0.135, duration: 0.12, ease: "power2.out" }, at(23.2));
+      tl.to("#b-fill", { scaleX: 0.12, duration: 0.16, ease: "back.in(2)" }, at(23.32));
+      tl.to(["#b-course", "#b-n12"], { keyframes: { x: [0, -9, 8, -6, 4, -2, 0] }, duration: 0.32, ease: "none" }, at(23.46));
+
+      // ---------------------------------------------------------------- into the week (24.45): everything leaves left, the week arrives
+      cutLeft(capA, 24.45);
+      tl.to(["#b-win", "#b-course"], { x: -230, duration: 0.34, ease: "power4.in" }, at(24.45));
+      tl.to(["#b-win", "#b-course"], { opacity: 0, duration: 0.26, ease: "none" }, at(24.45));
+      tl.set("#b-week", { opacity: 0.35, x: 230 }, at(24.79));
+      tl.to("#b-week", { x: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, at(24.79));
+
+      const cards = q(".b-pc");
+      const COL = 131.4;
+      // Sunday: the new plan deals itself out across the week
+      const row1 = q("#b-row1 > span");
+      arrive(row1[0], 24.69, "word");
+      arrive(row1[1], 24.95, "word");
+      rollIn(row1[2], 25.35);
+      cards.forEach((c, k) => {
+        tl.set(c, { opacity: 1, x: 0, y: k * 4, rotation: k % 2 ? 3 : -3 }, at(25.35));
+        tl.fromTo(c, { scale: 1.12 }, { scale: 1, duration: 0.12, ease: "power2.out", immediateRender: false }, at(25.35));
+        tl.to(c, { x: (k + 1) * COL, y: 0, rotation: k % 2 ? 1.5 : -1.5, duration: 0.28, ease: "power3.out" }, at(25.45 + k * 0.065));
+      });
+
+      // Wednesday: missed
+      rollOut("#b-row1", 26.08);
+      const row2 = q("#b-row2 > span");
+      arrive(row2[0], 26.19, "word");
+      rollIn(row2[1], 26.39);
+      const wedX = cards[2].querySelector(".b-x");
+      const wedStamp = cards[2].querySelector(".b-missed");
+      tl.to(wedX, { opacity: 1, duration: 0.12 }, at(26.39));
+      tl.set(wedStamp, { opacity: 1 }, at(26.45));
+      tl.fromTo(wedStamp, { scale: 1.8, rotation: -20 }, { scale: 1, rotation: -8, duration: 0.16, ease: "power4.out", immediateRender: false }, at(26.45));
+      tl.set("#b-hwed", { color: "#dc2626" }, at(26.39));
+      tl.to(cards[2], { keyframes: { x: [3 * COL, 3 * COL - 7, 3 * COL + 6, 3 * COL - 3, 3 * COL] }, duration: 0.24, ease: "none" }, at(26.42));
+
+      // Friday: start over. Everything piles up on Friday, crumples, and is tossed
+      rollOut("#b-row2", 27.38);
+      const row3 = q("#b-row3 > span");
+      arrive(row3[0], 27.48, "word");
+      arrive(row3[1], 27.66, "word");
+      rollIn(row3[2], 27.89);
+      tl.set("#b-hfri", { color: "#18181b" }, at(27.48));
+      cards.forEach((c, k) => {
+        tl.to(c, { x: 5 * COL + (k - 2) * 3, y: k * 6, rotation: k % 2 ? 7 : -7, duration: 0.32, ease: "power3.inOut" }, at(27.48 + k * 0.035));
+        tl.to(c, { scale: 0.25, duration: 0.18, ease: "power2.in" }, at(27.92));
+        tl.to(c, { opacity: 0, duration: 0.12, ease: "none" }, at(27.98));
+      });
+      tl.set("#b-ball", { opacity: 1 }, at(27.98));
+      tl.fromTo("#b-ball", { scale: 0.3, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.2, ease: "back.out(2)", immediateRender: false }, at(27.98));
+      tl.to("#b-ball", { x: 560, rotation: 560, duration: 0.7, ease: "power1.in" }, at(28.2));
+      tl.to("#b-ball", { y: -260, duration: 0.24, ease: "power2.out" }, at(28.2));
+      tl.to("#b-ball", { y: 1400, duration: 0.5, ease: "power2.in" }, at(28.44));
+
+      // ---------------------------------------------------------------- the goal was never too big (29.2)
+      rollOut("#b-row3", 28.95);
+      tl.to("#b-week", { opacity: 0.4, duration: 0.5, ease: "power2.out" }, at(28.95));
+      tl.to("#b-week", { filter: "blur(3px)", duration: 0.5, ease: "power2.out" }, at(28.95));
+      const capC = q("#b-capC > span");
+      arrive(capC[0], 29.21, "light");
+      arrive(capC[1], 29.32, "word");
+      arrive(capC[2], 29.53, "light");
+      arrive(capC[3], 29.74, "word");
+      arrive(capC[4], 30.04, "light");
+      // "big." arrives too big, and settles to size
+      tl.set(capC[5], { opacity: 1 }, at(30.23));
+      tl.fromTo(capC[5], { scale: 2.6, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out", immediateRender: false }, at(30.23));
+      pushOut("#b-capC", 30.86);
+
+      // nobody turned it into today
+      const capD = q("#b-capD > span");
+      arrive(capD[0], 31.05, "word");
+      arrive(capD[1], 31.45, "word");
+      arrive(capD[2], 31.95, "light");
+      arrive(capD[3], 32.11, "light");
+      writeOn(capD[4], 32.4, 0.32);
+
+      window.__timelines["s2"] = tl;
+    })();
+  </script>
+</template>

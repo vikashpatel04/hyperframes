@@ -1,0 +1,732 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat";
+      src: url("assets/fonts/caveat-latin-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+      background: #fafafa;
+      color: #09090b;
+    }
+    .h-abs {
+      position: absolute;
+    }
+    .h-hand {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      color: #2a2520;
+    }
+    /* narrator captions */
+    .h-cap {
+      left: 70px;
+      top: 270px;
+      width: 940px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+      color: #18181b;
+      white-space: nowrap;
+    }
+    .h-cap span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .h-cap .m {
+      color: #71717a;
+    }
+    .h-cap .h-today {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      letter-spacing: 0;
+      font-size: 1.5em;
+      line-height: 0.8;
+      color: #c2410c;
+      margin-left: 0.08em;
+    }
+
+    /* the Today title (the app's own headline) */
+    #h-title {
+      left: 66px;
+      top: 280px;
+      font-size: 124px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      opacity: 0;
+    }
+    #h-sub {
+      left: 72px;
+      top: 424px;
+      font-size: 34px;
+      font-weight: 500;
+      color: #52525b;
+      opacity: 0;
+    }
+    #h-mini {
+      left: 640px;
+      top: 300px;
+      width: 380px;
+      height: 92px;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 30%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 12px 22px rgba(70, 45, 10, 0.18);
+      opacity: 0;
+    }
+    #h-mini .h-hand {
+      position: absolute;
+      left: 18px;
+      top: 6px;
+      font-size: 34px;
+      line-height: 0.95;
+    }
+
+    /* next up */
+    #h-next {
+      left: 50px;
+      top: 600px;
+      width: 980px;
+      height: 450px;
+      border-radius: 36px;
+      background: #09090b;
+      color: #fafafa;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+    }
+    #h-next small {
+      position: absolute;
+      left: 50px;
+      top: 44px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #fb923c;
+    }
+    #h-h2sk {
+      left: 50px;
+      top: 104px;
+      width: 560px;
+      height: 56px;
+      border-radius: 14px;
+      background: #27272a;
+    }
+    #h-h2 {
+      left: 50px;
+      top: 86px;
+      font-size: 78px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+    #h-h2 span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .h-flap {
+      top: 206px;
+      height: 112px;
+      border-radius: 16px;
+      background: #1f1f23;
+      font-size: 58px;
+      font-weight: 700;
+      line-height: 112px;
+      letter-spacing: 0.02em;
+      text-align: center;
+      overflow: hidden;
+    }
+    .h-flap::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 55px;
+      height: 2px;
+      background: #09090b;
+    }
+    .h-flap span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .h-flap span:first-child {
+      opacity: 1;
+      color: #52525b;
+    }
+    #h-start {
+      left: 50px;
+      top: 314px;
+      height: 92px;
+      padding: 0 44px;
+      border-radius: 20px;
+      background: #ea580c;
+      color: #fff;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 92px;
+    }
+    #h-next .meta {
+      position: absolute;
+      right: 50px;
+      top: 346px;
+      font-size: 26px;
+      color: #a1a1aa;
+    }
+
+    /* the lower slot: today's blocks / the week */
+    .h-list {
+      left: 50px;
+      top: 1080px;
+      width: 980px;
+    }
+    .h-blk {
+      position: relative;
+      height: 108px;
+      border-radius: 22px;
+      border: 2px solid #e4e4e7;
+      background: #fff;
+      margin-bottom: 14px;
+      box-sizing: border-box;
+      transform-origin: 50% 0%;
+    }
+    .h-blk.on {
+      border-color: #f97316;
+      box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.14);
+    }
+    .h-blk time {
+      position: absolute;
+      left: 28px;
+      top: 34px;
+      font-size: 32px;
+      font-weight: 700;
+      color: #52525b;
+    }
+    .h-blk.on time {
+      color: #c2410c;
+    }
+    .h-blk b {
+      position: absolute;
+      left: 140px;
+      top: 31px;
+      font-size: 34px;
+      font-weight: 600;
+    }
+    .h-blk em {
+      position: absolute;
+      right: 28px;
+      top: 31px;
+      font-style: normal;
+      font-size: 28px;
+      font-weight: 600;
+      color: #52525b;
+      background: #f4f4f5;
+      padding: 4px 14px;
+      border-radius: 10px;
+    }
+    #h-list2 {
+      opacity: 0;
+    }
+    .h-sw .z {
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    .h-blk em.h-sw .z {
+      left: 14px;
+      top: 4px;
+    }
+    #h-week {
+      left: 50px;
+      top: 1080px;
+      width: 980px;
+      height: 340px;
+      border-radius: 30px;
+      background: #fff;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      overflow: hidden;
+      opacity: 0;
+    }
+    #h-week h3 {
+      position: absolute;
+      left: 30px;
+      top: 20px;
+      margin: 0;
+      font-size: 30px;
+      font-weight: 800;
+    }
+    .h-wd {
+      top: 72px;
+      width: 131px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #52525b;
+    }
+    .h-wc {
+      left: 40px;
+      top: 116px;
+      width: 112px;
+      height: 150px;
+      border-radius: 16px;
+      background: #fafafa;
+      border: 2px solid #e4e4e7;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .h-wc::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 8px;
+      background: var(--c);
+    }
+    .h-wc b {
+      position: absolute;
+      left: 12px;
+      top: 24px;
+      font-size: 24px;
+      font-weight: 800;
+    }
+    .h-wc em {
+      position: absolute;
+      left: 12px;
+      top: 60px;
+      font-style: normal;
+      font-size: 20px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    .h-wc .ok {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      font-size: 26px;
+      font-weight: 900;
+      color: #16a34a;
+    }
+    .h-wc .miss {
+      position: absolute;
+      left: 10px;
+      bottom: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #dc2626;
+      opacity: 0;
+    }
+    .h-wc .moved {
+      position: absolute;
+      left: 10px;
+      bottom: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #c2410c;
+      opacity: 0;
+    }
+    #h-toast {
+      left: 160px;
+      top: 1440px;
+      width: 760px;
+      height: 84px;
+      border-radius: 42px;
+      background: #18181b;
+      color: #fafafa;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 84px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+    }
+    #h-toast b {
+      color: #4ade80;
+    }
+
+    /* the assistant sheet */
+    #h-sheet {
+      left: 0;
+      top: 960px;
+      width: 1080px;
+      height: 960px;
+      border-radius: 40px 40px 0 0;
+      background: #fff;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.16);
+    }
+    #h-sheet .grab {
+      position: absolute;
+      left: 490px;
+      top: 18px;
+      width: 100px;
+      height: 10px;
+      border-radius: 5px;
+      background: #d4d4d8;
+    }
+    #h-sheet h3 {
+      position: absolute;
+      left: 50px;
+      top: 46px;
+      margin: 0;
+      font-size: 34px;
+      font-weight: 800;
+    }
+    #h-ub {
+      right: 50px;
+      top: 116px;
+      padding: 20px 30px;
+      border-radius: 30px 30px 8px 30px;
+      background: #ea580c;
+      color: #fff;
+      font-size: 32px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    #h-ub i {
+      font-style: normal;
+      display: none;
+    }
+    #h-dots {
+      left: 50px;
+      top: 216px;
+      width: 130px;
+      height: 70px;
+      border-radius: 30px 30px 30px 8px;
+      background: #f4f4f5;
+      opacity: 0;
+    }
+    #h-dots i {
+      position: absolute;
+      top: 29px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #a1a1aa;
+    }
+    #h-ab {
+      left: 50px;
+      top: 216px;
+      width: 820px;
+      height: 300px;
+      border-radius: 30px 30px 30px 8px;
+      background: #f4f4f5;
+      opacity: 0;
+    }
+    #h-ab p {
+      position: absolute;
+      left: 30px;
+      top: 22px;
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .h-ar {
+      left: 30px;
+      font-size: 28px;
+      font-weight: 500;
+      color: #27272a;
+      opacity: 0;
+    }
+    .h-btn {
+      top: 206px;
+      height: 70px;
+      padding: 0 34px;
+      border-radius: 18px;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 70px;
+      overflow: hidden;
+      opacity: 0;
+    }
+    #h-apply {
+      left: 30px;
+      background: #ea580c;
+      color: #fff;
+    }
+    #h-keep {
+      left: 190px;
+      border: 2px solid #d4d4d8;
+      line-height: 66px;
+      color: #3f3f46;
+      background: #fff;
+    }
+    #h-rip {
+      left: 20px;
+      top: -25px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+    }
+
+    #h-tabbar {
+      left: 0;
+      top: 1700px;
+      width: 1080px;
+      height: 220px;
+      background: #fff;
+      border-top: 2px solid #e4e4e7;
+    }
+    #h-tabbar div {
+      position: absolute;
+      top: 34px;
+      width: 270px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    #h-tabbar div.on {
+      color: #c2410c;
+    }
+  </style>
+
+  <div id="root" data-composition-id="s5" data-width="1080" data-height="1920" data-duration="12.45">
+    <div id="h-tabbar" class="h-abs" data-layout-ignore>
+      <div class="on" style="left: 0">● Today</div>
+      <div style="left: 270px">Roadmap</div>
+      <div style="left: 540px">Progress</div>
+      <div style="left: 810px">Assistant</div>
+    </div>
+
+    <div id="h-title" class="h-abs">Today</div>
+    <div id="h-sub" class="h-abs">Monday · 1 hour planned · 3 blocks</div>
+    <div id="h-mini" class="h-abs"><div class="h-hand">become a software<br />engineer ✦</div></div>
+
+    <div id="h-next" class="h-abs">
+      <small>NEXT UP</small>
+      <div id="h-h2sk" class="h-abs"></div>
+      <div id="h-h2" class="h-abs"><span>JavaScript</span> <span>basics</span></div>
+      <div id="h-f1" class="h-flap h-abs" style="left: 50px; width: 180px"><span>—</span><span>SAT</span><span>THU</span><span>TUE</span><span>MON</span></div>
+      <div id="h-f2" class="h-flap h-abs" style="left: 246px; width: 210px"><span>—</span><span>7:30</span><span>11:15</span><span>6:45</span><span>9:00</span></div>
+      <div id="h-f3" class="h-flap h-abs" style="left: 472px; width: 260px"><span>—</span><span>45 MIN</span><span>10 MIN</span><span>60 MIN</span><span>25 MIN</span><span>20 MIN</span></div>
+      <div id="h-start" class="h-abs">Start →</div>
+      <div class="meta">Phase 01 · Fundamentals</div>
+    </div>
+
+    <div id="h-list" class="h-list h-abs">
+      <div class="h-blk on"><time>9:00</time><b>JavaScript basics</b><em>25m</em></div>
+      <div class="h-blk"><time>9:25</time><b>Practice exercises</b><em>20m</em></div>
+      <div class="h-blk"><time>9:45</time><b>Review your notes</b><em>15m</em></div>
+    </div>
+
+    <div id="h-week" class="h-abs">
+      <h3>This week</h3>
+      <div class="h-wd h-abs" style="left: 30px">Mon</div>
+      <div class="h-wd h-abs" style="left: 161px">Tue</div>
+      <div id="h-wdwed" class="h-wd h-abs" style="left: 293px">Wed</div>
+      <div class="h-wd h-abs" style="left: 424px">Thu</div>
+      <div class="h-wd h-abs" style="left: 556px">Fri</div>
+      <div class="h-wd h-abs" style="left: 687px">Sat</div>
+      <div class="h-wd h-abs" style="left: 819px">Sun</div>
+      <div class="h-wc h-abs" style="--c: #eab308"><b>JS</b><em>1 hr</em><span class="ok">✓</span></div>
+      <div class="h-wc h-abs" style="--c: #eab308"><b>JS</b><em>1 hr</em><span class="ok">✓</span></div>
+      <div class="h-wc h-abs" style="--c: #eab308"><b>Loops</b><em>1 hr</em><span class="miss">MISSED</span><span class="moved">MOVED</span></div>
+      <div class="h-wc h-abs" style="--c: #eab308"><b>Arrays</b><em>1 hr</em></div>
+      <div class="h-wc h-abs" style="--c: #eab308"><b>DOM</b><em>1 hr</em></div>
+      <div class="h-wc h-abs" style="--c: #2563eb"><b>Review</b><em>1 hr</em></div>
+      <div class="h-wc h-abs" style="--c: #16a34a"><b>Build</b><em>1 hr</em></div>
+    </div>
+
+    <div id="h-list2" class="h-list h-abs">
+      <div class="h-blk on"><time>9:00</time><b>JavaScript basics</b><em class="h-sw"><span class="a">25m</span><span class="z">20m</span></em></div>
+      <div class="h-blk"><time class="h-sw"><span class="a">9:25</span><span class="z">9:20</span></time><b class="h-sw"><span class="a">Practice exercises</span><span class="z">Quick review</span></b><em class="h-sw"><span class="a">20m</span><span class="z">10m</span></em></div>
+      <div id="h-blk3" class="h-blk"><time>9:45</time><b>Review your notes</b><em>15m</em></div>
+    </div>
+
+    <div id="h-toast" class="h-abs"><b>✓</b> Plan updated · nothing piled up</div>
+
+    <div id="h-sheet" class="h-abs" data-layout-allow-overlap>
+      <div class="grab"></div>
+      <h3>✦ Assistant</h3>
+      <div id="h-ub" class="h-abs"><i>I</i><i>&nbsp;</i><i>o</i><i>n</i><i>l</i><i>y</i><i>&nbsp;</i><i>h</i><i>a</i><i>v</i><i>e</i><i>&nbsp;</i><i>3</i><i>0</i><i>&nbsp;</i><i>m</i><i>i</i><i>n</i><i>&nbsp;</i><i>t</i><i>o</i><i>d</i><i>a</i><i>y</i></div>
+      <div id="h-dots" class="h-abs"><i style="left: 32px"></i><i style="left: 59px"></i><i style="left: 86px"></i></div>
+      <div id="h-ab" class="h-abs">
+        <p>Here's today in 30 minutes:</p>
+        <div class="h-ar h-abs" style="top: 82px">9:00 · JavaScript basics · 20m</div>
+        <div class="h-ar h-abs" style="top: 126px">9:20 · Quick review · 10m</div>
+        <div id="h-apply" class="h-btn h-abs">Apply<div id="h-rip" class="h-abs"></div></div>
+        <div id="h-keep" class="h-btn h-abs">Keep plan</div>
+      </div>
+    </div>
+
+    <!-- captions -->
+    <div id="h-capA" class="h-cap h-abs" style="font-size: 112px"><span class="m">Then</span> <span class="m">into</span><br /><span class="h-today">today.</span></div>
+    <div id="h-capC" class="h-cap h-abs" style="font-size: 88px"><span>Miss</span> <span>a</span> <span>day?</span><br /><span class="m">The</span> <span class="m">plan</span> <span>moves.</span><br /><span class="m">Nothing</span> <span>piles</span> <span>up.</span></div>
+    <div id="h-capD" class="h-cap h-abs" style="font-size: 104px"><span class="m">Only</span> <span>30</span> <span>minutes?</span><br /><span>Ask.</span></div>
+    <div id="h-capE" class="h-cap h-abs" style="font-size: 104px"><span class="m">It</span> <span class="m">reshapes</span> <span class="h-today">today.</span><br /><span>She</span> <span>decides.</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const T0 = 45.0;
+      const at = (t) => t - T0;
+
+      const WEIGHT = { anchor: [72, 0.19], word: [46, 0.15], light: [34, 0.12] };
+      function arrive(el, t, kind = "word") {
+        const [dy, dur] = WEIGHT[kind];
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: dy, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: dur, ease: "power4.out", immediateRender: false }, at(t));
+      }
+      function writeOn(el, t, dur) {
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { clipPath: "inset(-40% 100% -40% -8%)" }, { clipPath: "inset(-40% -8% -40% -8%)", duration: dur, ease: "none", immediateRender: false }, at(t));
+      }
+      function cutLeft(els, t) {
+        els.forEach((el, i) => {
+          tl.to(el, { x: -230, duration: 0.34, ease: "power4.in" }, at(t) + i * 0.022);
+          tl.to(el, { opacity: 0, duration: 0.18, ease: "none" }, at(t) + i * 0.022);
+        });
+      }
+      function nudge(el, t, prop, dist, dur) {
+        tl.to(el, { [prop]: `+=${dist * 0.1}`, duration: dur * 0.2, ease: "power3.in" }, at(t));
+        tl.to(el, { [prop]: `+=${dist * 0.65}`, duration: dur * 0.18, ease: "none" }, at(t) + dur * 0.2);
+        tl.to(el, { [prop]: `+=${dist * 0.25}`, duration: dur * 0.62, ease: "power4.out" }, at(t) + dur * 0.38);
+      }
+      // a split-flap tile riffles through a few values (by index) and lands on the last on cue
+      function flap(id, seq, land) {
+        const s = q(`${id} span`);
+        for (let i = 1; i < seq.length; i++) {
+          const t = land - (seq.length - 1 - i) * 0.055;
+          tl.set(s[seq[i - 1]], { opacity: 0 }, at(t));
+          tl.set(s[seq[i]], { opacity: 1 }, at(t));
+          tl.fromTo(id, { scaleY: 0.55 }, { scaleY: 1, duration: 0.05, ease: "power2.out", immediateRender: false }, at(t));
+        }
+      }
+      // swap a label for its replacement in place
+      function swap(el, t) {
+        tl.set(el.querySelector(".a"), { opacity: 0 }, at(t));
+        tl.set(el.querySelector(".z"), { opacity: 1 }, at(t));
+      }
+
+      gsap.set(".h-cap", { transformOrigin: "0% 50%" });
+      gsap.set("#h-mini", { rotation: 3 });
+      gsap.set("#h-sheet", { y: 1000 });
+
+      // ---------------------------------------------------------------- then into today
+      const capA = q("#h-capA > span");
+      arrive(capA[0], 45.08, "word");
+      arrive(capA[1], 45.28, "light");
+      writeOn(capA[2], 45.61, 0.32);
+      cutLeft(capA, 46.16);
+      tl.set("#h-title", { opacity: 1 }, at(46.3));
+      tl.fromTo("#h-title", { y: 72, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: 0.19, ease: "power4.out", immediateRender: false }, at(46.3));
+      tl.set("#h-sub", { opacity: 1 }, at(46.42));
+      tl.fromTo("#h-sub", { y: 34 }, { y: 0, duration: 0.14, ease: "power4.out", immediateRender: false }, at(46.42));
+      tl.set("#h-mini", { opacity: 1 }, at(46.5));
+      tl.fromTo("#h-mini", { scale: 1.3, rotation: -6 }, { scale: 1, rotation: 3, duration: 0.2, ease: "power4.out", immediateRender: false }, at(46.5));
+
+      // Monday, nine A.M. Twenty-five minutes. JavaScript basics.
+      flap("#h-f1", [0, 1, 2, 3, 4], 46.34);
+      flap("#h-f2", [0, 1, 2, 3, 4], 46.68);
+      tl.set("#h-f2", { boxShadow: "inset 0 0 0 3px #f97316" }, at(46.7));
+      flap("#h-f3", [0, 1, 2, 3, 4], 47.59);
+      tl.to("#h-h2sk", { opacity: 0, duration: 0.08 }, at(48.76));
+      const h2 = q("#h-h2 span");
+      arrive(h2[0], 48.81, "anchor");
+      arrive(h2[1], 49.55, "word");
+      tl.to("#h-start", { scale: 1.07, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1 }, at(49.9));
+
+      // ---------------------------------------------------------------- miss a day? the plan moves. nothing piles up.
+      cutLeft(["#h-title", "#h-sub"], 50.36);
+      tl.to("#h-mini", { opacity: 0, duration: 0.2, ease: "none" }, at(50.36));
+      tl.to("#h-list", { x: -230, duration: 0.34, ease: "power4.in" }, at(50.4));
+      tl.to("#h-list", { opacity: 0, duration: 0.24, ease: "none" }, at(50.4));
+      tl.set("#h-week", { opacity: 0.35, x: 230 }, at(50.74));
+      tl.to("#h-week", { x: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, at(50.74));
+      const capC = q("#h-capC > span");
+      [
+        [50.59, "anchor"],
+        [50.78, "light"],
+        [50.85, "anchor"],
+        [51.34, "light"],
+        [51.47, "word"],
+        [51.7, "anchor"],
+        [52.25, "word"],
+        [52.69, "word"],
+        [53.01, "anchor"],
+      ].forEach(([t, k], i) => arrive(capC[i], t, k));
+
+      const COL = 131.4;
+      const chips = q(".h-wc");
+      chips.forEach((c, k) => gsap.set(c, { x: k * COL }));
+      const wed = chips[2];
+      tl.to(wed, { backgroundColor: "#f4f4f5", borderColor: "#fca5a5", duration: 0.12 }, at(51.02));
+      tl.set(wed.querySelector(".miss"), { opacity: 1 }, at(51.02));
+      tl.set("#h-wdwed", { color: "#dc2626" }, at(51.02));
+      // the plan moves: Wednesday's block glides to Thursday, the week shifts calmly along
+      chips.slice(2).forEach((c, i) => nudge(c, 51.47 + i * 0.05, "x", COL, 0.6));
+      tl.set(wed.querySelector(".miss"), { opacity: 0 }, at(51.8));
+      tl.set(wed.querySelector(".moved"), { opacity: 1 }, at(51.8));
+      tl.to(wed, { backgroundColor: "#fff7ed", borderColor: "#f97316", duration: 0.15 }, at(51.8));
+      tl.set("#h-wdwed", { color: "#52525b" }, at(51.8));
+      // nothing piles up
+      tl.set("#h-toast", { opacity: 1 }, at(52.25));
+      tl.fromTo("#h-toast", { y: 50, scale: 0.92 }, { y: 0, scale: 1, duration: 0.3, ease: "back.out(1.8)", immediateRender: false }, at(52.25));
+
+      // ---------------------------------------------------------------- only thirty minutes? ask.
+      cutLeft(capC, 53.46);
+      tl.to("#h-toast", { opacity: 0, duration: 0.15, ease: "none" }, at(53.98)); // slips away under the rising sheet
+      tl.to("#h-sheet", { y: 0, duration: 0.48, ease: "power4.out" }, at(53.62));
+      const capD = q("#h-capD > span");
+      arrive(capD[0], 53.71, "light");
+      arrive(capD[1], 53.88, "anchor");
+      arrive(capD[2], 54.26, "word");
+      arrive(capD[3], 54.83, "anchor");
+      tl.set("#h-ub", { opacity: 1 }, at(53.9));
+      tl.fromTo("#h-ub", { scale: 0.9, transformOrigin: "100% 100%" }, { scale: 1, duration: 0.18, ease: "back.out(2)", immediateRender: false }, at(53.9));
+      q("#h-ub i").forEach((c, i) => tl.set(c, { display: "inline" }, at(53.94 + i * 0.026)));
+      // the assistant thinks, answers
+      tl.set("#h-dots", { opacity: 1 }, at(54.72));
+      q("#h-dots i").forEach((d, i) => tl.fromTo(d, { y: 0 }, { y: -8, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, at(54.74 + i * 0.07)));
+      tl.set("#h-dots", { opacity: 0 }, at(55.02));
+      tl.set("#h-ab", { opacity: 1 }, at(55.02));
+      tl.fromTo("#h-ab", { scale: 0.94, transformOrigin: "0% 100%" }, { scale: 1, duration: 0.2, ease: "back.out(1.8)", immediateRender: false }, at(55.02));
+      q(".h-ar").forEach((r, i) => {
+        tl.set(r, { opacity: 1 }, at(55.14 + i * 0.08));
+        tl.fromTo(r, { y: 18 }, { y: 0, duration: 0.14, ease: "power4.out", immediateRender: false }, at(55.14 + i * 0.08));
+      });
+      q(".h-btn").forEach((b, i) => {
+        tl.set(b, { opacity: 1 }, at(55.34 + i * 0.06));
+        tl.fromTo(b, { y: 18 }, { y: 0, duration: 0.14, ease: "power4.out", immediateRender: false }, at(55.34 + i * 0.06));
+      });
+
+      // it reshapes today. she decides.
+      cutLeft(capD, 55.08);
+      const capE = q("#h-capE > span");
+      arrive(capE[0], 55.21, "light");
+      arrive(capE[1], 55.27, "word");
+      writeOn(capE[2], 55.75, 0.32);
+      arrive(capE[3], 56.23, "word");
+      arrive(capE[4], 56.35, "anchor");
+      // she taps Apply
+      tl.to("#h-apply", { scale: 0.94, duration: 0.07, ease: "power2.out" }, at(56.23));
+      tl.to("#h-apply", { scale: 1, duration: 0.22, ease: "back.out(2)" }, at(56.3));
+      tl.set("#h-rip", { opacity: 1 }, at(56.23));
+      tl.fromTo("#h-rip", { scale: 0 }, { scale: 4, duration: 0.4, ease: "power2.out", immediateRender: false }, at(56.23));
+      tl.to("#h-rip", { opacity: 0, duration: 0.3, ease: "none" }, at(56.33));
+      // under the sheet, today's list is back
+      tl.set("#h-week", { opacity: 0 }, at(54.12)); // fully under the sheet by now
+      tl.set("#h-list2", { opacity: 1 }, at(56.36));
+      tl.to("#h-sheet", { y: 1000, duration: 0.34, ease: "power3.in" }, at(56.4));
+      // and reflows to thirty minutes
+      tl.to("#h-blk3", { scaleY: 0, opacity: 0, duration: 0.24, ease: "power2.in" }, at(56.76));
+      q("#h-list2 .h-sw").forEach((el) => swap(el, 56.76));
+      tl.fromTo(q("#h-list2 .h-blk").slice(0, 2), { scale: 1.03 }, { scale: 1, duration: 0.2, ease: "power2.out", immediateRender: false }, at(56.76));
+      flap("#h-f3", [4, 1, 2, 5], 56.76);
+
+      window.__timelines["s5"] = tl;
+    })();
+  </script>
+</template>

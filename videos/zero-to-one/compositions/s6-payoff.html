@@ -1,0 +1,901 @@
+<template>
+  <style>
+    /* <desk-css:auto> */
+    @font-face {
+      font-family: "Caveat";
+      src: url("assets/fonts/caveat-latin-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #e2cdac;
+      font-family: "Inter", sans-serif;
+    }
+    .g-abs {
+      position: absolute;
+    }
+    .g-hand {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      color: #2a2520;
+    }
+    .g-nw {
+      display: inline-block;
+      transform-origin: 50% 80%;
+    }
+    /* the camera */
+    #g-cam {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 540px 980px;
+    }
+    #g-look {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+
+    /* ---- wall + morning light ---- */
+    #g-wall {
+      inset: 0;
+      background: radial-gradient(1000px 1200px at 22% 14%, #f1e2c8 0%, #e3ceac 48%, #c7ad86 100%);
+    }
+    #g-sun {
+      left: -120px;
+      top: 20px;
+      width: 900px;
+      height: 1200px;
+      transform: rotate(-9deg) skewX(-18deg);
+      filter: blur(18px);
+    }
+    #g-sunin {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 900px;
+      height: 1200px;
+    }
+    #g-sunin i {
+      position: absolute;
+      width: 300px;
+      height: 430px;
+      background: #fff3d8;
+      opacity: 0.92;
+      border-radius: 4px;
+      box-shadow: 0 0 60px 10px rgba(255, 214, 140, 0.35);
+    }
+    #g-leaves {
+      left: 330px;
+      top: 120px;
+      width: 700px;
+      height: 700px;
+      filter: blur(9px);
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+    }
+    #g-shaft {
+      left: -400px;
+      top: -100px;
+      width: 1900px;
+      height: 2200px;
+      background: linear-gradient(118deg, rgba(255, 226, 170, 0) 34%, rgba(255, 226, 170, 0.4) 44%, rgba(255, 226, 170, 0.1) 52%, rgba(255, 226, 170, 0) 60%);
+      mix-blend-mode: screen;
+    }
+
+    /* ---- desk ---- */
+    #g-desk {
+      left: -200px;
+      top: 1340px;
+      width: 1500px;
+      height: 160px;
+      background:
+        repeating-linear-gradient(179deg, rgba(90, 55, 25, 0.09) 0 2px, rgba(0, 0, 0, 0) 2px 9px, rgba(90, 55, 25, 0.05) 9px 10px, rgba(0, 0, 0, 0) 10px 23px),
+        linear-gradient(180deg, #d9ae80 0%, #c99a6c 100%);
+      box-shadow: inset 0 2px 0 rgba(255, 240, 215, 0.6);
+    }
+    #g-deskfront {
+      left: -200px;
+      top: 1500px;
+      width: 1500px;
+      height: 420px;
+      background:
+        repeating-linear-gradient(178deg, rgba(60, 35, 15, 0.1) 0 2px, rgba(0, 0, 0, 0) 2px 11px, rgba(60, 35, 15, 0.06) 11px 12px, rgba(0, 0, 0, 0) 12px 27px),
+        linear-gradient(180deg, #9c6c47 0%, #6f4a2f 100%);
+      box-shadow: inset 0 3px 0 rgba(255, 220, 180, 0.35);
+    }
+    .g-cshadow {
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(60, 35, 15, 0.45), rgba(60, 35, 15, 0));
+    }
+    #g-mug {
+      left: 560px;
+      top: 1236px;
+      width: 130px;
+      height: 146px;
+      filter: blur(2px);
+    }
+
+    /* ---- monitor + lock screen ---- */
+    #g-monitor {
+      left: 40px;
+      top: 640px;
+      width: 1180px;
+      height: 700px;
+      border-radius: 26px;
+      background: #141416;
+      box-shadow:
+        0 40px 80px rgba(60, 35, 15, 0.35),
+        inset 0 2px 0 rgba(255, 255, 255, 0.08);
+    }
+    #g-neck {
+      left: 520px;
+      top: 1340px;
+      width: 130px;
+      height: 26px;
+      background: #1d1d20;
+    }
+    #g-foot {
+      left: 430px;
+      top: 1360px;
+      width: 310px;
+      height: 22px;
+      border-radius: 6px;
+      background: #232326;
+    }
+    #g-screen {
+      left: 66px;
+      top: 666px;
+      width: 1128px;
+      height: 648px;
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        radial-gradient(800px 260px at 50% 74%, rgba(255, 170, 90, 0.85) 0%, rgba(230, 120, 60, 0.45) 40%, rgba(230, 120, 60, 0) 75%),
+        linear-gradient(180deg, #1c1416 0%, #3a2220 38%, #8a4426 66%, #d27a40 78%, #3a1d14 79%, #1a0f0c 100%);
+    }
+    #g-hills {
+      left: 0;
+      bottom: 0;
+      width: 1128px;
+      height: 260px;
+    }
+    #g-date {
+      left: 0;
+      top: 150px;
+      width: 1014px;
+      height: 40px;
+      text-align: center;
+      color: rgba(255, 240, 225, 0.8);
+      font-size: 30px;
+      font-weight: 700;
+    }
+    #g-date span {
+      position: absolute;
+      left: 0;
+      width: 1014px;
+      opacity: 0;
+    }
+    #g-clock {
+      left: 0;
+      top: 188px;
+      width: 1014px;
+      text-align: center;
+      color: rgba(255, 246, 235, 0.8);
+      font-size: 168px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    #g-reflect i {
+      position: absolute;
+      top: -80px;
+      width: 240px;
+      height: 900px;
+      background: rgba(255, 238, 210, 0.05);
+      transform: skewX(-24deg);
+      filter: blur(14px);
+    }
+
+    /* the day counter: a mechanical odometer */
+    #g-counter {
+      left: 770px;
+      top: 692px;
+      width: 280px;
+      height: 128px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      opacity: 0;
+    }
+    #g-counter .lbl {
+      position: absolute;
+      left: 22px;
+      top: 18px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #9a9aa1;
+    }
+    #g-odo {
+      position: absolute;
+      left: 20px;
+      top: 46px;
+      height: 66px;
+      display: flex;
+      gap: 2px;
+      font-size: 62px;
+      font-weight: 700;
+      color: #f4f4f5;
+      font-variant-numeric: tabular-nums;
+    }
+    .g-cell {
+      position: relative;
+      width: 38px;
+      height: 66px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    }
+    .g-comma {
+      width: 14px;
+      line-height: 66px;
+    }
+    .g-strip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 38px;
+      text-align: center;
+      line-height: 66px;
+    }
+    .g-strip span {
+      display: block;
+      height: 66px;
+    }
+
+    /* ---- notes ---- */
+    #g-note {
+      left: 34px;
+      top: 1030px;
+      width: 380px;
+      height: 380px;
+      transform-origin: 50% 0;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 18%, #ffe27a 70%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 22px 36px rgba(70, 45, 10, 0.24);
+    }
+    #g-note::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(214, 178, 52, 0.18);
+    }
+    #g-note::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(120, 85, 20, 0.16) 75%, rgba(255, 245, 200, 0.6) 100%);
+    }
+    #g-notetxt {
+      left: 40px;
+      top: 80px;
+      font-size: 72px;
+      line-height: 0.98;
+    }
+    #g-underline {
+      left: 32px;
+      top: 286px;
+      width: 310px;
+      height: 56px;
+    }
+    #g-note2 {
+      left: 430px;
+      top: 1372px;
+      width: 400px;
+      height: 156px;
+      background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.1),
+        0 14px 26px rgba(70, 45, 10, 0.2);
+      opacity: 0;
+    }
+    .g-n2l {
+      position: absolute;
+      left: 24px;
+      font-size: 48px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #g-ring {
+      left: 196px;
+      top: 64px;
+      width: 170px;
+      height: 80px;
+    }
+    #g-plant {
+      left: 690px;
+      top: 1300px;
+      width: 600px;
+      height: 820px;
+      filter: blur(16px);
+    }
+
+    /* ---- the avalanche ---- */
+    /* ---- act 1 captions (ink on the lit wall) ---- */
+    .g-cap {
+      left: 70px;
+      top: 290px;
+      width: 940px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      color: #1f1b16;
+    }
+    .g-cap span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .g-cap .m {
+      color: #6f5a40;
+    }
+    /* Riya's own words are always her handwriting; the narrator is always Inter */
+    .g-cap .g-hw,
+    .g-hl b,
+    .g-today b {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #2a2520;
+    }
+    .g-cap .g-hw {
+      font-size: 1.75em;
+      line-height: 0.9;
+      margin: 0 0.06em 0 0.1em;
+    }
+    .g-cap .g-eng {
+      position: relative;
+    }
+    .g-cap .g-eng svg {
+      position: absolute;
+      left: -2%;
+      bottom: -14px;
+      width: 104%;
+      height: 40px;
+      overflow: visible;
+    }
+    /* "note." sits on a sticky-note highlighter swipe */
+    .g-hl {
+      position: relative;
+    }
+    .g-hl i {
+      position: absolute;
+      left: -14px;
+      right: -18px;
+      top: 40%;
+      height: 50%;
+      background: #ffd95a;
+      border-radius: 8px 14px 10px 6px;
+    }
+    .g-hl b {
+      position: relative;
+      display: inline-block;
+      font-size: 1.55em;
+      line-height: 0.9;
+      color: #1f1b16;
+    }
+    /* the deadpan "actually" leans */
+    .g-cap .g-ital {
+      color: #1f1b16;
+    }
+    /* "today?" — the accent's first appearance */
+    .g-today {
+      position: relative;
+    }
+    .g-today b {
+      display: inline-block;
+      font-size: 1.6em;
+      line-height: 0.9;
+      color: #c2410c;
+    }
+    .g-today svg {
+      position: absolute;
+      left: -16%;
+      top: -12%;
+      width: 132%;
+      height: 124%;
+      overflow: visible;
+    }
+
+    #g-grain {
+      inset: 0;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+    }
+    #g-vig {
+      inset: 0;
+      background: radial-gradient(900px 1400px at 50% 45%, rgba(0, 0, 0, 0) 60%, rgba(40, 25, 10, 0.2) 100%);
+    }
+    /* </desk-css:auto> */
+
+    /* her Monday: a new note on the bezel */
+    #g-note3 {
+      left: 520px;
+      top: 1330px;
+      width: 440px;
+      height: 118px;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 30%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 16px 26px rgba(70, 45, 10, 0.22);
+      opacity: 0;
+    }
+    #g-note3 .g-hand {
+      position: absolute;
+      left: 24px;
+      top: 28px;
+      font-size: 50px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #g-note3 .chk,
+    #g-enote .chk {
+      color: #ea580c;
+    }
+    .g-cap .g-or {
+      color: #c2410c;
+    }
+
+    /* ---- the end card, up the wall ---- */
+    #g-end {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+    #g-ewall {
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0) 78%, #ead8b8 100%),
+        radial-gradient(1000px 1200px at 22% 14%, #f1e2c8 0%, #e3ceac 48%, #c7ad86 100%);
+    }
+    #g-esun {
+      left: -120px;
+      top: 20px;
+      width: 900px;
+      height: 1200px;
+      transform: rotate(-9deg) skewX(-18deg);
+      filter: blur(24px);
+    }
+    #g-esun i {
+      position: absolute;
+      width: 300px;
+      height: 430px;
+      background: #fff3d8;
+      opacity: 0.85;
+      border-radius: 4px;
+    }
+    #g-lock {
+      left: 110px;
+      top: 270px;
+      width: 860px;
+      height: 230px;
+    }
+    #g-lock svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 210px;
+      height: 210px;
+    }
+    #g-lock span {
+      position: absolute;
+      top: -18px;
+      font-size: 220px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      color: #1f1b16;
+      opacity: 0;
+    }
+    #g-tag {
+      left: 114px;
+      top: 530px;
+      font-size: 104px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 1.04;
+      color: #1f1b16;
+      white-space: nowrap;
+    }
+    #g-tag span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #g-tag .m {
+      color: #6f5a40;
+    }
+    #g-card {
+      left: 90px;
+      top: 830px;
+      width: 900px;
+      padding: 54px 54px 46px;
+      border-radius: 32px;
+      background: #ffffff;
+      box-sizing: border-box;
+      box-shadow:
+        0 2px 4px rgba(70, 45, 10, 0.08),
+        0 40px 80px rgba(70, 45, 10, 0.22);
+      opacity: 0;
+    }
+    #g-card .soon {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    #g-card .wt {
+      margin-top: 22px;
+      font-size: 60px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+      color: #09090b;
+    }
+    #g-card .email {
+      margin-top: 34px;
+      height: 100px;
+      border-radius: 20px;
+      border: 2px solid #e4e4e7;
+      padding: 0 30px;
+      font-size: 34px;
+      line-height: 96px;
+      color: #71717a;
+      box-sizing: border-box;
+    }
+    #g-join {
+      margin-top: 16px;
+      height: 108px;
+      border-radius: 20px;
+      background: #ea580c;
+      color: #fff;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 108px;
+      text-align: center;
+    }
+    #g-card .fine {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 26px;
+      color: #52525b;
+    }
+    #g-link {
+      left: 90px;
+      top: 1468px;
+      width: 900px;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 700;
+      color: #1f1b16;
+      opacity: 0;
+    }
+    #g-link b {
+      color: #c2410c;
+    }
+    #g-enote {
+      left: 790px;
+      top: 780px;
+      width: 240px;
+      height: 150px;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 30%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 14px 24px rgba(70, 45, 10, 0.22);
+      opacity: 0;
+    }
+    #g-enote .g-hand {
+      position: absolute;
+      left: 26px;
+      top: 30px;
+      font-size: 64px;
+      line-height: 0.95;
+    }
+  </style>
+
+  <div id="root" data-composition-id="s6" data-width="1080" data-height="1920" data-duration="10.55">
+    <!-- <desk:auto> -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <filter id="g-vb0" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="g-vbs0" stdDeviation="0 0" /></filter>
+      <filter id="g-vb1" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="g-vbs1" stdDeviation="0 0" /></filter>
+      <filter id="g-vb2" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="g-vbs2" stdDeviation="0 0" /></filter>
+    </svg>
+    <div id="g-cam" class="g-abs" data-layout-allow-overflow>
+      <div id="g-look" class="g-abs">
+        <div id="g-bg" class="g-abs" style="inset: 0">
+          <div id="g-wall" class="g-abs"></div>
+          <div id="g-sun" class="g-abs">
+            <div id="g-sunin"><i style="left: 0; top: 0"></i><i style="left: 330px; top: 0"></i><i style="left: 0; top: 460px"></i><i style="left: 330px; top: 460px"></i></div>
+          </div>
+          <svg id="g-leaves" class="g-abs" viewBox="0 0 700 700" aria-hidden="true">
+            <g fill="#b39c78">
+              <path d="M120 620 C 140 470, 220 360, 330 300 C 300 400, 240 520, 120 620 Z" />
+              <path d="M330 300 C 420 220, 520 200, 610 210 C 540 290, 440 330, 330 300 Z" />
+              <path d="M300 420 C 360 340, 470 300, 560 330 C 500 410, 400 450, 300 420 Z" />
+              <path d="M230 330 C 230 230, 280 140, 360 80 C 370 180, 320 270, 230 330 Z" />
+            </g>
+          </svg>
+          <div id="g-shaft" class="g-abs"></div>
+          <div id="g-monitor" class="g-abs"></div>
+          <div id="g-desk" class="g-abs"></div>
+          <div id="g-deskfront" class="g-abs"></div>
+          <div class="g-cshadow g-abs" style="left: 400px; top: 1366px; width: 380px; height: 36px"></div>
+          <div id="g-neck" class="g-abs"></div>
+          <div id="g-foot" class="g-abs"></div>
+          <div class="g-cshadow g-abs" style="left: 545px; top: 1368px; width: 170px; height: 26px"></div>
+          <svg id="g-mug" class="g-abs" viewBox="0 0 150 168" aria-hidden="true">
+            <path d="M112 50 C 150 50, 150 112, 108 112" fill="none" stroke="#e8dfd1" stroke-width="13" />
+            <rect x="8" y="22" width="108" height="140" rx="16" fill="#f1e9dc" />
+            <ellipse cx="62" cy="24" rx="54" ry="11" fill="#5a3a24" />
+            <rect x="8" y="110" width="108" height="52" rx="14" fill="#e3d7c5" />
+          </svg>
+        </div>
+
+        <div id="g-screen" class="g-abs">
+          <svg id="g-hills" class="g-abs" viewBox="0 0 1128 260" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 140 C 200 70, 380 120, 560 80 C 760 40, 920 110, 1128 60 L 1128 260 L 0 260 Z" fill="#3a1d14" opacity="0.9" />
+            <path d="M0 210 C 240 160, 460 210, 700 170 C 900 140, 1040 190, 1128 160 L 1128 260 L 0 260 Z" fill="#170e0c" />
+          </svg>
+          <div id="g-date" class="g-abs">
+            <span data-layout-allow-occlusion style="opacity: 1">Monday, October 14</span><span data-layout-allow-occlusion>Tuesday, March 5</span><span data-layout-allow-occlusion>Friday, July 19</span><span data-layout-allow-occlusion>Sunday, December 1</span><span data-layout-allow-occlusion>Wednesday, May 14</span><span data-layout-allow-occlusion>Thursday, August 21</span><span data-layout-allow-occlusion>Saturday, June 6</span><span data-layout-allow-occlusion>Monday, October 14</span>
+          </div>
+          <div id="g-clock" class="g-abs" data-layout-allow-occlusion>7:42</div>
+          <div id="g-reflect" class="g-abs" style="inset: 0"><i style="left: 100px"></i><i style="left: 380px; width: 120px"></i></div>
+        </div>
+        <div id="g-counter" class="g-abs">
+          <div class="lbl">DAY</div>
+          <div id="g-odo">
+            <div class="g-cell"><div id="g-s3" class="g-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="g-comma">,</div>
+            <div class="g-cell" style="filter: url(#g-vb2)"><div id="g-s2" class="g-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="g-cell" style="filter: url(#g-vb1)"><div id="g-s1" class="g-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="g-cell" style="filter: url(#g-vb0)"><div id="g-s0" class="g-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+          </div>
+        </div>
+
+        <div id="g-note" class="g-abs">
+          <div id="g-notetxt" class="g-abs g-hand" data-layout-allow-occlusion><span class="g-nw" data-layout-allow-occlusion>become</span> <span class="g-nw" data-layout-allow-occlusion>a</span><br /><span class="g-nw" data-layout-allow-occlusion>software</span><br /><span class="g-nw" data-layout-allow-occlusion>engineer</span> ✦</div>
+          <svg id="g-underline" class="g-abs" viewBox="0 0 320 60" aria-hidden="true">
+            <path id="g-ul1" d="M6 18 C 90 10, 200 8, 312 14" fill="none" stroke="#2a2520" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+            <path id="g-ul2" d="M20 40 C 110 32, 210 30, 300 36" fill="none" stroke="#2a2520" stroke-width="4.5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          </svg>
+        </div>
+        <svg id="g-plant" class="g-abs" viewBox="0 0 560 820" aria-hidden="true">
+          <path d="M150 820 L 190 600 L 330 600 L 370 820 Z" fill="#8a5a3a" />
+          <g fill="#4f6b43">
+            <path d="M250 610 C 120 520, 40 380, 60 230 C 170 300, 250 440, 250 610 Z" />
+            <path d="M270 600 C 300 430, 400 300, 540 260 C 520 400, 420 520, 270 600 Z" />
+            <path d="M260 600 C 230 430, 260 250, 360 120 C 400 270, 360 450, 260 600 Z" />
+          </g>
+          <g fill="#3d5634">
+            <path d="M250 610 C 170 560, 110 470, 100 380 C 180 430, 230 510, 250 610 Z" />
+            <path d="M240 590 C 160 470, 150 330, 200 200 C 250 320, 260 460, 240 590 Z" />
+          </g>
+          <g fill="#6b8a58"><path d="M262 600 C 280 470, 330 380, 420 330 C 410 430, 350 520, 262 600 Z" /></g>
+        </svg>
+
+      </div>
+    </div>
+    <svg id="g-grain" class="g-abs" viewBox="0 0 1080 1920" aria-hidden="true" data-layout-ignore>
+      <filter id="g-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.9 0" /></filter>
+      <rect width="1080" height="1920" filter="url(#g-noise)" />
+    </svg>
+    <div id="g-vig" class="g-abs"></div>
+    <!-- </desk:auto> -->
+
+    <!-- moved onto the desk at set-up: her new note -->
+    <div id="g-note3" class="g-abs"><div class="g-hand">Mon 9:00 · JS basics <span class="chk">✓</span></div></div>
+
+    <!-- up the wall: the end card -->
+    <div id="g-end" class="g-abs">
+      <div id="g-ewall" class="g-abs"></div>
+      <div id="g-esun" class="g-abs"><i style="left: 0; top: 0"></i><i style="left: 330px; top: 0"></i><i style="left: 0; top: 460px"></i><i style="left: 330px; top: 460px"></i></div>
+      <div id="g-lock" class="g-abs">
+        <svg viewBox="0 0 210 210" aria-hidden="true">
+          <circle cx="105" cy="105" r="84" fill="none" stroke="rgba(31, 27, 22, 0.1)" stroke-width="28" />
+          <circle id="g-ring" cx="105" cy="105" r="84" fill="none" stroke="#f97316" stroke-width="28" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="100" transform="rotate(-90 105 105)" />
+        </svg>
+        <span style="left: 240px">to</span><span style="left: 520px">1</span>
+      </div>
+      <div id="g-tag" class="g-abs"><span>Big</span> <span>goals.</span><br /><span class="m">Clear</span> <span class="m">next</span> <span class="m">steps.</span></div>
+      <div id="g-card" class="g-abs">
+        <span class="soon">Coming soon</span>
+        <div class="wt">Your next chapter starts here.</div>
+        <div class="email">you@example.com</div>
+        <div id="g-join">Join the waitlist →</div>
+        <div class="fine">Early access · No spam</div>
+      </div>
+      <div id="g-enote" class="g-abs"><div class="g-hand">Day 1 <span class="chk">✓</span></div></div>
+      <div id="g-link" class="g-abs"><b>↗</b> 0-to-1-waitlist.vercel.app</div>
+    </div>
+
+    <!-- captions -->
+    <div id="g-capA" class="g-cap g-abs" style="font-size: 112px"><span>Riya's</span> <span class="g-hl"><i></i><b>note</b></span><br /><span class="m">never</span> <span>changed.</span></div>
+    <div id="g-capB" class="g-cap g-abs" style="font-size: 124px"><span>Her</span> <span class="g-or">Monday</span><br /><span>did.</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const T0 = 57.45;
+      const at = (t) => t - T0;
+
+      const WEIGHT = { anchor: [72, 0.19], word: [46, 0.15], light: [34, 0.12] };
+      function arrive(el, t, kind = "word") {
+        const [dy, dur] = WEIGHT[kind];
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: dy, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: dur, ease: "power4.out", immediateRender: false }, at(t));
+      }
+      // end-card arrivals ride the camera's tilt: they come down from above
+      function drop(el, t, dy = 70, dur = 0.2) {
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: -dy, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: dur, ease: "power4.out", immediateRender: false }, at(t));
+      }
+      function pushOut(sel, t) {
+        tl.to(sel, { scale: 1.2, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, at(t));
+        tl.to(sel, { opacity: 0, duration: 0.2, ease: "none" }, at(t));
+      }
+      function nudge(el, t, prop, dist, dur) {
+        tl.to(el, { [prop]: `+=${dist * 0.1}`, duration: dur * 0.2, ease: "power3.in" }, at(t));
+        tl.to(el, { [prop]: `+=${dist * 0.65}`, duration: dur * 0.18, ease: "none" }, at(t) + dur * 0.2);
+        tl.to(el, { [prop]: `+=${dist * 0.25}`, duration: dur * 0.62, ease: "power4.out" }, at(t) + dur * 0.38);
+      }
+
+      // set-up: her new note lives on the bezel; the end card waits above the frame, under the grain
+      document.getElementById("g-look").append(document.getElementById("g-note3"));
+      const root = document.getElementById("g-grain").parentNode;
+      root.insertBefore(document.getElementById("g-end"), document.getElementById("g-grain"));
+      gsap.set("#g-end", { y: -1920 });
+      gsap.set("#g-counter", { opacity: 1 });
+      gsap.set("#g-note", { rotation: -3.5 });
+      gsap.set("#g-note3", { rotation: 3 });
+      gsap.set("#g-enote", { rotation: 7 });
+      gsap.set(["#g-ul1", "#g-ul2"], { attr: { "stroke-dashoffset": 0 } });
+      gsap.set("#g-bg", { filter: "blur(2px)" });
+      gsap.set(".g-cap", { transformOrigin: "0% 50%" });
+      gsap.set(".g-hl i", { scaleX: 0, transformOrigin: "0% 50%" });
+
+      // ---- the Day counter, same wheels as Act 1
+      const strips = [0, 1, 2, 3].map((i) => document.getElementById(`g-s${i}`));
+      const blurs = [0, 1, 2].map((i) => document.getElementById(`g-vbs${i}`));
+      const H = 66;
+      function renderOdo(v, speed) {
+        for (let i = 0; i < 4; i++) {
+          const p = Math.pow(10, i);
+          let pos;
+          if (i === 0) pos = ((v % 10) + 10) % 10;
+          else {
+            const lower = v % p;
+            pos = (Math.floor(v / p) % 10) + Math.max(0, lower - (p - 1));
+          }
+          strips[i].style.transform = `translateY(${-pos * H}px)`;
+          if (i < 3) blurs[i].setAttribute("stdDeviation", `0 ${Math.min(10, (speed / p) * 0.05).toFixed(2)}`);
+        }
+      }
+      renderOdo(1095, 0);
+
+      // ---------------------------------------------------------------- Riya's note never changed.
+      tl.fromTo("#g-cam", { scale: 1 }, { scale: 1.04, transformOrigin: "300px 1200px", duration: 2.0, ease: "power1.inOut", immediateRender: false }, at(57.45));
+      const capA = q("#g-capA > span");
+      arrive(capA[0], 57.62, "word");
+      tl.set(capA[1], { opacity: 1 }, at(57.85));
+      tl.fromTo(capA[1], { scale: 1.35, rotation: -6 }, { scale: 1, rotation: -2, duration: 0.2, ease: "power4.out", immediateRender: false }, at(57.85));
+      tl.to("#g-capA .g-hl i", { scaleX: 1, duration: 0.24, ease: "power2.out" }, at(57.93));
+      arrive(capA[2], 58.09, "word");
+      arrive(capA[3], 58.38, "anchor");
+      pushOut("#g-capA", 59.42);
+
+      // ---------------------------------------------------------------- Her Monday did. The counter rewinds to Day 1.
+      const capB = q("#g-capB > span");
+      arrive(capB[0], 59.62, "word");
+      arrive(capB[1], 59.72, "anchor");
+      arrive(capB[2], 60.04, "anchor");
+      const rw = { p: 0 };
+      const RW0 = 59.66,
+        RWD = 0.64;
+      tl.fromTo(
+        rw,
+        { p: 0 },
+        {
+          p: 1,
+          duration: RWD,
+          ease: "none",
+          immediateRender: false,
+          onUpdate() {
+            const p = rw.p;
+            const f = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+            const df = p < 0.5 ? 12 * p * p : 3 * Math.pow(-2 * p + 2, 2);
+            renderOdo(1095 - 1094 * f, (1094 * df) / RWD);
+          },
+        },
+        at(RW0),
+      );
+      const land = { k: 0 };
+      tl.fromTo(
+        land,
+        { k: 0 },
+        {
+          k: 1,
+          duration: 0.26,
+          ease: "none",
+          immediateRender: false,
+          onUpdate() {
+            renderOdo(1 - Math.sin(land.k * Math.PI) * 0.18 * (1 - land.k), 0);
+          },
+        },
+        at(RW0 + RWD),
+      );
+      // the leading zeros fall away: it simply reads Day 1
+      const odoKids = q("#g-odo > *");
+      tl.to(odoKids.slice(0, 4), { opacity: 0, duration: 0.14, ease: "none" }, at(60.18));
+      tl.to(odoKids[4], { x: -136, duration: 0.3, ease: "power3.out" }, at(60.3));
+      // her note, then Day 2, Day 3
+      tl.set("#g-note3", { opacity: 1 }, at(60.32));
+      tl.fromTo("#g-note3", { y: -70, scale: 1.2, rotation: -4 }, { y: 0, scale: 1, rotation: 3, duration: 0.26, ease: "power4.out", immediateRender: false }, at(60.32));
+      [
+        [60.55, 1, 2],
+        [60.75, 2, 3],
+      ].forEach(([t, a, b]) => {
+        const st = { v: a };
+        tl.fromTo(st, { v: a }, { v: b, duration: 0.14, ease: "back.out(2)", immediateRender: false, onUpdate: () => renderOdo(st.v, 0) }, at(t));
+      });
+
+      // ---------------------------------------------------------------- the camera tilts up the wall to the end card
+      const TILT = 61.1,
+        TD = 0.95;
+      nudge(["#g-cam", "#g-capB"], TILT, "y", 1920, TD);
+      nudge("#g-end", TILT, "y", 1920, TD);
+      tl.to(["#g-cam", "#g-end"], { filter: "blur(6px)", duration: 0.2, ease: "power2.in" }, at(TILT + 0.18));
+      tl.to(["#g-cam", "#g-end"], { filter: "blur(0px)", duration: 0.3, ease: "power2.out" }, at(TILT + 0.4));
+
+      // Zero to One.
+      tl.to("#g-ring", { attr: { "stroke-dashoffset": 0 }, duration: 0.5, ease: "power2.inOut" }, at(61.5));
+      const lk = q("#g-lock span");
+      drop(lk[0], 61.72, 80, 0.2);
+      drop(lk[1], 61.97, 90, 0.22);
+      // Big goals. Clear next steps.
+      const tag = q("#g-tag span");
+      drop(tag[0], 62.46);
+      drop(tag[1], 62.55);
+      drop(tag[2], 63.07, 46, 0.15);
+      drop(tag[3], 63.33, 46, 0.15);
+      drop(tag[4], 63.59, 60, 0.18);
+      // Join the waitlist.
+      tl.set("#g-card", { opacity: 1 }, at(64.15));
+      tl.fromTo("#g-card", { y: 180 }, { y: 0, duration: 0.5, ease: "power4.out", immediateRender: false }, at(64.15));
+      tl.to("#g-join", { scale: 1.04, boxShadow: "0 0 0 10px rgba(249, 115, 22, 0.18)", duration: 0.22, ease: "power2.out" }, at(64.6));
+      tl.to("#g-join", { scale: 1, boxShadow: "0 0 0 0px rgba(249, 115, 22, 0)", duration: 0.4, ease: "power2.inOut" }, at(64.82));
+      tl.set("#g-link", { opacity: 1 }, at(64.71));
+      tl.fromTo("#g-link", { y: 40 }, { y: 0, duration: 0.18, ease: "power4.out", immediateRender: false }, at(64.71));
+      tl.set("#g-enote", { opacity: 1 }, at(65.0));
+      tl.fromTo("#g-enote", { y: -60, scale: 1.25, rotation: -2 }, { y: 0, scale: 1, rotation: 7, duration: 0.24, ease: "power4.out", immediateRender: false }, at(65.0));
+
+      window.__timelines["s6"] = tl;
+    })();
+  </script>
+</template>

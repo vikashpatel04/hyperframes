@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Sound for the hook + Act 1 review cut (0 - 19.6 s): one stereo effects stem.
+"""Sound for the whole film (0 - 68 s): effects, room tone and the music bed in one stereo stem.
 
-Every hit is placed one frame after the picture it belongs to (times come straight from
-compositions/s1-desk.html). Recorded sources live in assets/sfx/src (see CREDITS.md);
-the clock, pen, paper, marker, projector and room tone are synthesised here with a
-seeded generator, so the stem rebuilds bit-for-bit.
+Every hit is placed one frame after the picture it belongs to (times come straight from the
+compositions; film seconds). Recorded sources live in assets/sfx/src (see CREDITS.md); the
+clock, pen, paper, marker, projector, crumple, drone, flaps and room tone are synthesised here
+with a seeded generator, so the stem rebuilds bit-for-bit. The music (assets/bgm/warm.wav,
+scripts/build-music.sh) enters at the turn and sits under the voice.
 
-Usage: python3 scripts/build-sfx.py   ->  assets/sfx/hook-act1.wav
+Usage: python3 scripts/build-sfx.py   ->  assets/sfx/film.wav
 """
 import pathlib
 import subprocess
@@ -15,10 +16,11 @@ import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "assets" / "sfx" / "src"
-OUT = ROOT / "assets" / "sfx" / "hook-act1.wav"
+OUT = ROOT / "assets" / "sfx" / "film.wav"
+BGM = ROOT / "assets" / "bgm" / "warm.wav"
 
 SR = 48000
-DUR = 19.6
+DUR = 68.0
 F = 1 / 30
 rng = np.random.default_rng(1095)
 
@@ -337,19 +339,276 @@ for t in [2.78, 2.96, 3.21, 3.53, 4.76, 4.95, 5.27]:  # meme words slapped on li
     hit(mix, slap(), t, -27, 0.0)
 place(mix, pen_stroke(0.24, "bell", 2200), 8.38, -19, -0.1)  # highlighter swipe under "note."
 hit(mix, thump(130, 0.03, 0.2), 8.3, -24, -0.1)  # "note." lands
-for k, t in enumerate([15.0, 15.08, 15.16]):  # past mornings stamp on behind the line
-    hit(mix, slap(), t, -25 - 2 * k, 0.0)
 for t in [15.98, 16.12, 16.26]:  # the dots type out
     hit(mix, tick(1.6, 0.3), t, -27, 0.1)
 for t in [4.56, 8.98, 11.45, 14.06, 16.72]:  # each caption is pushed past the lens
     place(mix, filt(s_wshort, "lowpass=f=2500"), t - 0.06, -27, 0.0)
 
+# ================================================================== ACTS 2 - 5
+def decode_any(path):
+    b = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-i", str(path), "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
+    return np.frombuffer(b, np.float32).copy()
+
+
+def crumple(sec=0.42):
+    """paper balled up: a dense run of tiny crackles."""
+    out = np.zeros(int(sec * SR) + SR // 10, np.float32)
+    t = 0.0
+    while t < sec - 0.02:
+        d = float(rng.uniform(0.004, 0.018))
+        b = filt(noise(d + 0.01) * np.exp(-tt(d + 0.01) / (d / 2)), f"bandpass=f={int(rng.uniform(1800, 6500))}:width_type=q:w=1.5")
+        i = int(t * SR)
+        out[i : i + len(b)] += norm(b) * float(rng.uniform(0.3, 1.0))
+        t += float(rng.uniform(0.006, 0.03))
+    out = out[: int(sec * SR)]
+    return norm(out * shape(len(out), 0.02, 0.08))
+
+
+def flick():
+    """a card or a PDF flicked onto a pile."""
+    x = filt(noise(0.09) * np.exp(-tt(0.09) / 0.018), "highpass=f=1800,lowpass=f=9000")
+    return norm(x)
+
+
+def note(f, sec=0.45):
+    """a soft mallet note for the roadmap ladder."""
+    t = tt(sec)
+    x = np.sin(2 * np.pi * f * t) + 0.35 * np.sin(2 * np.pi * 2 * f * t) * np.exp(-t / 0.05) + 0.12 * np.sin(2 * np.pi * 4.01 * f * t) * np.exp(-t / 0.02)
+    return norm(x * np.exp(-t / 0.16) * shape(len(t), 0.003, 0.05))
+
+
+def blip(f0, f1, sec=0.12):
+    t = tt(sec)
+    f = np.linspace(f0, f1, len(t))
+    return norm(np.sin(2 * np.pi * np.cumsum(f) / SR) * shape(len(t), 0.005, 0.04))
+
+
+def sweep(f0, f1, sec, gain_shape="in"):
+    t = tt(sec)
+    f = np.geomspace(f0, f1, len(t))
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.3 * filt(noise(sec), f"bandpass=f={int((f0 + f1) / 2)}:width_type=q:w=0.7")
+    p = np.linspace(0, 1, len(t))
+    e = p**1.5 if gain_shape == "in" else np.sin(np.pi * p)
+    return norm(x * e * shape(len(t), 0.01, 0.04))
+
+
+def drone(sec):
+    """the low hum that swells under 'nobody turned it into today'."""
+    t = tt(sec)
+    x = np.sin(2 * np.pi * 55 * t) + 0.6 * np.sin(2 * np.pi * 82.4 * t + 0.4) + 0.4 * np.sin(2 * np.pi * 110 * t + 1.1)
+    x = x * (0.85 + 0.15 * np.sin(2 * np.pi * 0.7 * t)) + 0.25 * filt(noise(sec), "lowpass=f=220")
+    return norm(x)
+
+
+def flap_clack(heavy=False):
+    x = filt(s_click, "highpass=f=600") * (1.0 if heavy else 0.7)
+    if heavy:
+        x = x.copy()
+        k = thump(180, 0.02, 0.12)
+        x[: len(k)] += 0.5 * k[: len(x)]
+    return norm(x)
+
+
+s_error = trim_to_onset(decode("error.mp3"))
+s_chime = trim_to_onset(decode("chime.mp3"))
+s_sparkle = trim_to_onset(decode("sparkle.mp3"))
+s_typing = decode("typing.mp3")
+s_whoosh_rev = s_whoosh[::-1].copy()
+WH_PEAK = int(np.argmax(np.abs(s_whoosh))) / SR
+
+
+def push_whoosh(cut, gain=-13):
+    place(mix, s_whoosh, cut - WH_PEAK + F, gain)
+    hit(mix, filt(thump(55, 0.12, 0.5), "lowpass=f=300"), cut, gain - 6)
+
+
+def pull_whoosh(cut, gain=-14):
+    hit(mix, s_whoosh_rev, cut, gain)
+
+
+def typing_burst(t, sec, gain, pan=0.0):
+    x = s_typing[: int(sec * SR)] * shape(int(sec * SR), 0.01, 0.06)
+    place(mix, x, t, gain, pan)
+
+
+# ------------------------------------------------------------------ the seams
+push_whoosh(19.15)  # into her screen
+pull_whoosh(33.2)  # back out to the desk
+push_whoosh(37.3, -15)  # into the clean card
+push_whoosh(45.0, -15)  # into today
+pull_whoosh(57.45)  # back out to the desk
+
+# ------------------------------------------------------------------ ACT 2: inside her screen
+for k in range(12, 47):  # the tabs multiply: one soft click each, panned along the strip
+    u = (k - 11) / 35
+    t = 19.33 + 0.6 * (1 - (1 - u) ** 2)
+    hit(mix, pitch(s_soft, 5 + (k % 3)), t, -25, -0.5 + k / 47)
+hit(mix, pitch(s_pop, 2), 19.33, -19, 0.45)
+for t in [20.86, 21.12, 21.42]:  # three roadmap PDFs flicked in
+    hit(mix, flick(), t + 0.08, -15, 0.2)
+    place(mix, paper_slide(0.16), t, -22, 0.2)
+place(mix, filt(s_wshort, "lowpass=f=2500"), 22.36, -21, -0.1)  # the course card rises
+place(mix, sweep(280, 560, 0.52), 22.62, -30, -0.1)  # the bar fills
+hit(mix, thump(58, 0.09, 0.4), 23.32, -10, -0.1)  # and stalls: a dull thunk
+for k in range(4):
+    hit(mix, tick(0.6, 1.4), 23.46 + k * 0.07, -24, -0.1)  # the shudder
+place(mix, s_whoosh, 24.45 - WH_PEAK + 0.15, -18)  # everything leaves left
+hit(mix, flick(), 25.35, -20, -0.4)  # the new plan
+for k in range(6):  # Sunday's plan deals itself out
+    hit(mix, flick(), 25.45 + k * 0.065 + 0.12, -17, -0.3 + k * 0.12)
+for t in [26.08, 27.38, 28.95]:  # caption reels roll on
+    hit(mix, tick(0.9, 1.0), t, -24, 0.0)
+for t in [25.35, 26.39, 27.89]:
+    hit(mix, tick(1.2, 0.8), t, -22, 0.0)
+hit(mix, s_error, 26.39, -19, 0.0)  # Wednesday: missed
+hit(mix, slap(), 26.47, -17, 0.0)
+for k in range(6):  # everything slides onto Friday
+    place(mix, paper_slide(0.3), 27.48 + k * 0.035, -25, 0.25)
+place(mix, crumple(0.42), 27.9, -11, 0.3)  # crumpled
+place(mix, pitch(s_wshort, 3), 28.2, -16, 0.5)  # and tossed
+hit(mix, thump(90, 0.06, 0.4), 30.23, -13)  # "big." lands
+place(mix, filt(s_wshort, "lowpass=f=2500"), 30.8, -27)
+place(mix, writing(0.32), 32.4, -20)  # "today." in her hand
+dr = drone(4.4) * shape(int(4.4 * SR), 3.6, 0.15)  # the hum swells, then the turn cuts it
+place(mix, dr, 28.85, -21)
+for t in [29.0, 30.15, 31.45, 32.95]:  # the clock, slowing
+    hit(mix, tick(0.95, 1.1), t, -23, -0.1)
+
+# ------------------------------------------------------------------ ACT 3: the turn
+place(mix, sweep(1400, 4200, 0.4, "bell") * 0.4 + crumple(0.4) * 0.6, 33.6, -15, -0.2)  # the note peels
+place(mix, paper_slide(0.9), 33.98, -22, 0.0)  # and lifts toward camera
+hit(mix, page_flip(), 34.5, -18, 0.0)  # "Monday?" flips down
+place(mix, filt(s_wshort, "lowpass=f=2500"), 35.36, -27)
+place(mix, s_sparkle, 35.6, -24, 0.0)  # paper turns into a clean card
+hit(mix, s_chime, 36.0, -12, 0.0)  # the mark lands
+hit(mix, tick(1.3, 0.6), 36.12, -24)
+for t in [36.31, 36.48]:
+    hit(mix, pitch(s_pop, -1), t, -22, 0.0)
+
+# ------------------------------------------------------------------ ACT 4: the setup
+hit(mix, slap(), 37.86, -22, -0.2)  # "from the note"
+typing_burst(37.94, 0.75, -17)  # the goal, typed
+hit(mix, s_click, 38.95, -13, -0.3)  # Beginner
+hit(mix, s_click, 39.75, -13, -0.1)  # 1 hour
+hit(mix, s_click, 40.43, -13, -0.1)  # 3 years
+hit(mix, thump(110, 0.05, 0.3), 40.86, -13, 0.0)  # Create: thock
+hit(mix, s_click, 40.86, -14, 0.0)
+place(mix, filt(s_wshort, "lowpass=f=3000"), 41.24, -20)  # the form lifts away
+sh = filt(noise(1.0), "highpass=f=3500,lowpass=f=9000") * np.sin(np.pi * np.linspace(0, 1, SR)) ** 2
+place(mix, norm(sh), 41.7, -34)  # skeleton shimmer
+for k, f in enumerate([523.25, 659.25, 783.99, 1046.5]):  # phases: a four-note ladder
+    hit(mix, note(f), 42.75 + k * 0.07, -19, -0.2 + k * 0.13)
+place(mix, filt(pitch(s_wshort, 4), "lowpass=f=4000"), 43.3, -24)  # the milestone opens
+for k in range(4):  # tasks
+    hit(mix, pitch(s_pop, 2 + k), 43.75 + k * 0.08, -24, 0.0)
+hit(mix, pitch(s_pop, 5), 44.3, -18, 0.3)  # TODAY
+
+# ------------------------------------------------------------------ ACT 4: today
+place(mix, writing(0.32), 45.61, -20)
+place(mix, filt(s_wshort, "lowpass=f=2500"), 46.1, -26)
+hit(mix, thump(140, 0.03, 0.2), 46.3, -24)
+hit(mix, slap(), 46.5, -24, 0.4)
+for land in [46.34, 46.68, 47.59]:  # split-flap tiles riffle and land on the words
+    for k in range(3):
+        hit(mix, flap_clack(), land - (3 - k) * 0.055, -21, -0.2)
+    hit(mix, flap_clack(True), land, -13, -0.2)
+hit(mix, tick(1.3, 0.5), 48.81, -26)
+hit(mix, pitch(s_pop, 1), 49.9, -24)
+place(mix, s_whoosh, 50.36 - WH_PEAK + 0.15, -19)  # off to the week
+hit(mix, blip(440, 330), 51.02, -21)  # Wednesday missed
+for k in range(5):  # the plan moves: each block glides on a column
+    place(mix, paper_slide(0.4), 51.47 + k * 0.05, -26, -0.1 + k * 0.1)
+hit(mix, pitch(s_pop, 3), 51.8, -22)  # moved
+hit(mix, pitch(s_pop, 4), 52.25, -16)  # toast: nothing piled up
+hit(mix, blip(660, 880, 0.1), 52.3, -24)
+place(mix, filt(s_wshort, "lowpass=f=2500"), 53.4, -24)
+place(mix, pitch(s_wshort, 2), 53.58, -18)  # the assistant sheet slides up
+hit(mix, pitch(s_pop, 2), 53.9, -20, 0.3)
+typing_burst(53.94, 0.62, -20, 0.3)
+for k in range(3):  # thinking dots
+    hit(mix, blip(1200, 1250, 0.05), 54.74 + k * 0.07, -30, -0.3)
+hit(mix, pitch(s_ping, -5), 55.02, -21, -0.3)  # the reply
+for t in [55.14, 55.22, 55.34, 55.4]:
+    hit(mix, tick(1.4, 0.4), t, -29, -0.3)
+place(mix, filt(s_wshort, "lowpass=f=2500"), 55.02, -27)
+place(mix, writing(0.32), 55.75, -20)  # "today." in her hand
+hit(mix, s_click, 56.23, -11, -0.3)  # Apply
+hit(mix, thump(120, 0.04, 0.25), 56.23, -18, -0.3)
+place(mix, pitch(s_wshort, -2), 56.36, -19)  # the sheet slides away
+hit(mix, pitch(s_pop, -2), 56.76, -21)  # today reflows
+for k in range(2):
+    hit(mix, flap_clack(), 56.76 - (2 - k) * 0.055, -21, -0.2)
+hit(mix, flap_clack(True), 56.76, -14, -0.2)
+
+# ------------------------------------------------------------------ ACT 5: her Monday
+for t in [58.0, 59.0]:  # the room's clock again
+    hit(mix, tick(1.0, 1.0), t, -26, -0.1)
+hit(mix, thump(130, 0.03, 0.2), 57.85, -24, -0.1)  # "note"
+place(mix, pen_stroke(0.24, "bell", 2200), 57.93, -19, -0.1)  # highlighter
+place(mix, filt(s_wshort, "lowpass=f=2500"), 59.36, -27)
+RW0, RWD = 59.66, 0.64  # the counter rewinds 1,095 -> 1
+
+
+def rw_time(v):
+    """when the rewind passes value v (inverse of the power3.inOut in s6-payoff.html)."""
+    f = (1095 - v) / 1094
+    p = np.cbrt(f / 4) if f < 0.5 else 1 - np.cbrt((1 - f) * 2) / 2
+    return RW0 + p * RWD
+
+
+for v in range(1090, 0, -10):
+    heavy = v % 100 == 0
+    hit(mix, tick(1.35 if not heavy else 0.9, 0.6 if not heavy else 1.3), rw_time(v), -29 if not heavy else -22, 0.05)
+place(mix, sweep(2200, 380, RWD, "bell"), RW0, -29)  # the rewind whine
+hit(mix, s_ping, RW0 + RWD, -12, 0.3)  # ding: Day 1
+hit(mix, slap(), 60.32, -12, 0.2)  # her new note
+hit(mix, tick(1.1, 0.9), 60.55, -18, 0.3)  # Day 2
+hit(mix, tick(1.15, 0.9), 60.75, -17, 0.3)  # Day 3
+place(mix, s_whoosh, 61.36 - WH_PEAK, -14)  # the camera tilts up the wall
+bass2 = s_bass.copy()
+pk2 = int(np.argmax(np.abs(bass2)))
+bass2[pk2:] *= np.exp(-np.arange(len(bass2) - pk2) / SR / 0.6)
+hit(mix, bass2, 61.5, -19)  # the mark: a soft impact
+place(mix, s_sparkle, 61.56, -24, -0.2)
+for t in [61.72, 61.97]:
+    hit(mix, pitch(s_pop, -2), t, -21)
+place(mix, filt(s_wshort, "lowpass=f=3000"), 64.1, -20)  # the card rises
+hit(mix, pitch(s_pop, 3), 64.6, -24)
+hit(mix, tick(1.3, 0.5), 64.71, -26)
+hit(mix, slap(), 65.0, -16, 0.3)  # Day 1 ✓
+
 # ------------------------------------------------------------------ the bed: room tone under everything
-place_room = room(DUR)
-i = int(round(DUR * SR))
-mix[:i] += place_room * db(-41)
+n_all = int(round(DUR * SR))
+env = np.full(n_all, db(-41), np.float32)  # the desk
+
+
+def seg(a, b, g, ramp=0.25):
+    i0, i1, r = int(a * SR), int(b * SR), int(ramp * SR)
+    env[i0:i1] = db(g)
+    if r and i0 - r > 0:
+        env[i0 - r : i0] = np.linspace(env[i0 - r - 1], db(g), r)
+
+
+seg(19.15, 33.2, -45)  # inside the screen: quieter, closer
+seg(33.2, 37.3, -42)
+seg(37.3, 57.45, -48)  # the product: almost gone under the music
+seg(57.45, DUR, -42)
+mix[:n_all] += room(DUR) * env[:, None]
+hum = filt(noise(14.05), "lowpass=f=180,lowpass=f=180")  # the screen's soft electrical hum
+place(mix, norm(hum) * shape(len(hum), 0.3, 0.2), 19.15, -40)
+
+# ------------------------------------------------------------------ the music bed: from the turn to the end
+mb = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-i", str(BGM), "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
+music = np.frombuffer(mb, np.float32).reshape(-1, 2).copy()
+M0 = 33.35
+mt = M0 + np.arange(len(music)) / SR
+g = np.interp(mt, [M0, 65.2, 65.9, 70.0], [db(-20), db(-20), db(-12), db(-12)])
+i0 = int(M0 * SR)
+n = min(len(music), len(mix) - i0)
+mix[i0 : i0 + n] += music[:n] * g[:n, None]
 
 # ------------------------------------------------------------------ out
+i = n_all
 out = mix[:i]
 out *= shape(i, 0.0, 0.3)[:, None]
 peak = float(np.max(np.abs(out)))

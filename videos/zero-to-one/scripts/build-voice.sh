@@ -17,7 +17,7 @@ LINES=$(cat <<'TXT'
 1.45|Three years old.
 0.60|It says: become a software engineer.
 0.45|And every morning, the same question.
-0.95|What do I actually do today?
+0.75|What do I actually do today?
 0.25|Forty-seven tabs.
 0.25|Three complete roadmaps.
 0.60|One course, twelve percent done.
@@ -63,4 +63,6 @@ echo "]" >> "$TMP/lines.json"
 cp "$TMP/lines.json" "$OUT/lines.json"
 $CLI transcribe "$OUT/narration.wav" --model small.en --json >/dev/null 2>&1
 rm -rf "$TMP"
-ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT/narration.wav"
+# raw takes -> assets/voice/raw; scripts/retime-voice.py makes the final timing
+mkdir -p "$OUT/raw" && mv "$OUT/narration.wav" "$OUT/lines.json" "$OUT/raw/"
+HYPERFRAMES_CLI="$CLI" python3 scripts/align-words.py --raw && python3 scripts/retime-voice.py

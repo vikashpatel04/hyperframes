@@ -1,0 +1,645 @@
+<template>
+  <style>
+    /* <desk-css:auto> */
+    @font-face {
+      font-family: "Caveat";
+      src: url("assets/fonts/caveat-latin-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #e2cdac;
+      font-family: "Inter", sans-serif;
+    }
+    .e-abs {
+      position: absolute;
+    }
+    .e-hand {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      color: #2a2520;
+    }
+    .e-nw {
+      display: inline-block;
+      transform-origin: 50% 80%;
+    }
+    /* the camera */
+    #e-cam {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 540px 980px;
+    }
+    #e-look {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+
+    /* ---- wall + morning light ---- */
+    #e-wall {
+      inset: 0;
+      background: radial-gradient(1000px 1200px at 22% 14%, #f1e2c8 0%, #e3ceac 48%, #c7ad86 100%);
+    }
+    #e-sun {
+      left: -120px;
+      top: 20px;
+      width: 900px;
+      height: 1200px;
+      transform: rotate(-9deg) skewX(-18deg);
+      filter: blur(18px);
+    }
+    #e-sunin {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 900px;
+      height: 1200px;
+    }
+    #e-sunin i {
+      position: absolute;
+      width: 300px;
+      height: 430px;
+      background: #fff3d8;
+      opacity: 0.92;
+      border-radius: 4px;
+      box-shadow: 0 0 60px 10px rgba(255, 214, 140, 0.35);
+    }
+    #e-leaves {
+      left: 330px;
+      top: 120px;
+      width: 700px;
+      height: 700px;
+      filter: blur(9px);
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+    }
+    #e-shaft {
+      left: -400px;
+      top: -100px;
+      width: 1900px;
+      height: 2200px;
+      background: linear-gradient(118deg, rgba(255, 226, 170, 0) 34%, rgba(255, 226, 170, 0.4) 44%, rgba(255, 226, 170, 0.1) 52%, rgba(255, 226, 170, 0) 60%);
+      mix-blend-mode: screen;
+    }
+
+    /* ---- desk ---- */
+    #e-desk {
+      left: -200px;
+      top: 1340px;
+      width: 1500px;
+      height: 160px;
+      background:
+        repeating-linear-gradient(179deg, rgba(90, 55, 25, 0.09) 0 2px, rgba(0, 0, 0, 0) 2px 9px, rgba(90, 55, 25, 0.05) 9px 10px, rgba(0, 0, 0, 0) 10px 23px),
+        linear-gradient(180deg, #d9ae80 0%, #c99a6c 100%);
+      box-shadow: inset 0 2px 0 rgba(255, 240, 215, 0.6);
+    }
+    #e-deskfront {
+      left: -200px;
+      top: 1500px;
+      width: 1500px;
+      height: 420px;
+      background:
+        repeating-linear-gradient(178deg, rgba(60, 35, 15, 0.1) 0 2px, rgba(0, 0, 0, 0) 2px 11px, rgba(60, 35, 15, 0.06) 11px 12px, rgba(0, 0, 0, 0) 12px 27px),
+        linear-gradient(180deg, #9c6c47 0%, #6f4a2f 100%);
+      box-shadow: inset 0 3px 0 rgba(255, 220, 180, 0.35);
+    }
+    .e-cshadow {
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(60, 35, 15, 0.45), rgba(60, 35, 15, 0));
+    }
+    #e-mug {
+      left: 560px;
+      top: 1236px;
+      width: 130px;
+      height: 146px;
+      filter: blur(2px);
+    }
+
+    /* ---- monitor + lock screen ---- */
+    #e-monitor {
+      left: 40px;
+      top: 640px;
+      width: 1180px;
+      height: 700px;
+      border-radius: 26px;
+      background: #141416;
+      box-shadow:
+        0 40px 80px rgba(60, 35, 15, 0.35),
+        inset 0 2px 0 rgba(255, 255, 255, 0.08);
+    }
+    #e-neck {
+      left: 520px;
+      top: 1340px;
+      width: 130px;
+      height: 26px;
+      background: #1d1d20;
+    }
+    #e-foot {
+      left: 430px;
+      top: 1360px;
+      width: 310px;
+      height: 22px;
+      border-radius: 6px;
+      background: #232326;
+    }
+    #e-screen {
+      left: 66px;
+      top: 666px;
+      width: 1128px;
+      height: 648px;
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        radial-gradient(800px 260px at 50% 74%, rgba(255, 170, 90, 0.85) 0%, rgba(230, 120, 60, 0.45) 40%, rgba(230, 120, 60, 0) 75%),
+        linear-gradient(180deg, #1c1416 0%, #3a2220 38%, #8a4426 66%, #d27a40 78%, #3a1d14 79%, #1a0f0c 100%);
+    }
+    #e-hills {
+      left: 0;
+      bottom: 0;
+      width: 1128px;
+      height: 260px;
+    }
+    #e-date {
+      left: 0;
+      top: 150px;
+      width: 1014px;
+      height: 40px;
+      text-align: center;
+      color: rgba(255, 240, 225, 0.8);
+      font-size: 30px;
+      font-weight: 700;
+    }
+    #e-date span {
+      position: absolute;
+      left: 0;
+      width: 1014px;
+      opacity: 0;
+    }
+    #e-clock {
+      left: 0;
+      top: 188px;
+      width: 1014px;
+      text-align: center;
+      color: rgba(255, 246, 235, 0.8);
+      font-size: 168px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    #e-reflect i {
+      position: absolute;
+      top: -80px;
+      width: 240px;
+      height: 900px;
+      background: rgba(255, 238, 210, 0.05);
+      transform: skewX(-24deg);
+      filter: blur(14px);
+    }
+
+    /* the day counter: a mechanical odometer */
+    #e-counter {
+      left: 770px;
+      top: 692px;
+      width: 280px;
+      height: 128px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      opacity: 0;
+    }
+    #e-counter .lbl {
+      position: absolute;
+      left: 22px;
+      top: 18px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #9a9aa1;
+    }
+    #e-odo {
+      position: absolute;
+      left: 20px;
+      top: 46px;
+      height: 66px;
+      display: flex;
+      gap: 2px;
+      font-size: 62px;
+      font-weight: 700;
+      color: #f4f4f5;
+      font-variant-numeric: tabular-nums;
+    }
+    .e-cell {
+      position: relative;
+      width: 38px;
+      height: 66px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    }
+    .e-comma {
+      width: 14px;
+      line-height: 66px;
+    }
+    .e-strip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 38px;
+      text-align: center;
+      line-height: 66px;
+    }
+    .e-strip span {
+      display: block;
+      height: 66px;
+    }
+
+    /* ---- notes ---- */
+    #e-note {
+      left: 34px;
+      top: 1030px;
+      width: 380px;
+      height: 380px;
+      transform-origin: 50% 0;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 18%, #ffe27a 70%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 22px 36px rgba(70, 45, 10, 0.24);
+    }
+    #e-note::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(214, 178, 52, 0.18);
+    }
+    #e-note::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(120, 85, 20, 0.16) 75%, rgba(255, 245, 200, 0.6) 100%);
+    }
+    #e-notetxt {
+      left: 40px;
+      top: 80px;
+      font-size: 72px;
+      line-height: 0.98;
+    }
+    #e-underline {
+      left: 32px;
+      top: 286px;
+      width: 310px;
+      height: 56px;
+    }
+    #e-note2 {
+      left: 430px;
+      top: 1372px;
+      width: 400px;
+      height: 156px;
+      background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.1),
+        0 14px 26px rgba(70, 45, 10, 0.2);
+      opacity: 0;
+    }
+    .e-n2l {
+      position: absolute;
+      left: 24px;
+      font-size: 48px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #e-ring {
+      left: 196px;
+      top: 64px;
+      width: 170px;
+      height: 80px;
+    }
+    #e-plant {
+      left: 690px;
+      top: 1300px;
+      width: 600px;
+      height: 820px;
+      filter: blur(16px);
+    }
+
+    /* ---- the avalanche ---- */
+    /* ---- act 1 captions (ink on the lit wall) ---- */
+    .e-cap {
+      left: 70px;
+      top: 290px;
+      width: 940px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      color: #1f1b16;
+    }
+    .e-cap span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .e-cap .m {
+      color: #6f5a40;
+    }
+    /* Riya's own words are always her handwriting; the narrator is always Inter */
+    .e-cap .e-hw,
+    .e-hl b,
+    .e-today b {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #2a2520;
+    }
+    .e-cap .e-hw {
+      font-size: 1.75em;
+      line-height: 0.9;
+      margin: 0 0.06em 0 0.1em;
+    }
+    .e-cap .e-eng {
+      position: relative;
+    }
+    .e-cap .e-eng svg {
+      position: absolute;
+      left: -2%;
+      bottom: -14px;
+      width: 104%;
+      height: 40px;
+      overflow: visible;
+    }
+    /* "note." sits on a sticky-note highlighter swipe */
+    .e-hl {
+      position: relative;
+    }
+    .e-hl i {
+      position: absolute;
+      left: -14px;
+      right: -18px;
+      top: 40%;
+      height: 50%;
+      background: #ffd95a;
+      border-radius: 8px 14px 10px 6px;
+    }
+    .e-hl b {
+      position: relative;
+      display: inline-block;
+      font-size: 1.55em;
+      line-height: 0.9;
+      color: #1f1b16;
+    }
+    /* the deadpan "actually" leans */
+    .e-cap .e-ital {
+      color: #1f1b16;
+    }
+    /* "today?" — the accent's first appearance */
+    .e-today {
+      position: relative;
+    }
+    .e-today b {
+      display: inline-block;
+      font-size: 1.6em;
+      line-height: 0.9;
+      color: #c2410c;
+    }
+    .e-today svg {
+      position: absolute;
+      left: -16%;
+      top: -12%;
+      width: 132%;
+      height: 124%;
+      overflow: visible;
+    }
+
+    #e-grain {
+      inset: 0;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+    }
+    #e-vig {
+      inset: 0;
+      background: radial-gradient(900px 1400px at 50% 45%, rgba(0, 0, 0, 0) 60%, rgba(40, 25, 10, 0.2) 100%);
+    }
+    /* </desk-css:auto> */
+
+    /* the note becomes a clean card, and the mark lands on it */
+    #e-card {
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+    }
+    #e-mark {
+      left: 36px;
+      top: 128px;
+      width: 330px;
+      height: 130px;
+    }
+    #e-mark svg {
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 112px;
+      height: 112px;
+    }
+    #e-mark span {
+      position: absolute;
+      top: 0;
+      font-size: 104px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1.2;
+      color: #18181b;
+      opacity: 0;
+    }
+    #e-orange {
+      color: #c2410c;
+    }
+    .e-cap .e-flip {
+      transform-origin: 50% 0%;
+    }
+  </style>
+
+  <div id="root" data-composition-id="s3" data-width="1080" data-height="1920" data-duration="4.1">
+    <!-- <desk:auto> -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <filter id="e-vb0" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="e-vbs0" stdDeviation="0 0" /></filter>
+      <filter id="e-vb1" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="e-vbs1" stdDeviation="0 0" /></filter>
+      <filter id="e-vb2" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="e-vbs2" stdDeviation="0 0" /></filter>
+    </svg>
+    <div id="e-cam" class="e-abs" data-layout-allow-overflow>
+      <div id="e-look" class="e-abs">
+        <div id="e-bg" class="e-abs" style="inset: 0">
+          <div id="e-wall" class="e-abs"></div>
+          <div id="e-sun" class="e-abs">
+            <div id="e-sunin"><i style="left: 0; top: 0"></i><i style="left: 330px; top: 0"></i><i style="left: 0; top: 460px"></i><i style="left: 330px; top: 460px"></i></div>
+          </div>
+          <svg id="e-leaves" class="e-abs" viewBox="0 0 700 700" aria-hidden="true">
+            <g fill="#b39c78">
+              <path d="M120 620 C 140 470, 220 360, 330 300 C 300 400, 240 520, 120 620 Z" />
+              <path d="M330 300 C 420 220, 520 200, 610 210 C 540 290, 440 330, 330 300 Z" />
+              <path d="M300 420 C 360 340, 470 300, 560 330 C 500 410, 400 450, 300 420 Z" />
+              <path d="M230 330 C 230 230, 280 140, 360 80 C 370 180, 320 270, 230 330 Z" />
+            </g>
+          </svg>
+          <div id="e-shaft" class="e-abs"></div>
+          <div id="e-monitor" class="e-abs"></div>
+          <div id="e-desk" class="e-abs"></div>
+          <div id="e-deskfront" class="e-abs"></div>
+          <div class="e-cshadow e-abs" style="left: 400px; top: 1366px; width: 380px; height: 36px"></div>
+          <div id="e-neck" class="e-abs"></div>
+          <div id="e-foot" class="e-abs"></div>
+          <div class="e-cshadow e-abs" style="left: 545px; top: 1368px; width: 170px; height: 26px"></div>
+          <svg id="e-mug" class="e-abs" viewBox="0 0 150 168" aria-hidden="true">
+            <path d="M112 50 C 150 50, 150 112, 108 112" fill="none" stroke="#e8dfd1" stroke-width="13" />
+            <rect x="8" y="22" width="108" height="140" rx="16" fill="#f1e9dc" />
+            <ellipse cx="62" cy="24" rx="54" ry="11" fill="#5a3a24" />
+            <rect x="8" y="110" width="108" height="52" rx="14" fill="#e3d7c5" />
+          </svg>
+        </div>
+
+        <div id="e-screen" class="e-abs">
+          <svg id="e-hills" class="e-abs" viewBox="0 0 1128 260" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 140 C 200 70, 380 120, 560 80 C 760 40, 920 110, 1128 60 L 1128 260 L 0 260 Z" fill="#3a1d14" opacity="0.9" />
+            <path d="M0 210 C 240 160, 460 210, 700 170 C 900 140, 1040 190, 1128 160 L 1128 260 L 0 260 Z" fill="#170e0c" />
+          </svg>
+          <div id="e-date" class="e-abs">
+            <span data-layout-allow-occlusion style="opacity: 1">Monday, October 14</span><span data-layout-allow-occlusion>Tuesday, March 5</span><span data-layout-allow-occlusion>Friday, July 19</span><span data-layout-allow-occlusion>Sunday, December 1</span><span data-layout-allow-occlusion>Wednesday, May 14</span><span data-layout-allow-occlusion>Thursday, August 21</span><span data-layout-allow-occlusion>Saturday, June 6</span><span data-layout-allow-occlusion>Monday, October 14</span>
+          </div>
+          <div id="e-clock" class="e-abs" data-layout-allow-occlusion>7:42</div>
+          <div id="e-reflect" class="e-abs" style="inset: 0"><i style="left: 100px"></i><i style="left: 380px; width: 120px"></i></div>
+        </div>
+        <div id="e-counter" class="e-abs">
+          <div class="lbl">DAY</div>
+          <div id="e-odo">
+            <div class="e-cell"><div id="e-s3" class="e-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="e-comma">,</div>
+            <div class="e-cell" style="filter: url(#e-vb2)"><div id="e-s2" class="e-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="e-cell" style="filter: url(#e-vb1)"><div id="e-s1" class="e-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="e-cell" style="filter: url(#e-vb0)"><div id="e-s0" class="e-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+          </div>
+        </div>
+
+        <div id="e-note" class="e-abs">
+          <div id="e-notetxt" class="e-abs e-hand" data-layout-allow-occlusion><span class="e-nw" data-layout-allow-occlusion>become</span> <span class="e-nw" data-layout-allow-occlusion>a</span><br /><span class="e-nw" data-layout-allow-occlusion>software</span><br /><span class="e-nw" data-layout-allow-occlusion>engineer</span> ✦</div>
+          <svg id="e-underline" class="e-abs" viewBox="0 0 320 60" aria-hidden="true">
+            <path id="e-ul1" d="M6 18 C 90 10, 200 8, 312 14" fill="none" stroke="#2a2520" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+            <path id="e-ul2" d="M20 40 C 110 32, 210 30, 300 36" fill="none" stroke="#2a2520" stroke-width="4.5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          </svg>
+        </div>
+        <svg id="e-plant" class="e-abs" viewBox="0 0 560 820" aria-hidden="true">
+          <path d="M150 820 L 190 600 L 330 600 L 370 820 Z" fill="#8a5a3a" />
+          <g fill="#4f6b43">
+            <path d="M250 610 C 120 520, 40 380, 60 230 C 170 300, 250 440, 250 610 Z" />
+            <path d="M270 600 C 300 430, 400 300, 540 260 C 520 400, 420 520, 270 600 Z" />
+            <path d="M260 600 C 230 430, 260 250, 360 120 C 400 270, 360 450, 260 600 Z" />
+          </g>
+          <g fill="#3d5634">
+            <path d="M250 610 C 170 560, 110 470, 100 380 C 180 430, 230 510, 250 610 Z" />
+            <path d="M240 590 C 160 470, 150 330, 200 200 C 250 320, 260 460, 240 590 Z" />
+          </g>
+          <g fill="#6b8a58"><path d="M262 600 C 280 470, 330 380, 420 330 C 410 430, 350 520, 262 600 Z" /></g>
+        </svg>
+
+      </div>
+    </div>
+    <svg id="e-grain" class="e-abs" viewBox="0 0 1080 1920" aria-hidden="true" data-layout-ignore>
+      <filter id="e-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.9 0" /></filter>
+      <rect width="1080" height="1920" filter="url(#e-noise)" />
+    </svg>
+    <div id="e-vig" class="e-abs"></div>
+    <!-- </desk:auto> -->
+
+    <!-- moved inside the note at set-up: the clean card and the mark -->
+    <div id="e-card" class="e-abs"></div>
+    <div id="e-mark" class="e-abs" style="opacity: 0">
+      <svg viewBox="0 0 112 112" aria-hidden="true">
+        <circle id="e-track" cx="56" cy="56" r="44" fill="none" stroke="#e4e4e7" stroke-width="16" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="100" transform="rotate(-90 56 56)" />
+        <circle id="e-step" cx="56" cy="56" r="44" fill="none" stroke="#f97316" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="12.5 120" stroke-dashoffset="20" transform="rotate(-90 56 56)" />
+      </svg>
+      <span style="left: 128px">to</span><span style="left: 250px">1</span>
+    </div>
+
+    <div id="e-capA" class="e-cap e-abs" style="font-size: 104px"><span class="m">What</span> <span class="m">if</span> <span class="m">your</span><br /><span>goal</span> <span>came</span> <span>with</span><br /><span class="m">a</span> <span id="e-orange" class="e-flip">Monday?</span></div>
+    <div id="e-capB" class="e-cap e-abs" style="font-size: 104px"><span class="m">This</span> <span class="m">is</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const T0 = 33.2;
+      const at = (t) => t - T0;
+
+      const WEIGHT = { anchor: [72, 0.19], word: [46, 0.15], light: [34, 0.12] };
+      function arrive(el, t, kind = "word") {
+        const [dy, dur] = WEIGHT[kind];
+        tl.set(el, { opacity: 1 }, at(t));
+        tl.fromTo(el, { y: dy, filter: "blur(6px)" }, { y: 0, filter: "blur(0px)", duration: dur, ease: "power4.out", immediateRender: false }, at(t));
+      }
+      function pushOut(sel, t) {
+        tl.to(sel, { scale: 1.2, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, at(t));
+        tl.to(sel, { opacity: 0, duration: 0.2, ease: "none" }, at(t));
+      }
+
+      const note = document.getElementById("e-note");
+      note.append(document.getElementById("e-card"), document.getElementById("e-mark"));
+
+      // ---- the room as Act 1 left it: Day 1,095, the note underlined, the wall a little soft
+      const H = 66;
+      [5, 9, 0, 1].forEach((d, i) => gsap.set(`#e-s${i}`, { y: -d * H }));
+      gsap.set("#e-counter", { opacity: 1 });
+      gsap.set("#e-note", { rotation: -3.5 });
+      gsap.set(["#e-ul1", "#e-ul2"], { attr: { "stroke-dashoffset": 0 } });
+      gsap.set("#e-bg", { filter: "blur(2px)" });
+      gsap.set(".e-cap", { transformOrigin: "0% 50%" });
+
+      // ---- what if your goal came with a Monday?
+      const capA = q("#e-capA > span");
+      arrive(capA[0], 33.41, "word");
+      arrive(capA[1], 33.51, "light");
+      arrive(capA[2], 33.61, "light");
+      arrive(capA[3], 33.82, "anchor");
+      arrive(capA[4], 34.03, "word");
+      arrive(capA[5], 34.24, "light");
+      arrive(capA[6], 34.45, "light");
+      // "Monday?" flips down like a calendar page
+      tl.set(capA[7], { opacity: 1 }, at(34.5));
+      tl.fromTo(capA[7], { rotationX: -95, transformPerspective: 700 }, { rotationX: 0, duration: 0.34, ease: "back.out(1.4)", immediateRender: false }, at(34.5));
+
+      // ---- the note peels off the bezel, lifts toward camera and turns; its shadow grows
+      tl.to("#e-note", { rotationX: 32, transformPerspective: 1100, duration: 0.36, ease: "power2.in" }, at(33.62));
+      tl.to("#e-note", { x: 316, y: -130, scale: 1.45, rotation: 4, rotationX: 0, duration: 0.95, ease: "power3.inOut" }, at(33.98));
+      tl.to(
+        "#e-note",
+        { boxShadow: "0 4px 6px rgba(70, 45, 10, 0.12), 0 60px 90px rgba(70, 45, 10, 0.3)", duration: 0.95, ease: "power2.out" },
+        at(33.98),
+      );
+      // rack focus onto the note
+      tl.to(["#e-bg", "#e-screen", "#e-counter", "#e-plant"], { filter: "blur(7px)", duration: 0.8, ease: "power2.inOut" }, at(34.0));
+
+      // ---- this is Zero to One: the paper turns into a clean card, the mark lands
+      pushOut("#e-capA", 35.42);
+      const capB = q("#e-capB > span");
+      arrive(capB[0], 35.57, "word");
+      arrive(capB[1], 35.79, "light");
+      tl.to(["#e-notetxt", "#e-underline"], { opacity: 0, duration: 0.2, ease: "none" }, at(35.6));
+      tl.to("#e-card", { opacity: 1, duration: 0.3, ease: "power2.inOut" }, at(35.62));
+      tl.to("#e-note", { x: 350 - 34, rotation: 0, scale: 1.6, duration: 0.5, ease: "power3.inOut" }, at(35.6));
+      // the ring takes its first orange step on "zero"; "to 1" lands on its words
+      tl.set("#e-mark", { opacity: 1 }, at(36.0));
+      tl.fromTo("#e-track", { attr: { "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out", immediateRender: false }, at(36.0));
+      tl.to("#e-step", { attr: { "stroke-dashoffset": 0 }, duration: 0.32, ease: "power3.out" }, at(36.12));
+      const mk = q("#e-mark span");
+      arrive(mk[0], 36.31, "word");
+      arrive(mk[1], 36.48, "anchor");
+
+      window.__timelines["s3"] = tl;
+    })();
+  </script>
+</template>

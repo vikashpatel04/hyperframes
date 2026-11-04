@@ -1,6 +1,6 @@
 # 0 to 1: "The Note" (SCRIPT v4: deadpan hook · portrait for Instagram)
 
-**Format:** **9:16, 1080×1920** (Instagram Reels) · **about 60 s** · narrator **Kokoro `af_heart`**, calm and deadpan (no acted emotion)
+**Format:** **9:16, 1080×1920** (Instagram Reels) · **68 s** (Act 2 onward runs 5% faster with tighter pauses) · narrator **Kokoro `af_heart`**, calm and deadpan (no acted emotion)
 **Story:** Riya's three-year-old sticky note, a day counter stuck on **Day 1,095**, and the one missing thing: _what to do today_.
 **Carriers:** the **sticky note** and the **Day counter**. Same desk shot at the start and the end; only the counter changes.
 
@@ -18,11 +18,10 @@
   - "note." lands on a sticky-note highlighter swipe;
   - "Three years" rolls in like the counter's wheels, and "old." fades while the years run past;
   - the note's words pulse as they're read aloud;
-  - "Every morning," leaves stacked echoes of past mornings;
   - the "…" types itself out;
   - "actually" leans;
   - "today?" is the accent's first appearance, circled in orange.
-- **Hook meme captions** are slapped on like stickers: oversized and crooked, then flat.
+- **Hook meme captions** are slapped on like stickers: oversized and crooked, then flat. No dark band behind them: a heavy black outline carries them over the pile.
 - **Exits follow the camera:** each caption is pushed past the lens (it grows, blurs and fades) as the camera pushes in.
 - **Every type move has a small sound:** sticker slaps, pen scratches, a highlighter swipe, echo stamps, dot ticks and a soft whoosh on each exit.
 
