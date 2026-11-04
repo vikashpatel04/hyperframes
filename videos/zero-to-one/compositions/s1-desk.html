@@ -1,0 +1,994 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat";
+      src: url("assets/fonts/caveat-latin-700.woff2") format("woff2");
+      font-weight: 700;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #e2cdac;
+      font-family: "Inter", sans-serif;
+    }
+    .d-abs {
+      position: absolute;
+    }
+    .d-hand {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      color: #2a2520;
+    }
+    /* the camera */
+    #d-cam {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 540px 980px;
+    }
+    #d-look {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+
+    /* ---- wall + morning light ---- */
+    #d-wall {
+      inset: 0;
+      background: radial-gradient(1000px 1200px at 22% 14%, #f1e2c8 0%, #e3ceac 48%, #c7ad86 100%);
+    }
+    #d-sun {
+      left: -120px;
+      top: 20px;
+      width: 900px;
+      height: 1200px;
+      transform: rotate(-9deg) skewX(-18deg);
+      filter: blur(18px);
+    }
+    #d-sunin {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 900px;
+      height: 1200px;
+    }
+    #d-sunin i {
+      position: absolute;
+      width: 300px;
+      height: 430px;
+      background: #fff3d8;
+      opacity: 0.92;
+      border-radius: 4px;
+      box-shadow: 0 0 60px 10px rgba(255, 214, 140, 0.35);
+    }
+    #d-leaves {
+      left: 330px;
+      top: 120px;
+      width: 700px;
+      height: 700px;
+      filter: blur(9px);
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+    }
+    #d-shaft {
+      left: -400px;
+      top: -100px;
+      width: 1900px;
+      height: 2200px;
+      background: linear-gradient(118deg, rgba(255, 226, 170, 0) 34%, rgba(255, 226, 170, 0.4) 44%, rgba(255, 226, 170, 0.1) 52%, rgba(255, 226, 170, 0) 60%);
+      mix-blend-mode: screen;
+    }
+
+    /* ---- desk ---- */
+    #d-desk {
+      left: -200px;
+      top: 1340px;
+      width: 1500px;
+      height: 160px;
+      background:
+        repeating-linear-gradient(179deg, rgba(90, 55, 25, 0.09) 0 2px, rgba(0, 0, 0, 0) 2px 9px, rgba(90, 55, 25, 0.05) 9px 10px, rgba(0, 0, 0, 0) 10px 23px),
+        linear-gradient(180deg, #d9ae80 0%, #c99a6c 100%);
+      box-shadow: inset 0 2px 0 rgba(255, 240, 215, 0.6);
+    }
+    #d-deskfront {
+      left: -200px;
+      top: 1500px;
+      width: 1500px;
+      height: 420px;
+      background:
+        repeating-linear-gradient(178deg, rgba(60, 35, 15, 0.1) 0 2px, rgba(0, 0, 0, 0) 2px 11px, rgba(60, 35, 15, 0.06) 11px 12px, rgba(0, 0, 0, 0) 12px 27px),
+        linear-gradient(180deg, #9c6c47 0%, #6f4a2f 100%);
+      box-shadow: inset 0 3px 0 rgba(255, 220, 180, 0.35);
+    }
+    .d-cshadow {
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(60, 35, 15, 0.45), rgba(60, 35, 15, 0));
+    }
+    #d-mug {
+      left: 560px;
+      top: 1236px;
+      width: 130px;
+      height: 146px;
+      filter: blur(2px);
+    }
+
+    /* ---- monitor + lock screen ---- */
+    #d-monitor {
+      left: 40px;
+      top: 640px;
+      width: 1180px;
+      height: 700px;
+      border-radius: 26px;
+      background: #141416;
+      box-shadow:
+        0 40px 80px rgba(60, 35, 15, 0.35),
+        inset 0 2px 0 rgba(255, 255, 255, 0.08);
+    }
+    #d-neck {
+      left: 520px;
+      top: 1340px;
+      width: 130px;
+      height: 26px;
+      background: #1d1d20;
+    }
+    #d-foot {
+      left: 430px;
+      top: 1360px;
+      width: 310px;
+      height: 22px;
+      border-radius: 6px;
+      background: #232326;
+    }
+    #d-screen {
+      left: 66px;
+      top: 666px;
+      width: 1128px;
+      height: 648px;
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        radial-gradient(800px 260px at 50% 74%, rgba(255, 170, 90, 0.85) 0%, rgba(230, 120, 60, 0.45) 40%, rgba(230, 120, 60, 0) 75%),
+        linear-gradient(180deg, #1c1416 0%, #3a2220 38%, #8a4426 66%, #d27a40 78%, #3a1d14 79%, #1a0f0c 100%);
+    }
+    #d-hills {
+      left: 0;
+      bottom: 0;
+      width: 1128px;
+      height: 260px;
+    }
+    #d-date {
+      left: 0;
+      top: 150px;
+      width: 1014px;
+      height: 40px;
+      text-align: center;
+      color: rgba(255, 240, 225, 0.8);
+      font-size: 30px;
+      font-weight: 700;
+    }
+    #d-date span {
+      position: absolute;
+      left: 0;
+      width: 1014px;
+      opacity: 0;
+    }
+    #d-clock {
+      left: 0;
+      top: 188px;
+      width: 1014px;
+      text-align: center;
+      color: rgba(255, 246, 235, 0.8);
+      font-size: 168px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    #d-reflect i {
+      position: absolute;
+      top: -80px;
+      width: 240px;
+      height: 900px;
+      background: rgba(255, 238, 210, 0.05);
+      transform: skewX(-24deg);
+      filter: blur(14px);
+    }
+
+    /* the day counter: a mechanical odometer */
+    #d-counter {
+      left: 770px;
+      top: 692px;
+      width: 280px;
+      height: 128px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      opacity: 0;
+    }
+    #d-counter .lbl {
+      position: absolute;
+      left: 22px;
+      top: 18px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #9a9aa1;
+    }
+    #d-odo {
+      position: absolute;
+      left: 20px;
+      top: 46px;
+      height: 66px;
+      display: flex;
+      gap: 2px;
+      font-size: 62px;
+      font-weight: 700;
+      color: #f4f4f5;
+      font-variant-numeric: tabular-nums;
+    }
+    .d-cell {
+      position: relative;
+      width: 38px;
+      height: 66px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    }
+    .d-comma {
+      width: 14px;
+      line-height: 66px;
+    }
+    .d-strip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 38px;
+      text-align: center;
+      line-height: 66px;
+    }
+    .d-strip span {
+      display: block;
+      height: 66px;
+    }
+
+    /* ---- notes ---- */
+    #d-note {
+      left: 34px;
+      top: 1030px;
+      width: 380px;
+      height: 380px;
+      transform-origin: 50% 0;
+      background: linear-gradient(180deg, #ffe98d 0%, #ffe27a 18%, #ffe27a 70%, #f6d35e 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.12),
+        0 22px 36px rgba(70, 45, 10, 0.24);
+    }
+    #d-note::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 50px;
+      background: rgba(214, 178, 52, 0.18);
+    }
+    #d-note::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(120, 85, 20, 0.16) 75%, rgba(255, 245, 200, 0.6) 100%);
+    }
+    #d-notetxt {
+      left: 40px;
+      top: 80px;
+      font-size: 72px;
+      line-height: 0.98;
+    }
+    #d-underline {
+      left: 32px;
+      top: 286px;
+      width: 310px;
+      height: 56px;
+    }
+    #d-note2 {
+      left: 430px;
+      top: 1372px;
+      width: 400px;
+      height: 156px;
+      background: linear-gradient(180deg, #fff1b0 0%, #ffe995 100%);
+      box-shadow:
+        0 2px 2px rgba(70, 45, 10, 0.1),
+        0 14px 26px rgba(70, 45, 10, 0.2);
+      opacity: 0;
+    }
+    .d-n2l {
+      position: absolute;
+      left: 24px;
+      font-size: 48px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #d-ring {
+      left: 196px;
+      top: 64px;
+      width: 170px;
+      height: 80px;
+    }
+    #d-plant {
+      left: 690px;
+      top: 1300px;
+      width: 600px;
+      height: 820px;
+      filter: blur(16px);
+    }
+
+    /* ---- the avalanche ---- */
+    .d-ntf {
+      position: absolute;
+      width: 640px;
+      height: 132px;
+      border-radius: 28px;
+      background: rgba(250, 250, 250, 0.97);
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.12),
+        0 18px 40px rgba(0, 0, 0, 0.28);
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 0 26px;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+    .d-ntf i {
+      flex: none;
+      width: 70px;
+      height: 70px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-style: normal;
+      font-size: 34px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .d-ntf b {
+      display: block;
+      font-size: 28px;
+      font-weight: 700;
+      color: #18181b;
+      white-space: nowrap;
+    }
+    .d-ntf span {
+      display: block;
+      margin-top: 2px;
+      font-size: 24px;
+      color: #52525b;
+      white-space: nowrap;
+    }
+    .d-ntf em {
+      position: absolute;
+      right: 24px;
+      top: 20px;
+      font-style: normal;
+      font-size: 20px;
+      font-weight: 600;
+      color: #52525b;
+    }
+    #d-badge {
+      left: 900px;
+      top: 610px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #ef4444;
+      color: #fff;
+      font-size: 58px;
+      font-weight: 900;
+      line-height: 150px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.45);
+      letter-spacing: -0.03em;
+      opacity: 0;
+    }
+    #d-badge span {
+      position: absolute;
+      left: 0;
+      width: 150px;
+      opacity: 0;
+    }
+
+    /* ---- the crack + freeze-frame dressing ---- */
+    #d-crack {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #d-flash {
+      inset: 0;
+      background: radial-gradient(520px 520px at 975px 690px, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 35%, rgba(255, 255, 255, 0) 70%);
+      opacity: 0;
+    }
+    #d-redvig {
+      inset: 0;
+      background: radial-gradient(900px 1400px at 50% 45%, rgba(0, 0, 0, 0) 45%, rgba(120, 10, 10, 0.4) 100%);
+      opacity: 0;
+    }
+    #d-mark {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    .d-meme {
+      left: 0;
+      top: 250px;
+      width: 1080px;
+      padding: 30px 60px 44px;
+      box-sizing: border-box;
+      font-size: 92px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+      color: #fff;
+      -webkit-text-stroke: 3px #111;
+      paint-order: stroke fill;
+      text-shadow: 0 6px 0 #111;
+    }
+    .d-meme span {
+      display: inline-block;
+      opacity: 0;
+    }
+    #d-memebg {
+      left: 0;
+      top: 230px;
+      width: 1080px;
+      height: 360px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+      opacity: 0;
+    }
+    #d-every-ul {
+      left: 52px;
+      top: 372px;
+      width: 330px;
+      height: 40px;
+    }
+
+    /* ---- act 1 captions (ink on the lit wall) ---- */
+    .d-cap {
+      left: 70px;
+      top: 290px;
+      width: 940px;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      color: #1f1b16;
+    }
+    .d-cap span {
+      display: inline-block;
+      opacity: 0;
+    }
+    .d-cap .m {
+      color: #6f5a40;
+    }
+
+    #d-grain {
+      inset: 0;
+      opacity: 0.06;
+      mix-blend-mode: multiply;
+    }
+    #d-vig {
+      inset: 0;
+      background: radial-gradient(900px 1400px at 50% 45%, rgba(0, 0, 0, 0) 60%, rgba(40, 25, 10, 0.2) 100%);
+    }
+  </style>
+
+  <div id="root" data-composition-id="s1" data-width="1080" data-height="1920" data-duration="19.6">
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <filter id="d-vb0" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="d-vbs0" stdDeviation="0 0" /></filter>
+      <filter id="d-vb1" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="d-vbs1" stdDeviation="0 0" /></filter>
+      <filter id="d-vb2" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur id="d-vbs2" stdDeviation="0 0" /></filter>
+    </svg>
+
+    <div id="d-cam" class="d-abs" data-layout-allow-overflow>
+      <div id="d-look" class="d-abs">
+        <div id="d-bg" class="d-abs" style="inset: 0">
+          <div id="d-wall" class="d-abs"></div>
+          <div id="d-sun" class="d-abs">
+            <div id="d-sunin"><i style="left: 0; top: 0"></i><i style="left: 330px; top: 0"></i><i style="left: 0; top: 460px"></i><i style="left: 330px; top: 460px"></i></div>
+          </div>
+          <svg id="d-leaves" class="d-abs" viewBox="0 0 700 700" aria-hidden="true">
+            <g fill="#b39c78">
+              <path d="M120 620 C 140 470, 220 360, 330 300 C 300 400, 240 520, 120 620 Z" />
+              <path d="M330 300 C 420 220, 520 200, 610 210 C 540 290, 440 330, 330 300 Z" />
+              <path d="M300 420 C 360 340, 470 300, 560 330 C 500 410, 400 450, 300 420 Z" />
+              <path d="M230 330 C 230 230, 280 140, 360 80 C 370 180, 320 270, 230 330 Z" />
+            </g>
+          </svg>
+          <div id="d-shaft" class="d-abs"></div>
+          <div id="d-monitor" class="d-abs"></div>
+          <div id="d-desk" class="d-abs"></div>
+          <div id="d-deskfront" class="d-abs"></div>
+          <div class="d-cshadow d-abs" style="left: 400px; top: 1366px; width: 380px; height: 36px"></div>
+          <div id="d-neck" class="d-abs"></div>
+          <div id="d-foot" class="d-abs"></div>
+          <div class="d-cshadow d-abs" style="left: 545px; top: 1368px; width: 170px; height: 26px"></div>
+          <svg id="d-mug" class="d-abs" viewBox="0 0 150 168" aria-hidden="true">
+            <path d="M112 50 C 150 50, 150 112, 108 112" fill="none" stroke="#e8dfd1" stroke-width="13" />
+            <rect x="8" y="22" width="108" height="140" rx="16" fill="#f1e9dc" />
+            <ellipse cx="62" cy="24" rx="54" ry="11" fill="#5a3a24" />
+            <rect x="8" y="110" width="108" height="52" rx="14" fill="#e3d7c5" />
+          </svg>
+        </div>
+
+        <div id="d-screen" class="d-abs">
+          <svg id="d-hills" class="d-abs" viewBox="0 0 1128 260" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 140 C 200 70, 380 120, 560 80 C 760 40, 920 110, 1128 60 L 1128 260 L 0 260 Z" fill="#3a1d14" opacity="0.9" />
+            <path d="M0 210 C 240 160, 460 210, 700 170 C 900 140, 1040 190, 1128 160 L 1128 260 L 0 260 Z" fill="#170e0c" />
+          </svg>
+          <div id="d-date" class="d-abs">
+            <span data-layout-allow-occlusion style="opacity: 1">Monday, October 14</span><span data-layout-allow-occlusion>Tuesday, March 5</span><span data-layout-allow-occlusion>Friday, July 19</span><span data-layout-allow-occlusion>Sunday, December 1</span><span data-layout-allow-occlusion>Wednesday, May 14</span><span data-layout-allow-occlusion>Thursday, August 21</span><span data-layout-allow-occlusion>Saturday, June 6</span><span data-layout-allow-occlusion>Monday, October 14</span>
+          </div>
+          <div id="d-clock" class="d-abs" data-layout-allow-occlusion>7:42</div>
+          <div id="d-reflect" class="d-abs" style="inset: 0"><i style="left: 100px"></i><i style="left: 380px; width: 120px"></i></div>
+        </div>
+        <div id="d-counter" class="d-abs">
+          <div class="lbl">DAY</div>
+          <div id="d-odo">
+            <div class="d-cell"><div id="d-s3" class="d-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="d-comma">,</div>
+            <div class="d-cell" style="filter: url(#d-vb2)"><div id="d-s2" class="d-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="d-cell" style="filter: url(#d-vb1)"><div id="d-s1" class="d-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+            <div class="d-cell" style="filter: url(#d-vb0)"><div id="d-s0" class="d-strip" data-layout-ignore><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></div></div>
+          </div>
+        </div>
+
+        <div id="d-note" class="d-abs">
+          <div id="d-notetxt" class="d-abs d-hand" data-layout-allow-occlusion>become a<br />software<br />engineer ✦</div>
+          <svg id="d-underline" class="d-abs" viewBox="0 0 320 60" aria-hidden="true">
+            <path id="d-ul1" d="M6 18 C 90 10, 200 8, 312 14" fill="none" stroke="#2a2520" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+            <path id="d-ul2" d="M20 40 C 110 32, 210 30, 300 36" fill="none" stroke="#2a2520" stroke-width="4.5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          </svg>
+        </div>
+        <div id="d-note2" class="d-abs">
+          <div id="d-n2a" class="d-n2l d-hand" style="top: 20px">okay, but what do I</div>
+          <div id="d-n2b" class="d-n2l d-hand" style="top: 70px">actually do today?</div>
+          <svg id="d-ring" class="d-abs" viewBox="0 0 170 80" aria-hidden="true">
+            <path id="d-ringp" d="M20 40 C 20 16, 80 6, 126 12 C 166 18, 166 60, 122 68 C 80 76, 24 70, 18 46 C 14 28, 46 14, 68 12" fill="none" stroke="#ea580c" stroke-width="4.5" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+          </svg>
+        </div>
+
+        <svg id="d-plant" class="d-abs" viewBox="0 0 560 820" aria-hidden="true">
+          <path d="M150 820 L 190 600 L 330 600 L 370 820 Z" fill="#8a5a3a" />
+          <g fill="#4f6b43">
+            <path d="M250 610 C 120 520, 40 380, 60 230 C 170 300, 250 440, 250 610 Z" />
+            <path d="M270 600 C 300 430, 400 300, 540 260 C 520 400, 420 520, 270 600 Z" />
+            <path d="M260 600 C 230 430, 260 250, 360 120 C 400 270, 360 450, 260 600 Z" />
+          </g>
+          <g fill="#3d5634">
+            <path d="M250 610 C 170 560, 110 470, 100 380 C 180 430, 230 510, 250 610 Z" />
+            <path d="M240 590 C 160 470, 150 330, 200 200 C 250 320, 260 460, 240 590 Z" />
+          </g>
+          <g fill="#6b8a58"><path d="M262 600 C 280 470, 330 380, 420 330 C 410 430, 350 520, 262 600 Z" /></g>
+        </svg>
+
+        <!-- the avalanche -->
+        <div id="d-n1" class="d-ntf" data-layout-allow-overlap style="left: 330px; top: 300px"><i style="background: #18181b">⌘</i><div><b>Calendar · Study block</b><span>Missed · 6:00 AM</span></div><em>now</em></div>
+        <div id="d-n2" class="d-ntf" data-layout-allow-overlap style="left: 60px; top: 460px"><i style="background: #2563eb">G</i><div><b>Chrome · 47 tabs open</b><span>Memory usage is high</span></div><em>now</em></div>
+        <div id="d-n3" class="d-ntf" data-layout-allow-overlap style="left: 380px; top: 690px"><i style="background: #ef4444">!</i><div><b>Overdue · DSA practice</b><span>3 tasks overdue since Friday</span></div><em data-layout-allow-occlusion>2m</em></div>
+        <div id="d-n4" class="d-ntf" data-layout-allow-overlap style="left: 90px; top: 820px"><i style="background: #7c3aed">▶</i><div><b>Course · 12% complete</b><span>You haven't watched in 23 days</span></div><em>5m</em></div>
+        <div id="d-n5" class="d-ntf" data-layout-allow-overlap style="left: 330px; top: 960px"><i style="background: #f59e0b">⏰</i><div><b>Reminder · start portfolio</b><span>Snoozed 14 times</span></div><em>1h</em></div>
+        <div id="d-n6" class="d-ntf" data-layout-allow-overlap style="left: 20px; top: 1110px"><i style="background: #f97316">L</i><div><b>LeetCode · streak lost</b><span>Current streak: 0 days</span></div><em>1d</em></div>
+        <div id="d-n7" class="d-ntf" data-layout-allow-overlap style="left: 360px; top: 1240px"><i style="background: #ef4444">!</i><div><b>Overdue × 3</b><span>Read “Clean Code” ch. 1</span></div><em>2d</em></div>
+        <div id="d-n8" class="d-ntf" data-layout-allow-overlap style="left: 120px; top: 1390px"><i style="background: #0f766e">✎</i><div><b>Notes · roadmap v4 (final)</b><span>Last edited 41 days ago</span></div><em>6w</em></div>
+        <div id="d-badge" class="d-abs"><span>1</span><span>3</span><span>7</span><span>12</span><span>23</span><span>38</span><span>61</span><span>84</span><span>99+</span></div>
+      </div>
+
+      <!-- crack (generated by scripts/gen-crack.py) -->
+      <svg id="d-crack" class="d-abs" viewBox="0 0 1080 1920" aria-hidden="true">
+        <!-- <crack:auto> -->
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="1011,750 1058,825 1014,843 993,758" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="971,760 968,848 917,837 950,755" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="926,740 866,804 826,741 909,713" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="905,694 817,700 819,664 906,679" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="911,662 830,627 848,596 919,649" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="932,635 876,567 910,546 946,627" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="966,621 954,533 991,533 981,620" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<polygon points="1011,630 1055,554 1102,596 1031,648" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M975 690 L 863 674 L 729 651 L 632 630 L 513 601 L 373 564" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 891 659 L 786 617 L 661 562 L 572 519 L 463 463 L 335 394 L 242 337" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 877 609 L 796 568 L 705 500 L 598 415 L 524 350 L 433 268 L 327 169 L 252 90" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 912 607 L 838 504 L 761 450 L 691 361 L 609 253 L 554 170 L 487 68 L 409 -56 L 357 -151" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 920 560 L 882 463 L 840 343 L 767 277 L 725 172 L 676 45 L 646 -50 L 609 -167 L 568 -307 L 545 -414" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 959 573 L 943 433 L 936 329 L 930 202 L 867 120 L 857 7" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 983 595 L 997 478 L 1018 339 L 1037 236 L 1063 112 L 1014 16 L 1033 -96 L 1057 -230" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 851 735 L 760 764 L 647 797 L 510 833 L 408 855 L 283 879 L 220 975 L 109 1002 L -24 1032" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 867 703 L 735 714 L 640 719 L 522 722 L 381 722 L 277 717 L 149 709 L 65 797 L -49 794 L -186 790" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 871 792 L 810 884 L 720 981 L 652 1048 L 566 1129 L 461 1224" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 925 803 L 863 934 L 850 1047 L 799 1169 L 757 1254 L 704 1360 L 639 1486" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 970 790 L 960 913 L 945 1058 L 981 1168 L 973 1300 L 961 1395 L 946 1512 L 926 1653" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1044 571 L 1097 487 L 1165 384 L 1248 264 L 1257 144 L 1328 32 L 1384 -46 L 1455 -141 L 1540 -255" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1066 622 L 1178 542 L 1262 488 L 1367 424 L 1493 350" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1026 766 L 1086 862 L 1156 980 L 1203 1068 L 1259 1178 L 1323 1310 L 1442 1364" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 1012 813 L 1035 901 L 1061 1012 L 1089 1146 L 1104 1245 L 1121 1367 L 1139 1513 L 1247 1598" stroke="rgba(10,10,14,0.5)" stroke-width="11"/>
+<path d="M975 690 L 863 674 L 729 651 L 632 630 L 513 601 L 373 564" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 891 659 L 786 617 L 661 562 L 572 519 L 463 463 L 335 394 L 242 337" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 877 609 L 796 568 L 705 500 L 598 415 L 524 350 L 433 268 L 327 169 L 252 90" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 912 607 L 838 504 L 761 450 L 691 361 L 609 253 L 554 170 L 487 68 L 409 -56 L 357 -151" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 920 560 L 882 463 L 840 343 L 767 277 L 725 172 L 676 45 L 646 -50 L 609 -167 L 568 -307 L 545 -414" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 959 573 L 943 433 L 936 329 L 930 202 L 867 120 L 857 7" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 983 595 L 997 478 L 1018 339 L 1037 236 L 1063 112 L 1014 16 L 1033 -96 L 1057 -230" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 851 735 L 760 764 L 647 797 L 510 833 L 408 855 L 283 879 L 220 975 L 109 1002 L -24 1032" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 867 703 L 735 714 L 640 719 L 522 722 L 381 722 L 277 717 L 149 709 L 65 797 L -49 794 L -186 790" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 871 792 L 810 884 L 720 981 L 652 1048 L 566 1129 L 461 1224" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 925 803 L 863 934 L 850 1047 L 799 1169 L 757 1254 L 704 1360 L 639 1486" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 970 790 L 960 913 L 945 1058 L 981 1168 L 973 1300 L 961 1395 L 946 1512 L 926 1653" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1044 571 L 1097 487 L 1165 384 L 1248 264 L 1257 144 L 1328 32 L 1384 -46 L 1455 -141 L 1540 -255" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1066 622 L 1178 542 L 1262 488 L 1367 424 L 1493 350" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1026 766 L 1086 862 L 1156 980 L 1203 1068 L 1259 1178 L 1323 1310 L 1442 1364" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M975 690 L 1012 813 L 1035 901 L 1061 1012 L 1089 1146 L 1104 1245 L 1121 1367 L 1139 1513 L 1247 1598" stroke="rgba(255,255,255,0.95)" stroke-width="4"/>
+<path d="M632 630 L 554 643 L 449 655 L 319 662" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M609 253 L 578 179 L 543 80 L 507 -45" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M1037 236 L 1018 159 L 999 55 L 982 -74" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M720 981 L 652 1022 L 558 1071 L 439 1124" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M1257 144 L 1271 65 L 1296 -37 L 1333 -162" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M1089 1146 L 1086 1226 L 1076 1331 L 1056 1459" stroke="rgba(10,10,14,0.5)" stroke-width="8"/>
+<path d="M632 630 L 554 643 L 449 655 L 319 662" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M609 253 L 578 179 L 543 80 L 507 -45" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1037 236 L 1018 159 L 999 55 L 982 -74" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M720 981 L 652 1022 L 558 1071 L 439 1124" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1257 144 L 1271 65 L 1296 -37 L 1333 -162" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1089 1146 L 1086 1226 L 1076 1331 L 1056 1459" stroke="rgba(255,255,255,0.95)" stroke-width="3"/>
+<path d="M1003 734 L 988 740" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M992 757 L 973 744" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M952 747 L 935 732" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M936 732 L 918 709" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M925 706 L 913 694" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M910 679 L 914 664" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M918 666 L 921 649" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M929 655 L 931 636" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M946 625 L 968 638" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M966 624 L 981 635" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M982 627 L 1004 641" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1049 809 L 1009 826" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1013 842 L 970 832" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M919 828 L 875 797" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M876 796 L 834 736" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M841 734 L 825 700" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M823 663 L 833 630" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M837 631 L 850 596" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M858 602 L 876 567" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M910 545 L 955 550" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M953 537 L 990 548" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M991 540 L 1048 564" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1113 910 L 1038 942" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1042 959 L 966 952" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M874 939 L 794 885" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M794 884 L 720 773" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M727 771 L 706 709" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M705 642 L 723 583" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M726 585 L 755 524" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M763 530 L 800 474" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M862 435 L 939 432" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M937 418 L 1002 428" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1003 420 L 1108 461" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1078 1104 L 961 1102" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M960 1113 L 820 1074" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M818 1078 L 691 994" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M584 817 L 556 719" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M548 720 L 559 617" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M557 616 L 585 524" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M643 440 L 706 357" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M716 370 L 800 297" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M801 298 L 918 283" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1019 271 L 1182 331" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1184 329 L 1312 445" stroke="rgba(10,10,14,0.5)" stroke-width="7"/>
+<path d="M1003 734 L 988 740" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M992 757 L 973 744" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M952 747 L 935 732" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M936 732 L 918 709" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M925 706 L 913 694" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M910 679 L 914 664" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M918 666 L 921 649" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M929 655 L 931 636" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M946 625 L 968 638" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M966 624 L 981 635" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M982 627 L 1004 641" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1049 809 L 1009 826" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1013 842 L 970 832" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M919 828 L 875 797" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M876 796 L 834 736" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M841 734 L 825 700" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M823 663 L 833 630" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M837 631 L 850 596" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M858 602 L 876 567" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M910 545 L 955 550" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M953 537 L 990 548" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M991 540 L 1048 564" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1113 910 L 1038 942" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1042 959 L 966 952" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M874 939 L 794 885" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M794 884 L 720 773" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M727 771 L 706 709" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M705 642 L 723 583" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M726 585 L 755 524" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M763 530 L 800 474" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M862 435 L 939 432" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M937 418 L 1002 428" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1003 420 L 1108 461" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1078 1104 L 961 1102" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M960 1113 L 820 1074" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M818 1078 L 691 994" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M584 817 L 556 719" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M548 720 L 559 617" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M557 616 L 585 524" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M643 440 L 706 357" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M716 370 L 800 297" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M801 298 L 918 283" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1019 271 L 1182 331" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<path d="M1184 329 L 1312 445" stroke="rgba(255,255,255,0.95)" stroke-width="2.5"/>
+<circle cx="975" cy="690" r="30" fill="rgba(255,255,255,0.6)" stroke="#fff" stroke-width="4"/>
+</g>
+        <!-- </crack:auto> -->
+      </svg>
+      <div id="d-flash" class="d-abs"></div>
+      <div id="d-redvig" class="d-abs"></div>
+
+      <!-- freeze-frame dressing: marker circle + arrow onto the buried note -->
+      <svg id="d-mark" class="d-abs" viewBox="0 0 1080 1920" aria-hidden="true">
+        <path id="d-circ" d="M60 1180 C 40 1060, 200 1000, 330 1030 C 470 1060, 500 1250, 420 1370 C 330 1490, 120 1470, 70 1350 C 40 1280, 70 1150, 160 1110" fill="none" stroke="#ef2b2b" stroke-width="12" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+        <path id="d-arrow" d="M640 640 C 560 780, 480 880, 380 1000" fill="none" stroke="#ef2b2b" stroke-width="12" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+        <path id="d-head" d="M352 940 L 378 1004 L 444 984" fill="none" stroke="#ef2b2b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+      </svg>
+    </div>
+
+    <svg id="d-grain" class="d-abs" viewBox="0 0 1080 1920" aria-hidden="true" data-layout-ignore>
+      <filter id="d-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.9 0" /></filter>
+      <rect width="1080" height="1920" filter="url(#d-noise)" />
+    </svg>
+    <div id="d-vig" class="d-abs"></div>
+
+    <!-- captions: hook (meme) then act 1 (ink) -->
+    <div id="d-memebg" class="d-abs"></div>
+    <div id="d-meme1" class="d-meme d-abs" data-layout-allow-overlap><span>That's</span> <span>Riya's</span><br /><span>Monday</span> <span>morning.</span></div>
+    <div id="d-meme2" class="d-meme d-abs" data-layout-allow-overlap><span>…every</span><br /><span>Monday</span> <span>morning.</span></div>
+    <svg id="d-every-ul" class="d-abs" viewBox="0 0 330 40" aria-hidden="true">
+      <path id="d-everyp" d="M8 22 C 90 12, 220 10, 322 18" fill="none" stroke="#ef2b2b" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="100 120" stroke-dashoffset="110" />
+    </svg>
+    <div id="d-cap1" class="d-cap d-abs" style="font-size: 100px"><span class="m">Underneath</span> <span class="m">all</span> <span class="m">of</span> <span class="m">it,</span><br /><span>one</span> <span>note.</span></div>
+    <div id="d-cap2" class="d-cap d-abs" style="font-size: 124px"><span>Three</span> <span>years</span><br /><span class="m">old.</span></div>
+    <div id="d-cap3" class="d-cap d-abs" style="font-size: 96px"><span>Every</span> <span>morning,</span><br /><span class="m">the</span> <span class="m">same</span> <span class="m">question…</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => [...document.querySelectorAll(s)];
+      const F = 1 / 30;
+
+      // ---------------------------------------------------------------- set-up
+      gsap.set("#d-cam", { scale: 1, x: 0, y: 0, rotation: 0 });
+      gsap.set("#d-note", { rotation: -3.5 });
+      gsap.set("#d-note2", { rotation: 3 });
+      gsap.set(["#d-notetxt", "#d-underline"], { filter: "blur(5px)" });
+      gsap.set("#d-crack", { clipPath: "circle(0px at 975px 690px)" });
+      gsap.set(["#d-n2a", "#d-n2b"], { clipPath: "inset(0% 100% 0% 0%)" });
+
+      // the eight notifications: final rotations, landing times (each gap shorter)
+      const cards = [
+        ["#d-n1", 5, 0.0],
+        ["#d-n2", -4, 0.3],
+        ["#d-n3", 3, 0.56],
+        ["#d-n4", -6, 0.79],
+        ["#d-n5", 7, 0.99],
+        ["#d-n6", -3, 1.16],
+        ["#d-n7", -8, 1.31],
+        ["#d-n8", 9, 1.44],
+      ];
+
+      // ---------------------------------------------------------------- HOOK: the avalanche (0 – 2.0)
+      cards.forEach(([id, rot, t], i) => {
+        const fall = 0.3;
+        // frame 0 already has the first card mid-drop
+        const from = i === 0 ? { opacity: 1, y: -260, rotation: rot - 6 } : { opacity: 1, y: -1300, rotation: rot - 14 };
+        tl.fromTo(id, from, { opacity: 1, y: 14, rotation: rot + 1, duration: i === 0 ? 0.18 : fall, ease: "power2.in", immediateRender: i === 0 }, t);
+        tl.to(id, { y: 0, rotation: rot, duration: 0.2, ease: "back.out(2.2)" }, t + (i === 0 ? 0.18 : fall));
+        // each landing jolts the camera a little
+        tl.to("#d-cam", { y: 5, duration: 0.04, ease: "power2.out" }, t + (i === 0 ? 0.18 : fall));
+        tl.to("#d-cam", { y: 0, duration: 0.12, ease: "power2.out" }, t + (i === 0 ? 0.22 : fall + 0.04));
+      });
+      // tension: the camera creeps in
+      tl.fromTo("#d-cam", { scale: 1 }, { scale: 1.035, duration: 2.0, ease: "power1.in", immediateRender: false }, 0);
+      // the badge counts up, popping on every change
+      const badgeAt = [0.05, 0.45, 0.72, 0.95, 1.14, 1.3, 1.46, 1.62, 1.8];
+      const bvals = q("#d-badge span");
+      tl.set("#d-badge", { opacity: 1 }, 0.05);
+      bvals.forEach((b, i) => {
+        if (i) tl.set(bvals[i - 1], { opacity: 0 }, badgeAt[i]);
+        tl.set(b, { opacity: 1 }, badgeAt[i]);
+        tl.fromTo("#d-badge", { scale: i === bvals.length - 1 ? 1.45 : 1.22 }, { scale: 1, duration: 0.14, ease: "back.out(2)", immediateRender: false }, badgeAt[i]);
+      });
+
+      // ---------------------------------------------------------------- THE CRACK (2.0)
+      const C = 2.0;
+      tl.set("#d-flash", { opacity: 1 }, C);
+      tl.to("#d-flash", { opacity: 0, duration: 0.32, ease: "power2.out" }, C + F);
+      tl.to("#d-crack", { clipPath: "circle(1500px at 975px 690px)", duration: 0.22, ease: "power3.out" }, C);
+      tl.set("#d-redvig", { opacity: 1 }, C);
+      const shake = [
+        [0, 14, -10, -1.8],
+        [0.033, -11, 9, -0.6],
+        [0.066, 9, -6, -1.6],
+        [0.1, -5, 4, -1.0],
+        [0.15, 2, -2, -1.3],
+        [0.2, 0, 0, -1.2],
+      ];
+      shake.forEach(([dt, x, y, r]) => tl.set("#d-cam", { x, y, rotation: r }, C + dt));
+      tl.to("#d-cam", { scale: 1.07, duration: 0.12, ease: "power4.out" }, C);
+      // red / cyan colour split on every card
+      tl.set(".d-ntf", { boxShadow: "-11px 0 0 rgba(255,30,70,0.5), 11px 0 0 rgba(0,200,255,0.5), 0 18px 40px rgba(0,0,0,0.28)" }, C);
+
+      // ---------------------------------------------------------------- THE FREEZE-FRAME (2.3 – 6.0)
+      tl.fromTo("#d-look", { filter: "grayscale(0) sepia(0) contrast(1)" }, { filter: "grayscale(0.9) sepia(0.35) contrast(1.08)", duration: 0.25, ease: "power2.out", immediateRender: false }, 2.3);
+      tl.to("#d-crack", { opacity: 0.75, duration: 0.25 }, 2.3);
+      tl.to("#d-redvig", { opacity: 0, duration: 0.3 }, 2.3);
+      tl.to("#d-grain", { opacity: 0.16, duration: 0.2 }, 2.3);
+      tl.to("#d-circ", { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.inOut" }, 2.42);
+      tl.to("#d-arrow", { attr: { "stroke-dashoffset": 0 }, duration: 0.24, ease: "power2.in" }, 2.88);
+      tl.to("#d-head", { attr: { "stroke-dashoffset": 0 }, duration: 0.1, ease: "none" }, 3.12);
+
+      // meme captions on the voice
+      tl.to("#d-memebg", { opacity: 1, duration: 0.2 }, 2.7);
+      const m1 = q("#d-meme1 span");
+      [2.78, 2.96, 3.21, 3.53].forEach((t, i) => {
+        tl.set(m1[i], { opacity: 1 }, t);
+        tl.fromTo(m1[i], { scale: 1.18 }, { scale: 1, duration: 0.12, ease: "power3.out", immediateRender: false }, t);
+      });
+      tl.to("#d-meme1", { opacity: 0, filter: "blur(6px)", duration: 0.14, ease: "power2.in" }, 4.58);
+      const m2 = q("#d-meme2 span");
+      [4.76, 4.95, 5.27].forEach((t, i) => {
+        tl.set(m2[i], { opacity: 1 }, t);
+        tl.fromTo(m2[i], { scale: 1.18 }, { scale: 1, duration: 0.12, ease: "power3.out", immediateRender: false }, t);
+      });
+      tl.to("#d-everyp", { attr: { "stroke-dashoffset": 0 }, duration: 0.22, ease: "power2.out" }, 4.86);
+
+      // ---------------------------------------------------------------- RELEASE: colour returns, the pile falls away (6.0 – 7.0)
+      const R = 6.02;
+      tl.to(["#d-meme2", "#d-every-ul", "#d-memebg"], { opacity: 0, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, R);
+      tl.to("#d-look", { filter: "grayscale(0) sepia(0) contrast(1)", duration: 0.35, ease: "power2.inOut" }, R);
+      tl.to(["#d-crack", "#d-mark"], { opacity: 0, duration: 0.25, ease: "power2.in" }, R);
+      tl.to("#d-grain", { opacity: 0.06, duration: 0.3 }, R);
+      tl.set(".d-ntf", { boxShadow: "0 2px 4px rgba(0,0,0,0.12), 0 18px 40px rgba(0,0,0,0.28)" }, R);
+      tl.to("#d-badge", { scale: 0, duration: 0.2, ease: "back.in(2)" }, R + 0.05);
+      [...cards].reverse().forEach(([id, rot], i) => {
+        tl.to(id, { y: "+=1500", rotation: rot + (i % 2 ? -38 : 34), duration: 0.6, ease: "power3.in" }, R + 0.12 + i * 0.045);
+      });
+      tl.to("#d-cam", { scale: 1, x: 0, y: 0, rotation: 0, duration: 0.85, ease: "power2.inOut" }, R + 0.1);
+      // off the bottom of the frame, the fallen pile is gone for good
+      tl.set(cards.map(([id]) => id), { opacity: 0 }, R + 0.12 + 7 * 0.045 + 0.6);
+
+      // ---------------------------------------------------------------- ACT 1: one note (7.0 – 8.7)
+      const cap1 = q("#d-cap1 span");
+      [7.1, 7.58, 7.76, 7.88, 8.12, 8.24].forEach((t, i) => {
+        tl.set(cap1[i], { opacity: 1, y: 40 }, t);
+        tl.to(cap1[i], { y: 0, duration: 0.16, ease: "power4.out" }, t);
+      });
+      // rack focus: the note snaps sharp as the wall falls soft
+      tl.to(["#d-notetxt", "#d-underline"], { filter: "blur(0px)", duration: 0.3, ease: "power2.out" }, 8.12);
+      tl.fromTo("#d-bg", { filter: "blur(0px)" }, { filter: "blur(3px)", duration: 0.4, ease: "power2.out", immediateRender: false }, 8.12);
+      tl.to("#d-cam", { scale: 1.06, transformOrigin: "320px 1180px", duration: 2.2, ease: "power2.inOut" }, 7.0);
+
+      // ---------------------------------------------------------------- Three years old: the time-lapse (9.0 – 11.2)
+      tl.to("#d-cap1", { opacity: 0, filter: "blur(6px)", duration: 0.14, ease: "power2.in" }, 8.98);
+      const cap2 = q("#d-cap2 span");
+      [9.19, 9.3, 9.82].forEach((t, i) => {
+        tl.set(cap2[i], { opacity: 1, y: 50 }, t);
+        tl.to(cap2[i], { y: 0, duration: 0.18, ease: "power4.out" }, t);
+      });
+      tl.fromTo("#d-counter", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out", immediateRender: false }, 9.12);
+      // the sun sweeps across the wall, morning after morning; the date flips; the mug comes and goes
+      const dates = q("#d-date span");
+      for (let k = 0; k < 4; k++) {
+        const t = 9.3 + k * 0.42;
+        tl.fromTo("#d-sunin", { x: -180 }, { x: 260, duration: 0.42, ease: "none", immediateRender: false }, t);
+        tl.set("#d-mug", { opacity: k % 2 ? 1 : 0 }, t);
+      }
+      // the date page flips through the years: one date on screen at a time
+      for (let j = 0; j < dates.length - 2; j++) {
+        const t = 9.3 + j * 0.28;
+        tl.set(dates[j], { opacity: 0 }, t);
+        tl.set(dates[j + 1], { opacity: 1 }, t);
+      }
+      tl.set("#d-sunin", { x: 0 }, 11.0);
+      tl.set(dates.slice(0, -1), { opacity: 0 }, 11.0);
+      tl.set(dates[dates.length - 1], { opacity: 1 }, 11.0);
+      tl.set("#d-mug", { opacity: 1 }, 11.0);
+
+      // the odometer: 1 → 1,095, digits rolling with blur tied to their real speed
+      const strips = [q("#d-s0")[0], q("#d-s1")[0], q("#d-s2")[0], q("#d-s3")[0]];
+      const blurs = [document.getElementById("d-vbs0"), document.getElementById("d-vbs1"), document.getElementById("d-vbs2")];
+      const H = 66,
+        V0 = 1,
+        V1 = 1095,
+        T0 = 9.25,
+        DUR = 1.65;
+      function renderOdo(v, speed) {
+        for (let i = 0; i < 4; i++) {
+          const p = Math.pow(10, i);
+          let pos;
+          if (i === 0) pos = v % 10;
+          else {
+            const lower = v % p;
+            pos = Math.floor(v / p) % 10 + Math.max(0, lower - (p - 1));
+          }
+          strips[i].style.transform = `translateY(${-pos * H}px)`;
+          if (i < 3) blurs[i].setAttribute("stdDeviation", `0 ${Math.min(10, (speed / p) * 0.05).toFixed(2)}`);
+        }
+      }
+      const odo = { p: 0 };
+      renderOdo(V0, 0);
+      tl.fromTo(
+        odo,
+        { p: 0 },
+        {
+          p: 1,
+          duration: DUR,
+          ease: "none",
+          immediateRender: false,
+          onUpdate() {
+            const p = odo.p;
+            const f = p < 0.5 ? 2 * p * p : 1 - 2 * (1 - p) * (1 - p);
+            const df = p < 0.5 ? 4 * p : 4 * (1 - p);
+            renderOdo(V0 + (V1 - V0) * f, ((V1 - V0) * df) / DUR);
+          },
+        },
+        T0,
+      );
+      // a mechanical landing: the units wheel overshoots and settles
+      const land = { o: 0 };
+      tl.fromTo(
+        land,
+        { o: 0 },
+        {
+          o: 1,
+          duration: 0.3,
+          ease: "none",
+          immediateRender: false,
+          onUpdate() {
+            const k = land.o;
+            const over = Math.sin(k * Math.PI) * 0.16 * (1 - k);
+            renderOdo(V1 + over, 0);
+          },
+        },
+        T0 + DUR,
+      );
+
+      // ---------------------------------------------------------------- It says: become a software engineer (11.6 – 13.7)
+      tl.to("#d-cap2", { opacity: 0, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, 11.45);
+      tl.to("#d-cam", { scale: 1.12, duration: 2.0, ease: "power2.inOut" }, 11.55);
+      tl.to("#d-ul1", { attr: { "stroke-dashoffset": 0 }, duration: 0.2, ease: "power2.out" }, 13.04);
+      tl.to("#d-ul2", { attr: { "stroke-dashoffset": 0 }, duration: 0.18, ease: "power2.out" }, 13.2);
+
+      // ---------------------------------------------------------------- the same question (14.3 – 18.5)
+      const cap3 = q("#d-cap3 span");
+      [14.46, 14.79, 15.37, 15.45, 15.71].forEach((t, i) => {
+        tl.set(cap3[i], { opacity: 1, y: 40 }, t);
+        tl.to(cap3[i], { y: 0, duration: 0.16, ease: "power4.out" }, t);
+      });
+      tl.to("#d-cam", { scale: 1.08, transformOrigin: "460px 1300px", duration: 1.2, ease: "power2.inOut" }, 14.2);
+      tl.fromTo("#d-note2", { opacity: 1, y: -90, scale: 1.12, rotation: -4 }, { opacity: 1, y: 0, scale: 1, rotation: 3, duration: 0.3, ease: "power4.out", immediateRender: false }, 14.38);
+      tl.to("#d-cap3", { opacity: 0, filter: "blur(6px)", duration: 0.16, ease: "power2.in" }, 16.72);
+      // the question writes itself, then "today" gets circled
+      tl.to("#d-n2a", { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "none" }, 16.86);
+      tl.to("#d-n2b", { clipPath: "inset(0% 0% 0% 0%)", duration: 0.62, ease: "none" }, 17.58);
+      tl.to("#d-ringp", { attr: { "stroke-dashoffset": 0 }, duration: 0.34, ease: "power2.inOut" }, 18.22);
+
+      window.__timelines["s1"] = tl;
+    })();
+  </script>
+</template>

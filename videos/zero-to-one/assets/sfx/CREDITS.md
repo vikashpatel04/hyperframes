@@ -1,35 +1,11 @@
-# SFX Credits
+# Sound credits (0 to 1, portrait build)
 
-All sound effects in this directory are sourced from [Pixabay](https://pixabay.com/sound-effects/) and used under the [Pixabay Content License](https://pixabay.com/service/license-summary/).
+`hook-act1.wav` is built by `scripts/build-sfx.py` from the sources in `src/` plus sounds synthesised in
+that script (clock tick, odometer ticks and whirr, landing clunk, card thumps, pen strokes, handwriting,
+marker squeak, paper slides, page flips, note slap, projector whirr, room tone). The synthesised parts
+use a seeded generator, so the stem rebuilds identically.
 
-The Pixabay license allows free use for commercial and non-commercial purposes without attribution, but attribution is appreciated and given here for transparency.
-
-## Files
-
-The following `.mp3` files are bundled with this skill:
-
-- `chime.mp3`
-- `click.mp3` / `click-soft.mp3`
-- `error.mp3`
-- `glitch-1.mp3` / `glitch-2.mp3` / `glitch-3.mp3`
-- `impact-bass-1.mp3` / `impact-bass-2.mp3`
-- `key-press.mp3`
-- `notification.mp3`
-- `ping.mp3`
-- `pop.mp3`
-- `riser.mp3`
-- `sparkle.mp3`
-- `typing.mp3`
-- `whoosh.mp3` / `whoosh-short.mp3` / `whoosh-cinematic.mp3`
-
-See `manifest.json` for per-file metadata (duration, energy character, recommended use).
-
-## License
-
-All files are distributed under the [Pixabay Content License](https://pixabay.com/service/license-summary/), which permits:
-
-- Commercial and non-commercial use
-- Modification and remixing
-- Redistribution as part of derivative works (such as videos rendered with HyperFrames)
-
-without any attribution requirement.
+| File in `src/`                                                                                                                               | Source                                                                                                                           | Licence                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `glass-breaking-gravity-sound.wav`                                                                                                           | "Glass breaking (Gravity Sound)" by Gravity Sound, [Wikimedia Commons](https://commons.wikimedia.org/w/index.php?curid=85708919) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): credit "Gravity Sound" in the post or description |
+| `notification.mp3`, `ping.mp3`, `pop.mp3`, `riser.mp3`, `impact-bass-1.mp3`, `click.mp3`, `click-soft.mp3`, `whoosh.mp3`, `whoosh-short.mp3` | HyperFrames `media-use` bundled library, from [Pixabay](https://pixabay.com/sound-effects/)                                      | [Pixabay Content License](https://pixabay.com/service/license-summary/) (no attribution required)            |

@@ -1,0 +1,55 @@
+[
+  { "id": 1, "start": 0.4, "end": 2.192, "text": "Every big goal starts at zero." },
+  { "id": 2, "start": 2.542, "end": 4.057, "text": "Become a software engineer." },
+  { "id": 3, "start": 4.307, "end": 5.63, "text": "Launch your own product." },
+  { "id": 4, "start": 5.83, "end": 7.11, "text": "Run a half marathon." },
+  { "id": 5, "start": 7.61, "end": 9.423, "text": "Three years. One hour a day." },
+  { "id": 6, "start": 9.623, "end": 11.138, "text": "That's over a thousand hours," },
+  {
+    "id": 7,
+    "start": 11.388,
+    "end": 13.927,
+    "text": "and no one tells you what to do with the first one."
+  },
+  { "id": 8, "start": 14.727, "end": 16.135, "text": "So you plan on Sunday." },
+  { "id": 9, "start": 16.385, "end": 17.75, "text": "Miss a day on Wednesday." },
+  { "id": 10, "start": 18.0, "end": 19.963, "text": "And by Friday, the plan is gone." },
+  {
+    "id": 11,
+    "start": 20.563,
+    "end": 24.126,
+    "text": "Because knowing what you want isn't the same as knowing how to get there."
+  },
+  { "id": 12, "start": 24.926, "end": 26.313, "text": "This is Zero to One." },
+  {
+    "id": 13,
+    "start": 26.913,
+    "end": 30.561,
+    "text": "Tell it your goal, where you're starting, and how much time you really have."
+  },
+  {
+    "id": 14,
+    "start": 30.861,
+    "end": 34.936,
+    "text": "It builds a realistic roadmap. Phases. Milestones. Tasks."
+  },
+  { "id": 15, "start": 35.136, "end": 36.907, "text": "You review it, and you approve it." },
+  {
+    "id": 16,
+    "start": 37.307,
+    "end": 41.446,
+    "text": "Then it turns the roadmap into today: exactly what to do next, and when."
+  },
+  { "id": 17, "start": 41.846, "end": 42.742, "text": "Miss a day?" },
+  { "id": 18, "start": 42.942, "end": 45.161, "text": "Your plan adapts, instead of piling up." },
+  {
+    "id": 19,
+    "start": 45.561,
+    "end": 51.598,
+    "text": "And an AI assistant explains, suggests and reorganizes, while every decision stays yours."
+  },
+  { "id": 20, "start": 52.198, "end": 53.521, "text": "Progress you can see." },
+  { "id": 21, "start": 53.821, "end": 55.378, "text": "One clear step at a time." },
+  { "id": 22, "start": 56.078, "end": 58.873, "text": "Zero to One. Big goals. Clear next steps." },
+  { "id": 23, "start": 59.373, "end": 61.272, "text": "Coming soon. Join the waitlist." }
+]

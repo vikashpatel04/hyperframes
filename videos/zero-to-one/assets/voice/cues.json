@@ -1,845 +1,797 @@
 [
   {
     "line": 1,
-    "text": "Every big goal starts at zero.",
-    "start": 0.4,
-    "end": 2.192,
+    "text": "That's Riya's Monday morning.",
+    "start": 2.7,
+    "end": 4.193,
     "words": [
       {
-        "w": "Every",
-        "t": 0.4
+        "w": "That's",
+        "t": 2.78
       },
       {
-        "w": "big",
-        "t": 0.4
+        "w": "Ria's",
+        "t": 2.96
       },
       {
-        "w": "goal",
-        "t": 0.65
+        "w": "Monday",
+        "t": 3.21
       },
       {
-        "w": "starts",
-        "t": 0.98
-      },
-      {
-        "w": "at",
-        "t": 1.51
-      },
-      {
-        "w": "zero.",
-        "t": 1.65
+        "w": "Morning.",
+        "t": 3.53
       }
     ]
   },
   {
     "line": 2,
-    "text": "Become a software engineer.",
-    "start": 2.542,
-    "end": 4.057,
+    "text": "Every Monday morning.",
+    "start": 4.743,
+    "end": 5.98,
     "words": [
       {
-        "w": "Become",
-        "t": 2.54
+        "w": "every",
+        "t": 4.79
       },
       {
-        "w": "a",
-        "t": 2.75
+        "w": "Monday",
+        "t": 4.95
       },
       {
-        "w": "software",
-        "t": 2.82
-      },
-      {
-        "w": "engineer.",
-        "t": 3.37
+        "w": "morning.",
+        "t": 5.27
       }
     ]
   },
   {
     "line": 3,
-    "text": "Launch your own product.",
-    "start": 4.307,
-    "end": 5.63,
+    "text": "Underneath all of it, one note.",
+    "start": 7.03,
+    "end": 8.694,
     "words": [
       {
-        "w": "Launch",
-        "t": 4.31
+        "w": "Underneath",
+        "t": 7.1
       },
       {
-        "w": "your",
-        "t": 4.35
+        "w": "all",
+        "t": 7.58
       },
       {
-        "w": "own",
-        "t": 4.67
+        "w": "of",
+        "t": 7.76
       },
       {
-        "w": "product.",
-        "t": 4.92
+        "w": "it,",
+        "t": 7.88
+      },
+      {
+        "w": "OneNote.",
+        "t": 8.12
       }
     ]
   },
   {
     "line": 4,
-    "text": "Run a half marathon.",
-    "start": 5.83,
-    "end": 7.11,
+    "text": "Three years old.",
+    "start": 9.044,
+    "end": 10.196,
     "words": [
       {
-        "w": "Run",
-        "t": 5.83
+        "w": "3",
+        "t": 9.19
       },
       {
-        "w": "a",
-        "t": 6.0
+        "w": "years",
+        "t": 9.3
       },
       {
-        "w": "half-marathon.",
-        "t": 6.05
+        "w": "old.",
+        "t": 9.82
       }
     ]
   },
   {
     "line": 5,
-    "text": "Three years. One hour a day.",
-    "start": 7.61,
-    "end": 9.423,
+    "text": "It says: become a software engineer.",
+    "start": 11.646,
+    "end": 13.715,
     "words": [
       {
-        "w": "Three",
-        "t": 7.61
+        "w": "It",
+        "t": 11.68
       },
       {
-        "w": "years,",
-        "t": 8.02
+        "w": "says,",
+        "t": 11.72
       },
       {
-        "w": "one",
-        "t": 8.44
-      },
-      {
-        "w": "hour",
-        "t": 8.65
+        "w": "become",
+        "t": 12.08
       },
       {
         "w": "a",
-        "t": 8.96
+        "t": 12.48
       },
       {
-        "w": "day.",
-        "t": 8.99
+        "w": "software",
+        "t": 12.53
+      },
+      {
+        "w": "engineer.",
+        "t": 13.04
       }
     ]
   },
   {
     "line": 6,
-    "text": "That's over a thousand hours,",
-    "start": 9.623,
-    "end": 11.138,
+    "text": "And every morning, the same question.",
+    "start": 14.315,
+    "end": 16.384,
     "words": [
       {
-        "w": "That's",
-        "t": 9.62
+        "w": "and",
+        "t": 14.36
       },
       {
-        "w": "over",
-        "t": 10.09
+        "w": "every",
+        "t": 14.46
       },
       {
-        "w": "a",
-        "t": 10.21
+        "w": "morning",
+        "t": 14.79
       },
       {
-        "w": "thousand",
-        "t": 10.26
+        "w": "the",
+        "t": 15.37
       },
       {
-        "w": "hours.",
-        "t": 10.73
+        "w": "same",
+        "t": 15.45
+      },
+      {
+        "w": "question.",
+        "t": 15.71
       }
     ]
   },
   {
     "line": 7,
-    "text": "and no one tells you what to do with the first one.",
-    "start": 11.388,
-    "end": 13.927,
+    "text": "What do I actually do today?",
+    "start": 16.834,
+    "end": 18.455,
     "words": [
       {
-        "w": "And",
-        "t": 11.39
-      },
-      {
-        "w": "no",
-        "t": 11.78
-      },
-      {
-        "w": "one",
-        "t": 11.83
-      },
-      {
-        "w": "tells",
-        "t": 12.03
-      },
-      {
-        "w": "you",
-        "t": 12.38
-      },
-      {
-        "w": "what",
-        "t": 12.58
-      },
-      {
-        "w": "to",
-        "t": 12.73
+        "w": "What",
+        "t": 16.9
       },
       {
         "w": "do",
-        "t": 13.05
+        "t": 17.1
       },
       {
-        "w": "with",
-        "t": 13.13
+        "w": "I",
+        "t": 17.3
       },
       {
-        "w": "the",
-        "t": 13.31
+        "w": "actually",
+        "t": 17.34
       },
       {
-        "w": "first",
-        "t": 13.47
+        "w": "do",
+        "t": 17.97
       },
       {
-        "w": "one.",
-        "t": 13.73
+        "w": "today?",
+        "t": 18.13
       }
     ]
   },
   {
     "line": 8,
-    "text": "So you plan on Sunday.",
-    "start": 14.727,
-    "end": 16.135,
+    "text": "Forty-seven tabs.",
+    "start": 19.405,
+    "end": 20.728,
     "words": [
       {
-        "w": "So",
-        "t": 14.73
+        "w": "47",
+        "t": 19.54
       },
       {
-        "w": "you",
-        "t": 14.88
-      },
-      {
-        "w": "plan",
-        "t": 15.1
-      },
-      {
-        "w": "on",
-        "t": 15.39
-      },
-      {
-        "w": "Sunday,",
-        "t": 15.54
+        "w": "tabs.",
+        "t": 20.18
       }
     ]
   },
   {
     "line": 9,
-    "text": "Miss a day on Wednesday.",
-    "start": 16.385,
-    "end": 17.75,
+    "text": "Three complete roadmaps.",
+    "start": 20.978,
+    "end": 22.45,
     "words": [
       {
-        "w": "miss",
-        "t": 16.39
+        "w": "Three",
+        "t": 21.09
       },
       {
-        "w": "a",
-        "t": 16.62
+        "w": "complete",
+        "t": 21.24
       },
       {
-        "w": "day",
-        "t": 16.71
-      },
-      {
-        "w": "on",
-        "t": 17.01
-      },
-      {
-        "w": "Wednesday,",
-        "t": 17.04
+        "w": "roadmaps.",
+        "t": 21.74
       }
     ]
   },
   {
     "line": 10,
-    "text": "And by Friday, the plan is gone.",
-    "start": 18.0,
-    "end": 19.963,
+    "text": "One course, twelve percent done.",
+    "start": 22.7,
+    "end": 24.577,
     "words": [
       {
-        "w": "and",
-        "t": 18.0
+        "w": "One",
+        "t": 22.74
       },
       {
-        "w": "by",
-        "t": 18.21
+        "w": "course,",
+        "t": 22.86
       },
       {
-        "w": "Friday,",
-        "t": 18.63
+        "w": "12%",
+        "t": 23.5
       },
       {
-        "w": "the",
-        "t": 18.96
-      },
-      {
-        "w": "plan",
-        "t": 19.18
-      },
-      {
-        "w": "is",
-        "t": 19.47
-      },
-      {
-        "w": "gone.",
-        "t": 19.87
+        "w": "done.",
+        "t": 23.91
       }
     ]
   },
   {
     "line": 11,
-    "text": "Because knowing what you want isn't the same as knowing how to get there.",
-    "start": 20.563,
-    "end": 24.126,
+    "text": "New plan on Sunday.",
+    "start": 25.177,
+    "end": 26.5,
     "words": [
       {
-        "w": "Because",
-        "t": 20.56
+        "w": "New",
+        "t": 25.24
       },
       {
-        "w": "knowing",
-        "t": 20.98
+        "w": "plan",
+        "t": 25.51
       },
       {
-        "w": "what",
-        "t": 21.39
+        "w": "on",
+        "t": 25.76
       },
       {
-        "w": "you",
-        "t": 21.62
-      },
-      {
-        "w": "want",
-        "t": 21.79
-      },
-      {
-        "w": "isn't",
-        "t": 22.07
-      },
-      {
-        "w": "the",
-        "t": 22.29
-      },
-      {
-        "w": "same",
-        "t": 22.42
-      },
-      {
-        "w": "as",
-        "t": 22.67
-      },
-      {
-        "w": "knowing",
-        "t": 22.92
-      },
-      {
-        "w": "how",
-        "t": 23.23
-      },
-      {
-        "w": "to",
-        "t": 23.4
-      },
-      {
-        "w": "get",
-        "t": 23.58
-      },
-      {
-        "w": "there.",
-        "t": 23.69
+        "w": "Sunday.",
+        "t": 25.93
       }
     ]
   },
   {
     "line": 12,
-    "text": "This is Zero to One.",
-    "start": 24.926,
-    "end": 26.313,
+    "text": "Missed Wednesday.",
+    "start": 26.75,
+    "end": 27.795,
     "words": [
       {
-        "w": "This",
-        "t": 24.93
+        "w": "Missed",
+        "t": 26.79
       },
       {
-        "w": "is",
-        "t": 25.21
-      },
-      {
-        "w": "zero",
-        "t": 25.49
-      },
-      {
-        "w": "to",
-        "t": 25.75
-      },
-      {
-        "w": "one.",
-        "t": 25.89
+        "w": "Wednesday.",
+        "t": 26.99
       }
     ]
   },
   {
     "line": 13,
-    "text": "Tell it your goal, where you're starting, and how much time you really have.",
-    "start": 26.913,
-    "end": 30.561,
+    "text": "Start over Friday.",
+    "start": 28.045,
+    "end": 29.261,
     "words": [
       {
-        "w": "Tell",
-        "t": 26.91
+        "w": "Start",
+        "t": 28.11
       },
       {
-        "w": "it",
-        "t": 27.13
+        "w": "over",
+        "t": 28.3
       },
       {
-        "w": "your",
-        "t": 27.24
-      },
-      {
-        "w": "goal,",
-        "t": 27.44
-      },
-      {
-        "w": "where",
-        "t": 27.92
-      },
-      {
-        "w": "you're",
-        "t": 28.04
-      },
-      {
-        "w": "starting,",
-        "t": 28.37
-      },
-      {
-        "w": "and",
-        "t": 28.9
-      },
-      {
-        "w": "how",
-        "t": 28.94
-      },
-      {
-        "w": "much",
-        "t": 29.31
-      },
-      {
-        "w": "time",
-        "t": 29.45
-      },
-      {
-        "w": "you",
-        "t": 29.66
-      },
-      {
-        "w": "really",
-        "t": 29.82
-      },
-      {
-        "w": "have.",
-        "t": 30.15
+        "w": "Friday.",
+        "t": 28.54
       }
     ]
   },
   {
     "line": 14,
-    "text": "It builds a realistic roadmap. Phases. Milestones. Tasks.",
-    "start": 30.861,
-    "end": 34.936,
+    "text": "The goal was never too big.",
+    "start": 29.961,
+    "end": 31.604,
     "words": [
       {
-        "w": "It",
-        "t": 30.86
+        "w": "The",
+        "t": 30.04
       },
       {
-        "w": "builds",
-        "t": 31.23
+        "w": "goal",
+        "t": 30.15
       },
       {
-        "w": "a",
-        "t": 31.44
+        "w": "was",
+        "t": 30.38
       },
       {
-        "w": "realistic",
-        "t": 31.51
+        "w": "never",
+        "t": 30.6
       },
       {
-        "w": "roadmap.",
-        "t": 32.17
+        "w": "too",
+        "t": 30.91
       },
       {
-        "w": "Phases,",
-        "t": 32.98
-      },
-      {
-        "w": "milestones,",
-        "t": 33.46
-      },
-      {
-        "w": "tasks.",
-        "t": 34.46
+        "w": "big.",
+        "t": 31.11
       }
     ]
   },
   {
     "line": 15,
-    "text": "You review it, and you approve it.",
-    "start": 35.136,
-    "end": 36.907,
+    "text": "Nobody turned it into today.",
+    "start": 31.904,
+    "end": 33.504,
     "words": [
       {
-        "w": "You",
-        "t": 35.14
+        "w": "Nobody",
+        "t": 31.95
       },
       {
-        "w": "review",
-        "t": 35.27
+        "w": "turned",
+        "t": 32.37
       },
       {
         "w": "it",
-        "t": 35.56
+        "t": 32.89
       },
       {
-        "w": "and",
-        "t": 35.92
+        "w": "into",
+        "t": 33.06
       },
       {
-        "w": "you",
-        "t": 35.97
-      },
-      {
-        "w": "approve",
-        "t": 36.15
-      },
-      {
-        "w": "it.",
-        "t": 36.59
+        "w": "today.",
+        "t": 33.36
       }
     ]
   },
   {
     "line": 16,
-    "text": "Then it turns the roadmap into today: exactly what to do next, and when.",
-    "start": 37.307,
-    "end": 41.446,
+    "text": "What if your goal came with a Monday?",
+    "start": 34.404,
+    "end": 36.111,
     "words": [
       {
-        "w": "Then",
-        "t": 37.31
+        "w": "What",
+        "t": 34.47
       },
       {
-        "w": "it",
-        "t": 37.57
+        "w": "if",
+        "t": 34.57
       },
       {
-        "w": "turns",
-        "t": 37.79
+        "w": "your",
+        "t": 34.68
       },
       {
-        "w": "the",
-        "t": 38.04
+        "w": "goal",
+        "t": 34.9
       },
       {
-        "w": "roadmap",
-        "t": 38.24
+        "w": "came",
+        "t": 35.12
       },
       {
-        "w": "into",
-        "t": 38.71
+        "w": "with",
+        "t": 35.34
       },
       {
-        "w": "today.",
-        "t": 39.06
+        "w": "a",
+        "t": 35.56
       },
       {
-        "w": "Exactly",
-        "t": 39.47
-      },
-      {
-        "w": "what",
-        "t": 40.05
-      },
-      {
-        "w": "to",
-        "t": 40.28
-      },
-      {
-        "w": "do",
-        "t": 40.4
-      },
-      {
-        "w": "next",
-        "t": 40.53
-      },
-      {
-        "w": "and",
-        "t": 40.81
-      },
-      {
-        "w": "when.",
-        "t": 41.0
+        "w": "Monday?",
+        "t": 35.61
       }
     ]
   },
   {
     "line": 17,
-    "text": "Miss a day?",
-    "start": 41.846,
-    "end": 42.742,
+    "text": "This is Zero to One.",
+    "start": 36.711,
+    "end": 38.098,
     "words": [
       {
-        "w": "Miss",
-        "t": 41.85
+        "w": "This",
+        "t": 36.79
       },
       {
-        "w": "a",
-        "t": 42.09
+        "w": "is",
+        "t": 37.02
       },
       {
-        "w": "day.",
-        "t": 42.33
+        "w": "zero",
+        "t": 37.24
+      },
+      {
+        "w": "to",
+        "t": 37.56
+      },
+      {
+        "w": "one.",
+        "t": 37.74
       }
     ]
   },
   {
     "line": 18,
-    "text": "Your plan adapts, instead of piling up.",
-    "start": 42.942,
-    "end": 45.161,
+    "text": "She tells it the goal, where she's starting, and the hour a day she really has.",
+    "start": 38.698,
+    "end": 42.709,
     "words": [
       {
-        "w": "Your",
-        "t": 42.94
+        "w": "She",
+        "t": 38.75
       },
       {
-        "w": "plan",
-        "t": 43.19
+        "w": "tells",
+        "t": 38.83
       },
       {
-        "w": "adapts",
-        "t": 43.45
+        "w": "it",
+        "t": 39.17
       },
       {
-        "w": "instead",
-        "t": 44.15
+        "w": "the",
+        "t": 39.27
       },
       {
-        "w": "of",
-        "t": 44.32
+        "w": "goal,",
+        "t": 39.44
       },
       {
-        "w": "piling",
-        "t": 44.49
+        "w": "where",
+        "t": 39.92
       },
       {
-        "w": "up.",
-        "t": 44.86
+        "w": "she's",
+        "t": 40.12
+      },
+      {
+        "w": "starting,",
+        "t": 40.39
+      },
+      {
+        "w": "and",
+        "t": 40.98
+      },
+      {
+        "w": "the",
+        "t": 41.09
+      },
+      {
+        "w": "hour",
+        "t": 41.24
+      },
+      {
+        "w": "a",
+        "t": 41.45
+      },
+      {
+        "w": "day",
+        "t": 41.52
+      },
+      {
+        "w": "she",
+        "t": 41.74
+      },
+      {
+        "w": "really",
+        "t": 41.95
+      },
+      {
+        "w": "has.",
+        "t": 42.4
       }
     ]
   },
   {
     "line": 19,
-    "text": "And an AI assistant explains, suggests and reorganizes, while every decision stays yours.",
-    "start": 45.561,
-    "end": 51.598,
+    "text": "It turns three years into phases, milestones, and tasks.",
+    "start": 43.009,
+    "end": 46.486,
     "words": [
       {
-        "w": "And",
-        "t": 45.56
+        "w": "It",
+        "t": 43.04
       },
       {
-        "w": "an",
-        "t": 46.04
+        "w": "turns",
+        "t": 43.09
       },
       {
-        "w": "AI",
-        "t": 46.05
+        "w": "three",
+        "t": 43.54
       },
       {
-        "w": "assistant",
-        "t": 46.19
+        "w": "years",
+        "t": 43.77
       },
       {
-        "w": "explains,",
-        "t": 46.88
+        "w": "into",
+        "t": 44.11
       },
       {
-        "w": "suggests,",
-        "t": 47.65
+        "w": "phases,",
+        "t": 44.38
+      },
+      {
+        "w": "milestones,",
+        "t": 45.02
       },
       {
         "w": "and",
-        "t": 48.6
+        "t": 45.74
       },
       {
-        "w": "reorganizes",
-        "t": 49.34
-      },
-      {
-        "w": "while",
-        "t": 49.63
-      },
-      {
-        "w": "every",
-        "t": 50.12
-      },
-      {
-        "w": "decision",
-        "t": 50.62
-      },
-      {
-        "w": "stays",
-        "t": 50.91
-      },
-      {
-        "w": "yours.",
-        "t": 51.33
+        "w": "tasks.",
+        "t": 45.97
       }
     ]
   },
   {
     "line": 20,
-    "text": "Progress you can see.",
-    "start": 52.198,
-    "end": 53.521,
+    "text": "Then into today.",
+    "start": 46.786,
+    "end": 47.917,
     "words": [
       {
-        "w": "Progress",
-        "t": 52.2
+        "w": "then",
+        "t": 46.82
       },
       {
-        "w": "you",
-        "t": 52.49
+        "w": "into",
+        "t": 47.08
       },
       {
-        "w": "can",
-        "t": 52.74
-      },
-      {
-        "w": "see.",
-        "t": 53.0
+        "w": "today.",
+        "t": 47.42
       }
     ]
   },
   {
     "line": 21,
-    "text": "One clear step at a time.",
-    "start": 53.821,
-    "end": 55.378,
+    "text": "Monday, nine A.M. Twenty-five minutes. JavaScript basics.",
+    "start": 48.117,
+    "end": 52.149,
     "words": [
       {
-        "w": "One",
-        "t": 53.82
+        "w": "Monday",
+        "t": 48.17
       },
       {
-        "w": "clear",
-        "t": 54.36
+        "w": "9",
+        "t": 48.52
       },
       {
-        "w": "step",
-        "t": 54.4
+        "w": "a.m.,",
+        "t": 48.74
       },
       {
-        "w": "at",
-        "t": 54.7
+        "w": "25",
+        "t": 49.48
       },
       {
-        "w": "a",
-        "t": 54.81
+        "w": "minutes,",
+        "t": 49.93
       },
       {
-        "w": "time.",
-        "t": 54.91
+        "w": "JavaScript",
+        "t": 50.76
+      },
+      {
+        "w": "Basics.",
+        "t": 51.54
       }
     ]
   },
   {
     "line": 22,
-    "text": "Zero to One. Big goals. Clear next steps.",
-    "start": 56.078,
-    "end": 58.873,
+    "text": "Miss a day? The plan moves. Nothing piles up.",
+    "start": 52.649,
+    "end": 55.572,
     "words": [
       {
-        "w": "Zero",
-        "t": 56.08
+        "w": "Miss",
+        "t": 52.7
       },
       {
-        "w": "to",
-        "t": 56.47
+        "w": "a",
+        "t": 52.9
       },
       {
-        "w": "one.",
-        "t": 56.57
+        "w": "day.",
+        "t": 52.97
       },
       {
-        "w": "Big",
-        "t": 56.99
+        "w": "The",
+        "t": 53.48
       },
       {
-        "w": "goals.",
-        "t": 57.2
+        "w": "plan",
+        "t": 53.62
       },
       {
-        "w": "Clear",
-        "t": 57.95
+        "w": "moves.",
+        "t": 53.86
       },
       {
-        "w": "next",
-        "t": 58.1
+        "w": "Nothing",
+        "t": 54.44
       },
       {
-        "w": "steps.",
-        "t": 58.45
+        "w": "piles",
+        "t": 54.9
+      },
+      {
+        "w": "up.",
+        "t": 55.24
       }
     ]
   },
   {
     "line": 23,
-    "text": "Coming soon. Join the waitlist.",
-    "start": 59.373,
-    "end": 61.272,
+    "text": "Only thirty minutes? Ask. It reshapes today. She decides.",
+    "start": 55.972,
+    "end": 59.407,
     "words": [
       {
-        "w": "Coming",
-        "t": 59.37
+        "w": "Only",
+        "t": 56.0
       },
       {
-        "w": "soon.",
-        "t": 59.48
+        "w": "30",
+        "t": 56.18
+      },
+      {
+        "w": "minutes,",
+        "t": 56.58
+      },
+      {
+        "w": "ask,",
+        "t": 57.17
+      },
+      {
+        "w": "it",
+        "t": 57.57
+      },
+      {
+        "w": "reshapes",
+        "t": 57.64
+      },
+      {
+        "w": "today,",
+        "t": 58.14
+      },
+      {
+        "w": "she",
+        "t": 58.64
+      },
+      {
+        "w": "decides.",
+        "t": 58.77
+      }
+    ]
+  },
+  {
+    "line": 24,
+    "text": "Riya's note never changed.",
+    "start": 60.207,
+    "end": 61.828,
+    "words": [
+      {
+        "w": "Ria's",
+        "t": 60.22
+      },
+      {
+        "w": "note",
+        "t": 60.46
+      },
+      {
+        "w": "never",
+        "t": 60.71
+      },
+      {
+        "w": "changed.",
+        "t": 61.02
+      }
+    ]
+  },
+  {
+    "line": 25,
+    "text": "Her Monday did.",
+    "start": 62.328,
+    "end": 63.395,
+    "words": [
+      {
+        "w": "Her",
+        "t": 62.43
+      },
+      {
+        "w": "Monday",
+        "t": 62.46
+      },
+      {
+        "w": "did.",
+        "t": 62.83
+      }
+    ]
+  },
+  {
+    "line": 26,
+    "text": "Zero to One. Big goals. Clear next steps. Join the waitlist.",
+    "start": 64.195,
+    "end": 68.27,
+    "words": [
+      {
+        "w": "Zero",
+        "t": 64.24
+      },
+      {
+        "w": "to",
+        "t": 64.64
+      },
+      {
+        "w": "one.",
+        "t": 64.91
+      },
+      {
+        "w": "Big",
+        "t": 65.42
+      },
+      {
+        "w": "goals.",
+        "t": 65.52
+      },
+      {
+        "w": "Clear",
+        "t": 66.06
+      },
+      {
+        "w": "next",
+        "t": 66.33
+      },
+      {
+        "w": "steps.",
+        "t": 66.61
       },
       {
         "w": "Join",
-        "t": 60.15
+        "t": 67.19
       },
       {
         "w": "the",
-        "t": 60.36
+        "t": 67.38
       },
       {
-        "w": "waitlist.",
-        "t": 60.55
+        "w": "wait",
+        "t": 67.56
+      },
+      {
+        "w": "list.",
+        "t": 67.78
       }
     ]
   }

@@ -8,32 +8,35 @@ CLI="${HYPERFRAMES_CLI:-npx hyperframes}"
 VOICE="${VOICE:-af_heart}"
 OUT=assets/voice
 TMP=$(mktemp -d)
-LEAD=0.4
+LEAD="${LEAD:-2.7}"
 
 LINES=$(cat <<'TXT'
-0.35|Every big goal starts at zero.
-0.25|Become a software engineer.
-0.20|Launch your own product.
-0.50|Run a half marathon.
-0.20|Three years. One hour a day.
-0.25|That's over a thousand hours,
-0.80|and no one tells you what to do with the first one.
-0.25|So you plan on Sunday.
-0.25|Miss a day on Wednesday.
-0.60|And by Friday, the plan is gone.
-0.80|Because knowing what you want isn't the same as knowing how to get there.
+0.55|That's Riya's Monday morning.
+1.05|Every Monday morning.
+0.35|Underneath all of it, one note.
+1.45|Three years old.
+0.60|It says: become a software engineer.
+0.45|And every morning, the same question.
+0.95|What do I actually do today?
+0.25|Forty-seven tabs.
+0.25|Three complete roadmaps.
+0.60|One course, twelve percent done.
+0.25|New plan on Sunday.
+0.25|Missed Wednesday.
+0.70|Start over Friday.
+0.30|The goal was never too big.
+0.90|Nobody turned it into today.
+0.60|What if your goal came with a Monday?
 0.60|This is Zero to One.
-0.30|Tell it your goal, where you're starting, and how much time you really have.
-0.20|It builds a realistic roadmap. Phases. Milestones. Tasks.
-0.40|You review it, and you approve it.
-0.40|Then it turns the roadmap into today: exactly what to do next, and when.
-0.20|Miss a day?
-0.40|Your plan adapts, instead of piling up.
-0.60|And an AI assistant explains, suggests and reorganizes, while every decision stays yours.
-0.30|Progress you can see.
-0.70|One clear step at a time.
-0.50|Zero to One. Big goals. Clear next steps.
-2.60|Coming soon. Join the waitlist.
+0.30|She tells it the goal, where she's starting, and the hour a day she really has.
+0.30|It turns three years into phases, milestones, and tasks.
+0.20|Then into today.
+0.50|Monday, nine A.M. Twenty-five minutes. JavaScript basics.
+0.40|Miss a day? The plan moves. Nothing piles up.
+0.80|Only thirty minutes? Ask. It reshapes today. She decides.
+0.50|Riya's note never changed.
+0.80|Her Monday did.
+2.40|Zero to One. Big goals. Clear next steps. Join the waitlist.
 TXT
 )
 
