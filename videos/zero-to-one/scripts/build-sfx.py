@@ -317,17 +317,32 @@ hit(mix, tick(1.1, 0.8), T0 + DUR_O + 0.16, -26)  # overshoot settles
 for k, t in enumerate([9.3 + 0.28 * j for j in range(6)] + [11.0]):  # the date flips through the years
     hit(mix, page_flip(), t, -21, -0.3 + 0.1 * k)
 
-# It says: become a software engineer (double underline)
-place(mix, pen_stroke(0.2, "out"), 13.04, -14, -0.3)
-place(mix, pen_stroke(0.18, "out", 3000), 13.2, -15, -0.3)
+# It says: her words write themselves into the caption, then the double underline
+for t, d in [(12.08, 0.3), (12.48, 0.08), (12.53, 0.4), (13.04, 0.32)]:
+    place(mix, writing(d), t, -23, 0.0)
+place(mix, pen_stroke(0.2, "out"), 13.38, -14, -0.15)
+place(mix, pen_stroke(0.18, "out", 3000), 13.54, -15, -0.15)
 
 # the same question: a second note slaps on, writes itself, "today" gets circled
 place(mix, filt(s_wshort, "lowpass=f=3000"), 14.26, -22, -0.2)
 hit(mix, slap(), 14.47, -10, -0.25)
 place(mix, writing(0.7), 16.86, -19, -0.25)
 place(mix, writing(0.62), 17.58, -19, -0.25)
-place(mix, pen_stroke(0.34, "bell", 2900), 18.22, -14, -0.25)
-place(mix, filt(s_wshort, "lowpass=f=4000"), 18.16, -27, -0.25)
+place(mix, writing(0.3), 18.13, -20, 0.0)  # "today?" written into the caption
+place(mix, pen_stroke(0.36, "bell", 2900), 18.42, -14, -0.1)  # circled
+place(mix, filt(s_wshort, "lowpass=f=4000"), 18.36, -27, -0.1)
+
+# ------------------------------------------------------------------ typography: every move of the type has a sound
+for t in [2.78, 2.96, 3.21, 3.53, 4.76, 4.95, 5.27]:  # meme words slapped on like stickers
+    hit(mix, slap(), t, -27, 0.0)
+place(mix, pen_stroke(0.24, "bell", 2200), 8.38, -19, -0.1)  # highlighter swipe under "note."
+hit(mix, thump(130, 0.03, 0.2), 8.3, -24, -0.1)  # "note." lands
+for k, t in enumerate([15.0, 15.08, 15.16]):  # past mornings stamp on behind the line
+    hit(mix, slap(), t, -25 - 2 * k, 0.0)
+for t in [15.98, 16.12, 16.26]:  # the dots type out
+    hit(mix, tick(1.6, 0.3), t, -27, 0.1)
+for t in [4.56, 8.98, 11.45, 14.06, 16.72]:  # each caption is pushed past the lens
+    place(mix, filt(s_wshort, "lowpass=f=2500"), t - 0.06, -27, 0.0)
 
 # ------------------------------------------------------------------ the bed: room tone under everything
 place_room = room(DUR)

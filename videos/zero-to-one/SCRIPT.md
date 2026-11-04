@@ -10,6 +10,22 @@
 - **Readable with the sound off:** every narrator line also lands as kinetic text in the **top text zone** (y 280–640), so it doubles as captions.
 - **No silent gaps:** a quiet bed runs under everything (room tone, a clock tick, then music), and every visible action has its own small sound. "Freeze" moments use a **tape-stop** sound, never silence.
 
+**Typography system (every act follows it):**
+
+- **Two voices, two typefaces.** The narrator is **Inter Black**, tight tracking, set in two tones: ink for the key words and muted brown for connectors. **Riya's own words are always her handwriting (Caveat)**: the note, "note.", "become a software engineer.", "today?". When the narrator quotes her, the caption switches to her hand.
+- **Every word lands on its spoken cue** (Whisper word timing). Narrator words rise in from below in a staggered cascade: heavy words travel further and take longer, small words snap. Her handwritten words write themselves on, left to right.
+- **One designed move per line**, tied to its meaning:
+  - "note." lands on a sticky-note highlighter swipe;
+  - "Three years" rolls in like the counter's wheels, and "old." fades while the years run past;
+  - the note's words pulse as they're read aloud;
+  - "Every morning," leaves stacked echoes of past mornings;
+  - the "…" types itself out;
+  - "actually" leans;
+  - "today?" is the accent's first appearance, circled in orange.
+- **Hook meme captions** are slapped on like stickers: oversized and crooked, then flat.
+- **Exits follow the camera:** each caption is pushed past the lens (it grows, blurs and fades) as the camera pushes in.
+- **Every type move has a small sound:** sticker slaps, pen scratches, a highlighter swipe, echo stamps, dot ticks and a soft whoosh on each exit.
+
 **Layout (portrait desk):** top text zone (y 280–640) · monitor with lock screen (y 640–1340, cut off at the right edge) · the note on its lower-left bezel · the desk and an out-of-focus plant fill the bottom (Instagram's overlay zone, decorative only).
 
 ---
